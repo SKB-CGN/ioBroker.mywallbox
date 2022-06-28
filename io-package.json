@@ -1,0 +1,100 @@
+{
+	"common": {
+		"name": "wallbox",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Wallbox",
+		"titleLang": {
+			"en": "Wallbox",
+			"de": "Wallbox",
+			"ru": "Настенная коробка",
+			"pt": "Caixa de parede",
+			"nl": "Wallbox",
+			"fr": "Boîte murale",
+			"it": "Scatola da muro",
+			"es": "Caja de pared",
+			"pl": "Wallbox",
+			"zh-cn": "墙盒"
+		},
+		"desc": {
+			"en": "Connect your Wallbox (e.g. Pulsar Plus) with ioBroker",
+			"de": "Verbinden Sie Ihre Wallbox (z. B. Pulsar Plus) mit ioBroker",
+			"ru": "Подключите свой Wallbox (например, Pulsar Plus) к ioBroker",
+			"pt": "Conecte sua Wallbox (por exemplo, Pulsar Plus) com ioBroker",
+			"nl": "Verbind je Wallbox (bijv. Pulsar Plus) met ioBroker",
+			"fr": "Connectez votre Wallbox (par exemple Pulsar Plus) avec ioBroker",
+			"it": "Collega la tua Wallbox (ad es. Pulsar Plus) con ioBroker",
+			"es": "Conecte su Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
+			"pl": "Połącz swój Wallbox (np. Pulsar Plus) z ioBroker",
+			"zh-cn": "将您的 Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
+		},
+		"authors": [
+			"SKB-CGN <info@skb-web.de>"
+		],
+		"keywords": [
+			"wallbox",
+			"pulsar",
+			"pulsar plus"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "wallbox.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.wallbox/main/admin/wallbox.png",
+		"readme": "https://github.com/SKB-CGN/ioBroker.wallbox/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "hardware",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}
