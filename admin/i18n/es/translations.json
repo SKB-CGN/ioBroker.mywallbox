@@ -1,5 +1,6 @@
 {
     "charger_serial": "Número de serie de su Wallbox",
+    "ex_charger_serial": "Se puede encontrar en:",
     "password": "Clave",
     "poll_time": "Tiempo de sondeo en segundos (mín. 30 segundos)",
     "wallbox adapter settings": "Ajustes del adaptador para Wallbox"

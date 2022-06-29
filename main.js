@@ -575,8 +575,10 @@ class Wallbox extends utils.Adapter {
 				name: 'Status of the Charger',
 				type: 'number',
 				states: {
-					161: "Prepared for Charging",
-					209: "Locked"
+					161: 'Prepared for Charging',
+					181: 'Car connected',
+					194: 'Charging',
+					209: 'Locked'
 				},
 				role: 'value.lock',
 				read: true,

@@ -19,24 +19,24 @@
 
 	<script type="text/javascript">
 		var _secret;
-		
+
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
-			
-            if (typeof supportsFeature !== 'function' || !supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
 
-                if (typeof systemSecret !== 'undefined') {
-                    _secret = systemSecret;
-                } else {
-                    _secret = (systemConfig && systemConfig.native && systemConfig.native.secret) || 'Zgfr56gFe87jJOM';
-                }
+			if (typeof supportsFeature !== 'function' || !supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
 
-                if (settings.password) {
-                    settings.password = decrypt(_secret, settings.password);
-                }
-                
-            }
-			
+				if (typeof systemSecret !== 'undefined') {
+					_secret = systemSecret;
+				} else {
+					_secret = (systemConfig && systemConfig.native && systemConfig.native.secret) || 'Zgfr56gFe87jJOM';
+				}
+
+				if (settings.password) {
+					settings.password = decrypt(_secret, settings.password);
+				}
+
+			}
+
 			// example: select elements with id=key and class=value and insert value
 			if (!settings) return;
 			$('.value').each(function () {
@@ -45,14 +45,12 @@
 				if ($key.attr('type') === 'checkbox') {
 					// do not call onChange direct, because onChange could expect some arguments
 					$key.prop('checked', settings[id])
-						.on('change', () => onChange())
-						;
+						.on('change', () => onChange());
 				} else {
 					// do not call onChange direct, because onChange could expect some arguments
 					$key.val(settings[id])
 						.on('change', () => onChange())
-						.on('keyup', () => onChange())
-						;
+						.on('keyup', () => onChange());
 				}
 			});
 			onChange(false);
@@ -73,12 +71,12 @@
 					obj[$this.attr('id')] = parseFloat($this.val());
 				} else {
 					var value = $this.val();
-                    if (typeof supportsFeature !== 'function' || !supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
-                        if (id === 'client_secret' || id === 'client_secret_pin') {
-                            value = encrypt(_secret, value);
-                        }
-                    }
-                    obj[id] = value;
+					if (typeof supportsFeature !== 'function' || !supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
+						if (id === 'client_secret' || id === 'client_secret_pin') {
+							value = encrypt(_secret, value);
+						}
+					}
+					obj[id] = value;
 				}
 			});
 			callback(obj);
@@ -104,17 +102,21 @@
 			</div>
 			<div class="input-field col s4">
 				<input type="password" class="value" id="password" />
-				<label for="password" class="translate">Password</label>
+				<label for="password" class="translate" data-lang="password">Password</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="input-field col s4">
 				<input type="text" class="value" id="charger_id" />
-				<label for="charger_id" class="translate">Charger ID</label>
+				<label for="charger_id" class="translate" data-lang="charger_serial">Serial Number of your
+					Wallbox</label>
+				<span class="translate" data-lang="ex_charger_serial">Can be found on:</span> <a
+					href="https://my.wallbox.com/chargers" target="_blank">https://my.wallbox.com/chargers</a>
 			</div>
 			<div class="input-field col s4">
 				<input type="number" class="value" id="poll_time" min="30" />
-				<label for="poll_time" class="translate">Poll-Time in Seconds (min. 30 seconds)</label>
+				<label for="poll_time" class="translate" data-lang="poll_time">Poll-Time in Seconds (min. 30
+					seconds)</label>
 			</div>
 		</div>
 
