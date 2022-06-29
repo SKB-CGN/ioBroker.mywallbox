@@ -1,5 +1,6 @@
 {
-	"wallbox adapter settings": "Configurações do adaptador para wallbox",
-	"option1": "Opção 1",
-	"option2": "opção 2"
+    "charger_serial": "Número de série da Wallbox",
+    "password": "Senha",
+    "poll_time": "Tempo de pesquisa em segundos (mín. 30 segundos)",
+    "wallbox adapter settings": "Configurações do adaptador para wallbox"
 }
