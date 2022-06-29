@@ -29,8 +29,9 @@ Installation ueber die Github Katze in ioBroker moeglich
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
 ### **WORK IN PROGRESS**
+- added some files
+### 0.0.2 (2022-06-29)
 * initial release
 
 ## License
