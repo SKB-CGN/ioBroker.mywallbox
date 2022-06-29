@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallbox",
-        "version": "0.0.3",
+        "version": "0.0.4",
         "news": {
+            "0.0.4": {
+                "en": "Login corrected",
+                "de": "Login korrigiert",
+                "ru": "Вход исправлен",
+                "pt": "Login corrigido",
+                "nl": "Login gecorrigeerd",
+                "fr": "Correction",
+                "it": "Login corretto",
+                "es": "Login corregido",
+                "pl": "Login poprawił",
+                "zh-cn": "更正"
+            },
             "0.0.3": {
                 "en": "added some files",
                 "de": "einige dateien hinzugefügt",
