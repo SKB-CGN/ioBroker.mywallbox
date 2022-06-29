@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallbox",
-        "version": "0.0.1",
+        "version": "0.0.3",
         "news": {
+            "0.0.3": {
+                "en": "added some files",
+                "de": "einige dateien hinzugefügt",
+                "ru": "добавлены некоторые файлы",
+                "pt": "adicionou alguns arquivos",
+                "nl": "voegde wat dossiers toe",
+                "fr": "des fichiers ajoutés",
+                "it": "aggiunto alcuni file",
+                "es": "añadido algunos archivos",
+                "pl": "dodać niektóre pliki",
+                "zh-cn": "增加一些档案"
+            },
             "0.0.1": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
