@@ -24,11 +24,15 @@ Connect your Wallbox (e.g. Pulsar Plus) with ioBroker
 
 ## Installation
 Installation ueber die Github Katze in ioBroker moeglich
+## Control
+All states under "wallbox.[instance].Serial.control are writeable and can be used to control the Wallbox
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- Added extended Wallbox informations (like lock-status, charging-power and charging-time)
 ### 0.0.4 (2022-06-29)
 - Login corrected
 ### 0.0.3 (2022-06-29)

@@ -10,6 +10,8 @@ const utils = require('@iobroker/adapter-core');
 
 // Load your modules here, e.g.:
 const request = require('request');
+
+// Variables
 let password;
 let email;
 let poll_time;
@@ -19,9 +21,12 @@ let logged_in = false;
 let charger_data;
 const adapterIntervals = {};
 
-const BASEURL = "https://api.wall-box.com/";
+const BASEURL = 'https://api.wall-box.com/';
 const URL_AUTHENTICATION = 'auth/token/user';
 const URL_CHARGER = 'v2/charger/';
+const URL_CHARGER_CONTROL = 'v3/chargers/';
+const URL_CHARGER_ACTION = '/remote-action';
+const URL_STATUS = 'chargers/status/';
 
 class Wallbox extends utils.Adapter {
 
@@ -119,19 +124,63 @@ class Wallbox extends utils.Adapter {
 						response = await this.changeChargerData('name', state.val);
 						this.log.info(response);
 						break;
+
 					case 'locked':
-						if (state.val === 1) {
-							this.log.info('Locking Wallbox');
+						if (state.val === 1 || state.val === 0) {
+							if (state.val === 1) {
+								this.log.info('Requesting to lock the Wallbox');
+							}
+							if (state.val === 0) {
+								this.log.info('Requesting to unlock the Wallbox');
+							}
+							response = await this.changeChargerData('locked', state.val);
+							this.log.info(response);
 						} else {
-							this.log.info('Unlocking Wallbox');
+							this.log.warn('Invalid Value for locking/unlocking. States should be: Lock:1 | Unlock: 0!');
 						}
-						response = await this.changeChargerData('locked', state.val);
-						this.log.info(response);
 						break;
+
 					case 'maxChargingCurrent':
-						this.log.info('Changing Charge current for Wallbox to ' + state.val + ' A');
+						this.log.info('Requesting to change the Charge current for Wallbox to ' + state.val + ' A');
 						response = await this.changeChargerData('maxChargingCurrent', state.val);
 						this.log.info(response);
+						break;
+
+					case 'pause':
+						if (state.val === true) {
+							this.log.info('Requesting to set the Wallbox into Pause-Mode!');
+							response = await this.controlCharger('action', 2);
+							this.log.info(response);
+						}
+						break;
+
+					case 'resume':
+						if (state.val === true) {
+							this.log.info('Requesting to set the Wallbox into Resume-Mode!');
+							response = await this.controlCharger('action', 1);
+							this.log.info(response);
+						}
+						break;
+					case 'reboot':
+						if (state.val === true) {
+							this.log.info('Requesting to reboot the Wallbox!');
+							response = await this.controlCharger('action', 3);
+							this.log.info(response);
+						}
+						break;
+					case 'factory':
+						if (state.val === true) {
+							this.log.info('Requesting to factory-reset the Wallbox!');
+							response = await this.controlCharger('action', 4);
+							this.log.info(response);
+						}
+						break;
+					case 'update':
+						if (state.val === true) {
+							this.log.info('Requesting to Update the software of the Wallbox!');
+							response = await this.controlCharger('action', 5);
+							this.log.info(response);
+						}
 						break;
 				}
 			}
@@ -205,6 +254,40 @@ class Wallbox extends utils.Adapter {
 				this.log.error(error.message);
 			}
 		}
+		// Extended Charger Details
+		try {
+			const options = {
+				url: BASEURL + URL_STATUS + charger_id,
+				method: 'GET',
+				headers: {
+					'Authorization': 'Bearer ' + token,
+					'Accept': 'application/json, text/plain, */*',
+					'Content-Type': 'application/json;charset=utf-8',
+				}
+			}
+			request(options, (err, response, body) => {
+				result = JSON.parse(body);
+				this.log.debug("RAW Data extended of the charger: " + body);
+				/* Catch errors */
+				if (result.msg === undefined) {
+					// No Message Text found -> JSON received
+					charger_data = result;
+					this.setNewExtendedStates(charger_data);
+					if (adapterIntervals.readAllStates != null) {
+						this.log.info('Successfully polled Data with the Interval of ' + poll_time + ' seconds!');
+					}
+				} else {
+					this.log.warn('The following error occurred while fetching data: ' + result.msg);
+				}
+			});
+		} catch (error) {
+			this.log.error('Error on extended API-Request Status');
+			if (typeof error === 'string') {
+				this.log.error(error);
+			} else if (error instanceof Error) {
+				this.log.error(error.message);
+			}
+		}
 	}
 
 	async changeChargerData(key, value) {
@@ -228,19 +311,19 @@ class Wallbox extends utils.Adapter {
 				request(options, (err, response, body) => {
 					this.log.debug(body);
 					result = JSON.parse(body);
-					if (result.msg === undefined) {
+					if (result.message === undefined) {
 						// No Message Text found -> JSON received
 						charger_data = result;
 						this.setNewStates(charger_data);
 
 						if (charger_data.data.chargerData[key] == value) {
-							this.log.debug('JSON: ' + charger_data.data.chargerData[key] + ' | Value: ' + value + ' Value changed!');
+							this.log.debug('JSON Value: ' + charger_data.data.chargerData[key] + ' | Requested Value: ' + value + ' | Value changed!');
 							resolve('Success!');
 						} else {
 							resolve('Failed!');
 						}
 					} else {
-						this.log.warn('The following error occurred while fetching data: ' + result.msg);
+						this.log.warn('The following error occurred while setting data: ' + result.message);
 					}
 				});
 			} catch (error) {
@@ -255,13 +338,60 @@ class Wallbox extends utils.Adapter {
 		});
 	}
 
+	async controlCharger(key, value) {
+		return new Promise((resolve, reject) => {
+			// Login
+			this.login();
+			let result;
+			try {
+				const options = {
+					url: BASEURL + URL_CHARGER_CONTROL + charger_id + URL_CHARGER_ACTION,
+					method: 'POST',
+					headers: {
+						'Authorization': 'Bearer ' + token,
+						'Accept': 'application/json, text/plain, */*',
+						'Content-Type': 'application/json;charset=utf-8',
+					},
+					body: JSON.stringify({
+						[key]: value
+					})
+				}
+				request(options, (err, response, body) => {
+					this.log.debug(body);
+					result = JSON.parse(body);
+					if (result.msg === undefined) {
+						// No Message Text found -> JSON received
+						charger_data = result;
+						//this.setNewStates(charger_data);
 
+						if (charger_data[key] == value) {
+							this.log.debug('JSON: ' + charger_data[key] + ' | Value: ' + value + ' Value changed!');
+							resolve('Success!');
+						} else {
+							resolve('Failed!');
+						}
+					} else {
+						this.log.warn('The following error occurred while setting Wallbox Mode: ' + result.msg);
+					}
+				});
+			} catch (error) {
+				this.log.error('Error on API-Request Status');
+				if (typeof error === 'string') {
+					this.log.error(error);
+				} else if (error instanceof Error) {
+					this.log.error(error.message);
+				}
+				reject(error);
+			}
+		});
+	}
 
 	async init() {
 		// Log into Wallbox Account
 		this.log.info('Trying to login to Wallbox-API');
 		// Create the states
 		await this.createInfoObjects(charger_id);
+		await this.setControlObjects(charger_id);
 		// Get the data
 		this.requestPolling();
 	}
@@ -321,10 +451,6 @@ class Wallbox extends utils.Adapter {
 			val: states.data.chargerData.chargerType,
 			ack: true
 		});
-		await this.setStateAsync(charger_id + '.info.software', {
-			val: states.data.chargerData.softwareVersion,
-			ack: true
-		});
 		await this.setStateAsync(charger_id + '.info.lastConnection', {
 			val: states.data.chargerData.lastConnection,
 			ack: true
@@ -362,8 +488,8 @@ class Wallbox extends utils.Adapter {
 			val: states.data.chargerData.maxChargingCurrent,
 			ack: true
 		});
-		await this.setStateAsync(charger_id + '.charging.locked', {
-			val: states.data.chargerData.locked,
+		await this.setStateAsync(charger_id + '.control.maxChargingCurrent', {
+			val: states.data.chargerData.maxChargingCurrent,
 			ack: true
 		});
 
@@ -439,33 +565,105 @@ class Wallbox extends utils.Adapter {
 
 		// Sessions
 
-		await this.setStateAsync(charger_id + '.sessions.totalUsers', {
+		await this.setStateAsync(charger_id + '.chargingData.monthly.totalUsers', {
 			val: states.data.chargerData.resume.totalUsers,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.sessions.totalSessions', {
+		await this.setStateAsync(charger_id + '.chargingData.monthly.totalSessions', {
 			val: states.data.chargerData.resume.totalSessions,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.sessions.chargingTime', {
+		await this.setStateAsync(charger_id + '.chargingData.monthly.chargingTime', {
 			val: parseInt(states.data.chargerData.resume.chargingTime),
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.sessions.totalEnergy', {
+		await this.setStateAsync(charger_id + '.chargingData.monthly.totalEnergy', {
 			val: parseInt(states.data.chargerData.resume.totalEnergy),
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.sessions.totalMidEnergy', {
+		await this.setStateAsync(charger_id + '.chargingData.monthly.totalMidEnergy', {
 			val: parseInt(states.data.chargerData.resume.totalMidEnergy),
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.sessions.energyUnit', {
+		await this.setStateAsync(charger_id + '.chargingData.monthly.energyUnit', {
 			val: states.data.chargerData.resume.energyUnit,
+			ack: true
+		});
+
+		// Control
+
+		await this.setStateAsync(charger_id + '.control.locked', {
+			val: states.data.chargerData.locked,
+			ack: true
+		});
+	}
+
+	async setNewExtendedStates(states) {
+		// RAW Data
+		await this.setStateAsync(charger_id + '._rawDataExtended', {
+			val: JSON.stringify(states),
+			ack: true
+		});
+
+		// Charging Details
+
+		await this.setStateAsync(charger_id + '.charging.charging_speed', {
+			val: states.charging_speed,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.charging.charging_power', {
+			val: states.charging_power,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.charging.finished', {
+			val: states.finished,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.info.onlineTime', {
+			val: states.charging_time,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.chargingData.added_energy', {
+			val: states.added_energy * 1000,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.chargingData.added_range', {
+			val: states.added_range,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.info.software.currentVersion', {
+			val: states.config_data.software.currentVersion,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.info.software.latestVersion', {
+			val: states.config_data.software.latestVersion,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.info.software.updateAvailable', {
+			val: states.config_data.software.updateAvailable,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.info.lock.auto_lock', {
+			val: states.config_data.auto_lock,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.info.lock.auto_lock_time', {
+			val: states.config_data.auto_lock_time,
 			ack: true
 		});
 	}
@@ -521,12 +719,12 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.info.software', {
+		await this.setObjectNotExistsAsync(charger + '.info.onlineTime', {
 			type: 'state',
 			common: {
-				name: 'Software of the Wallbox',
-				type: 'string',
-				role: 'text',
+				name: 'Time online in seconds',
+				type: 'number',
+				role: 'value',
 				read: true,
 				write: false,
 			},
@@ -575,10 +773,34 @@ class Wallbox extends utils.Adapter {
 				name: 'Status of the Charger',
 				type: 'number',
 				states: {
-					161: 'Prepared for Charging',
-					181: 'Car connected',
-					194: 'Charging',
-					209: 'Locked'
+					0: "Disconnected",
+					14: "Error",
+					15: "Error",
+					161: "Ready",
+					162: "Ready",
+					163: "Disconnected",
+					164: "Waiting",
+					165: "Locked",
+					166: "Updating",
+					177: "Scheduled",
+					178: "Paused",
+					179: "Scheduled",
+					180: "Waiting for car demand",
+					181: "Waiting for car demand",
+					182: "Paused",
+					183: "Waiting in queue by Power Sharing",
+					184: "Waiting in queue by Power Sharing",
+					185: "Waiting in queue by Power Boost",
+					186: "Waiting in queue by Power Boost",
+					187: "Waiting MID failed",
+					188: "Waiting MID safety margin exceeded",
+					189: "Waiting in queue by Eco-Smart",
+					193: "Charging",
+					194: "Charging",
+					195: "Charging",
+					196: "Discharging",
+					209: "Locked",
+					210: "Locked - Car connected"
 				},
 				role: 'value.lock',
 				read: true,
@@ -593,6 +815,18 @@ class Wallbox extends utils.Adapter {
 			type: 'state',
 			common: {
 				name: 'State of Charging',
+				type: 'boolean',
+				role: 'indicator.charging',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.charging.finished', {
+			type: 'state',
+			common: {
+				name: 'Charging finished',
 				type: 'boolean',
 				role: 'indicator.charging',
 				read: true,
@@ -634,29 +868,11 @@ class Wallbox extends utils.Adapter {
 				type: 'number',
 				role: 'value',
 				read: true,
-				write: true,
+				write: false,
 				unit: 'A',
 			},
 			native: {},
 		});
-		this.subscribeStates(charger + '.charging.maxChargingCurrent');
-
-		await this.setObjectNotExistsAsync(charger + '.charging.locked', {
-			type: 'state',
-			common: {
-				name: 'Wallbox locked status',
-				type: 'number',
-				states: {
-					0: "Unlocked",
-					1: "Locked"
-				},
-				role: 'value.lock',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-		this.subscribeStates(charger + '.charging.locked');
 
 		await this.setObjectNotExistsAsync(charger + '.charging.chargerLoadName', {
 			type: 'state',
@@ -835,10 +1051,10 @@ class Wallbox extends utils.Adapter {
 
 		// Sessions
 
-		await this.setObjectNotExistsAsync(charger + '.sessions.totalUsers', {
+		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.totalUsers', {
 			type: 'state',
 			common: {
-				name: 'Total Users',
+				name: 'Monthly Users',
 				type: 'number',
 				role: 'value',
 				read: true,
@@ -847,10 +1063,10 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.sessions.totalSessions', {
+		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.totalSessions', {
 			type: 'state',
 			common: {
-				name: 'Total Sessions',
+				name: 'Monthly Sessions',
 				type: 'number',
 				role: 'value',
 				read: true,
@@ -859,10 +1075,10 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.sessions.chargingTime', {
+		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.chargingTime', {
 			type: 'state',
 			common: {
-				name: 'Total Charging Time in Minutes',
+				name: 'Monthly Charging Time in Minutes',
 				type: 'number',
 				role: 'value',
 				read: true,
@@ -871,10 +1087,10 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.sessions.totalEnergy', {
+		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.totalEnergy', {
 			type: 'state',
 			common: {
-				name: 'Total Energy Charged in Watts',
+				name: 'Monthly Energy Charged in Watts',
 				type: 'number',
 				role: 'value.power',
 				read: true,
@@ -884,10 +1100,10 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.sessions.totalMidEnergy', {
+		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.totalMidEnergy', {
 			type: 'state',
 			common: {
-				name: 'Total Energy Charged in Watts',
+				name: 'Monthly MID Energy Charged in Watts',
 				type: 'number',
 				role: 'value.power',
 				read: true,
@@ -897,7 +1113,7 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.sessions.energyUnit', {
+		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.energyUnit', {
 			type: 'state',
 			common: {
 				name: 'Energy Unit of Portal',
@@ -923,13 +1139,140 @@ class Wallbox extends utils.Adapter {
 			},
 			native: {},
 		});
-	}
 
-	async setControlObjects(vin) {
-		await this.setObjectNotExistsAsync(vin + '.control.charge_stop', {
+		await this.setObjectNotExistsAsync(charger + '._rawDataExtended', {
 			type: 'state',
 			common: {
-				name: 'Stop charging',
+				name: 'RAW Data (Extended) of the Wallbox',
+				type: 'string',
+				role: 'json',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		// Extended Objects
+		await this.setObjectNotExistsAsync(charger + '.charging.charging_speed', {
+			type: 'state',
+			common: {
+				name: 'Charging Speed',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.charging.charging_power', {
+			type: 'state',
+			common: {
+				name: 'Charging Power',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.chargingData.added_energy', {
+			type: 'state',
+			common: {
+				name: 'Total addded Energy in Watts',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: false,
+				unit: 'W',
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.chargingData.added_range', {
+			type: 'state',
+			common: {
+				name: 'Total addded Range in km',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: false,
+				unit: 'km',
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.info.software.currentVersion', {
+			type: 'state',
+			common: {
+				name: 'Current Version of the Wallbox',
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.info.software.latestVersion', {
+			type: 'state',
+			common: {
+				name: 'Latest available Software of the Wallbox',
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.info.software.updateAvailable', {
+			type: 'state',
+			common: {
+				name: 'Software-Update available',
+				type: 'boolean',
+				role: 'indicator',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.info.lock.auto_lock', {
+			type: 'state',
+			common: {
+				name: 'Auto-Lock',
+				type: 'number',
+				states: {
+					0: "Disabled",
+					1: "Enabled"
+				},
+				role: 'value',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+		await this.setObjectNotExistsAsync(charger + '.info.lock.auto_lock_time', {
+			type: 'state',
+			common: {
+				name: 'Auto-Lock after x seconds',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: false,
+				unit: 's',
+			},
+			native: {},
+		});
+	}
+
+	async setControlObjects(charger) {
+		await this.setObjectNotExistsAsync(charger + '.control.pause', {
+			type: 'state',
+			common: {
+				name: 'Pause charging',
 				type: 'boolean',
 				role: 'button',
 				read: true,
@@ -937,7 +1280,64 @@ class Wallbox extends utils.Adapter {
 			},
 			native: {},
 		});
-		this.subscribeStates(vin + '.control.charge_stop');
+		this.subscribeStates(charger + '.control.pause');
+
+		await this.setObjectNotExistsAsync(charger + '.control.resume', {
+			type: 'state',
+			common: {
+				name: 'Resume charging',
+				type: 'boolean',
+				role: 'button',
+				read: true,
+				write: true,
+			},
+			native: {},
+		});
+		this.subscribeStates(charger + '.control.resume');
+
+		await this.setObjectNotExistsAsync(charger + '.control.locked', {
+			type: 'state',
+			common: {
+				name: 'Wallbox locked status',
+				type: 'number',
+				states: {
+					0: "Unlocked",
+					1: "Locked"
+				},
+				role: 'value.lock',
+				read: true,
+				write: true,
+			},
+			native: {},
+		});
+		this.subscribeStates(charger + '.control.locked');
+
+		await this.setObjectNotExistsAsync(charger + '.control.update', {
+			type: 'state',
+			common: {
+				name: 'Update Wallbox to new Software',
+				type: 'boolean',
+				role: 'button',
+				read: true,
+				write: true,
+			},
+			native: {},
+		});
+		this.subscribeStates(charger + '.control.update');
+
+		await this.setObjectNotExistsAsync(charger + '.control.maxChargingCurrent', {
+			type: 'state',
+			common: {
+				name: 'Max. charging Current',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: true,
+				unit: 'A',
+			},
+			native: {},
+		});
+		this.subscribeStates(charger + '.control.maxChargingCurrent');
 	}
 	/**
 	 * Convert a timestamp to datetime.
@@ -993,6 +1393,8 @@ class Wallbox extends utils.Adapter {
 	// 		}
 	// 	}
 	// }
+
+
 
 }
 
