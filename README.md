@@ -31,7 +31,7 @@ All states under "wallbox.[instance].Serial.control are writeable and can be use
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.0.5 (2022-07-01)
 - Added extended Wallbox informations (like lock-status, charging-power and charging-time)
 ### 0.0.4 (2022-06-29)
 - Login corrected

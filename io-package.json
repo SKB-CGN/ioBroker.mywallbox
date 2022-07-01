@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallbox",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "news": {
+            "0.0.5": {
+                "en": "Added extended Wallbox informations (like lock-status, charging-power and charging-time)",
+                "de": "Erweiterte Wallbox-Informationen (wie Lock-Status, Ladeleistung und Ladezeit)",
+                "ru": "Добавлена расширенная информация о кошельках (например, lock-status, charging-power и charging-time)",
+                "pt": "Adicionada informação de Wallbox estendida (como lock-status, potência de carregamento e tempo de carregamento)",
+                "nl": "Verlengde Wallbox-informaties, zoals opsluiting, laadkracht en laadtijd",
+                "fr": "Ajout d'informations étendues de boîtes murales (comme lock-status, charge-power et temps de chargement)",
+                "it": "Aggiunte le informazioni estesa Wallbox (come lock-status, carica-power e tempo di ricarica)",
+                "es": "Información ampliada de Wallbox (como Lock-status, potencia de carga y tiempo de carga)",
+                "pl": "Dodłużone informacje na temat Wallboxa (jak np. śluza-status, zasilania i ładowania czasu)",
+                "zh-cn": "增加扩大的隔离墙箱资料(例如锁定、购买力和征用时间)"
+            },
             "0.0.4": {
                 "en": "Login corrected",
                 "de": "Login korrigiert",
