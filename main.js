@@ -19,6 +19,7 @@ let charger_id;
 let token;
 let logged_in = false;
 let charger_data;
+let charger_data_extended;
 const adapterIntervals = {};
 
 const BASEURL = 'https://api.wall-box.com/';
@@ -271,8 +272,8 @@ class Wallbox extends utils.Adapter {
 				/* Catch errors */
 				if (result.msg === undefined) {
 					// No Message Text found -> JSON received
-					charger_data = result;
-					this.setNewExtendedStates(charger_data);
+					charger_data_extended = result;
+					this.setNewExtendedStates(charger_data_extended);
 					if (adapterIntervals.readAllStates != null) {
 						this.log.info('Successfully polled Data with the Interval of ' + poll_time + ' seconds!');
 					}
@@ -618,7 +619,7 @@ class Wallbox extends utils.Adapter {
 		});
 
 		await this.setStateAsync(charger_id + '.charging.charging_power', {
-			val: states.charging_power,
+			val: (states.charging_power * 1000),
 			ack: true
 		});
 
@@ -627,18 +628,23 @@ class Wallbox extends utils.Adapter {
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.info.onlineTime', {
+		await this.setStateAsync(charger_id + '.charging.charging_time', {
 			val: states.charging_time,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.chargingData.added_energy', {
+		await this.setStateAsync(charger_id + '.chargingData.last_session.added_energy', {
 			val: states.added_energy * 1000,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.chargingData.added_range', {
+		await this.setStateAsync(charger_id + '.chargingData.last_session.added_range', {
 			val: states.added_range,
+			ack: true
+		});
+
+		await this.setStateAsync(charger_id + '.chargingData.monthly.cost', {
+			val: parseFloat(((charger_data.data.chargerData.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
 			ack: true
 		});
 
@@ -713,18 +719,6 @@ class Wallbox extends utils.Adapter {
 				name: 'Type of the Wallbox',
 				type: 'string',
 				role: 'text',
-				read: true,
-				write: false,
-			},
-			native: {},
-		});
-
-		await this.setObjectNotExistsAsync(charger + '.info.onlineTime', {
-			type: 'state',
-			common: {
-				name: 'Time online in seconds',
-				type: 'number',
-				role: 'value',
 				read: true,
 				write: false,
 			},
@@ -1078,7 +1072,7 @@ class Wallbox extends utils.Adapter {
 		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.chargingTime', {
 			type: 'state',
 			common: {
-				name: 'Monthly Charging Time in Minutes',
+				name: 'Monthly Charging Time in seconds',
 				type: 'number',
 				role: 'value',
 				read: true,
@@ -1124,7 +1118,6 @@ class Wallbox extends utils.Adapter {
 			},
 			native: {},
 		});
-
 
 		// RAW Data
 
@@ -1177,10 +1170,22 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.chargingData.added_energy', {
+		await this.setObjectNotExistsAsync(charger + '.charging.charging_time', {
 			type: 'state',
 			common: {
-				name: 'Total addded Energy in Watts',
+				name: 'Time charger connected to the car',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: false,
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.chargingData.last_session.added_energy', {
+			type: 'state',
+			common: {
+				name: 'Session addded Energy in Watts',
 				type: 'number',
 				role: 'value',
 				read: true,
@@ -1190,15 +1195,27 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.chargingData.added_range', {
+		await this.setObjectNotExistsAsync(charger + '.chargingData.last_session.added_range', {
 			type: 'state',
 			common: {
-				name: 'Total addded Range in km',
+				name: 'Session addded Range in km',
 				type: 'number',
 				role: 'value',
 				read: true,
 				write: false,
 				unit: 'km',
+			},
+			native: {},
+		});
+
+		await this.setObjectNotExistsAsync(charger + '.chargingData.monthly.cost', {
+			type: 'state',
+			common: {
+				name: 'Cost of Charging for current month',
+				type: 'number',
+				role: 'value',
+				read: true,
+				write: false,
 			},
 			native: {},
 		});
