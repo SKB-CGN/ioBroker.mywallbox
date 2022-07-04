@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallbox",
-        "version": "0.0.5",
+        "version": "0.0.6",
         "news": {
+            "0.0.6": {
+                "en": "added new states including price-calculation",
+                "de": "neue staaten inklusive preisrechnung",
+                "ru": "добавлены новые государства, включая расчет цены",
+                "pt": "novos estados adicionados, incluindo a redução de preços",
+                "nl": "vertaling:",
+                "fr": "nouveaux états ajoutés, y compris les prix",
+                "it": "aggiunto nuovi stati inclusi il calcolo dei prezzi",
+                "es": "nuevos estados incluyendo el cálculo de precios",
+                "pl": "dodano nowe stany, w tym kalkulację cen",
+                "zh-cn": "增加新国家,包括价格上涨"
+            },
             "0.0.5": {
                 "en": "Added extended Wallbox informations (like lock-status, charging-power and charging-time)",
                 "de": "Erweiterte Wallbox-Informationen (wie Lock-Status, Ladeleistung und Ladezeit)",
