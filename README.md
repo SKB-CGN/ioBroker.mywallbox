@@ -6,8 +6,6 @@
 [![NPM version](https://img.shields.io/npm/v/iobroker.wallbox?style=flat-square)](https://www.npmjs.com/package/iobroker.wallbox)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wallbox.svg)](https://www.npmjs.com/package/iobroker.wallbox)
 ![Number of Installations](https://iobroker.live/badges/wallbox-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/wallbox-stable.svg)
-[![Dependency Status](https://img.shields.io/david/SKB-CGN/iobroker.wallbox.svg)](https://david-dm.org/SKB-CGN/iobroker.wallbox)
 
 ![GitHub](https://img.shields.io/github/license/SKB-CGN/iobroker.wallbox?style=flat-square)
 ![GitHub repo size](https://img.shields.io/github/repo-size/SKB-CGN/iobroker.wallbox?logo=github&style=flat-square)
