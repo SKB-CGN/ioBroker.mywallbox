@@ -16,6 +16,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/SKB-CGN/iobroker.wallbox?logo=github&style=flat-square)
 
 [![NPM](https://nodei.co/npm/iobroker.wallbox.png?downloads=true)](https://nodei.co/npm/iobroker.wallbox/)
+
 **Tests:** ![Test and Release](https://github.com/SKB-CGN/ioBroker.wallbox/workflows/Test%20and%20Release/badge.svg)
 
 ## wallbox adapter for ioBroker
