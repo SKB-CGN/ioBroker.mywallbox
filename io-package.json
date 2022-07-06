@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "wallbox",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "news": {
-            "0.0.7": {
+            "0.0.8": {
                 "en": "redefined password store (now password is saved securely)",
                 "de": "neu definierter passwortspeicher (jetzt passwort wird sicher gespeichert)",
                 "ru": "redefined password store (сейчас пароль сохранен надежно)",
