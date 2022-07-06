@@ -67,27 +67,25 @@ class Wallbox extends utils.Adapter {
 
 		// Load Config Variables
 		email = this.config.email;
-		//password = this.config.password;
 		poll_time = this.config.poll_time;
 		charger_id = this.config.charger_id;
 
-		// Password Handling
-
-		this.log.silly("config.client_secret verschlüsselt: " + this.config.password);
-
-		this.getForeignObject("system.config", (err, obj) => {
-			if (obj && obj.native && obj.native.secret) {
-				//noinspection JSUnresolvedVariable
-				password = this.decrypt(obj.native.secret, this.config.password);
-			} else {
-				//noinspection JSUnresolvedVariable
-				password = this.decrypt("Zgfr56gFe87jJOM", this.config.password);
-			}
-		});
-
-		if (email == '' || password == '') {
+		if (email == '' || this.config.password == '') {
 			this.log.error('No Email and/or password set');
 		} else {
+			// Password Handling
+			this.log.silly("config.client_secret verschlüsselt: " + this.config.password);
+
+
+			this.getForeignObject("system.config", (err, obj) => {
+				if (obj && obj.native && obj.native.secret) {
+					//noinspection JSUnresolvedVariable
+					password = this.decrypt(obj.native.secret, this.config.password);
+				} else {
+					//noinspection JSUnresolvedVariable
+					password = this.decrypt("Zgfr56gFe87jJOM", this.config.password);
+				}
+			});
 			//Start logic with Initialization
 			this.init();
 		}
