@@ -46,6 +46,16 @@ class Wallbox extends utils.Adapter {
 		this.on('unload', this.onUnload.bind(this));
 	}
 
+	decrypt(key, value) {
+		let result = "";
+		for (let i = 0; i < value.length; ++i) {
+			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
+		}
+		this.log.debug("client_secret decrypt ready");
+		return result;
+	}
+
+
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
@@ -57,9 +67,23 @@ class Wallbox extends utils.Adapter {
 
 		// Load Config Variables
 		email = this.config.email;
-		password = this.config.password;
+		//password = this.config.password;
 		poll_time = this.config.poll_time;
 		charger_id = this.config.charger_id;
+
+		// Password Handling
+
+		this.log.silly("config.client_secret verschlüsselt: " + this.config.password);
+
+		this.getForeignObject("system.config", (err, obj) => {
+			if (obj && obj.native && obj.native.secret) {
+				//noinspection JSUnresolvedVariable
+				password = this.decrypt(obj.native.secret, this.config.password);
+			} else {
+				//noinspection JSUnresolvedVariable
+				password = this.decrypt("Zgfr56gFe87jJOM", this.config.password);
+			}
+		});
 
 		if (email == '' || password == '') {
 			this.log.error('No Email and/or password set');
@@ -75,11 +99,6 @@ class Wallbox extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
-			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
-			// clearTimeout(timeout2);
-			// ...
-			// clearInterval(interval1);
 			this.setState('info.connection', false, true);
 			clearTimeout(adapterIntervals.readAllStates);
 			this.log.info('Adapter Wallbox cleaned up everything...');
@@ -88,23 +107,6 @@ class Wallbox extends utils.Adapter {
 			callback();
 		}
 	}
-
-	// If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-	// You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-	// /**
-	//  * Is called if a subscribed object changes
-	//  * @param {string} id
-	//  * @param {ioBroker.Object | null | undefined} obj
-	//  */
-	// onObjectChange(id, obj) {
-	// 	if (obj) {
-	// 		// The object was changed
-	// 		this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-	// 	} else {
-	// 		// The object was deleted
-	// 		this.log.info(`object ${id} deleted`);
-	// 	}
-	// }
 
 	/**
 	 * Is called if a subscribed state changes
@@ -121,7 +123,7 @@ class Wallbox extends utils.Adapter {
 				let response;
 				switch (tmpControl) {
 					case 'name':
-						this.log.info('Changing name for Wallbox');
+						this.log.info('Requesting to change the name of the Wallbox');
 						response = await this.changeChargerData('name', state.val);
 						this.log.info(response);
 						break;
@@ -162,6 +164,7 @@ class Wallbox extends utils.Adapter {
 							this.log.info(response);
 						}
 						break;
+
 					case 'reboot':
 						if (state.val === true) {
 							this.log.info('Requesting to reboot the Wallbox!');
@@ -169,6 +172,7 @@ class Wallbox extends utils.Adapter {
 							this.log.info(response);
 						}
 						break;
+
 					case 'factory':
 						if (state.val === true) {
 							this.log.info('Requesting to factory-reset the Wallbox!');
@@ -176,6 +180,7 @@ class Wallbox extends utils.Adapter {
 							this.log.info(response);
 						}
 						break;
+
 					case 'update':
 						if (state.val === true) {
 							this.log.info('Requesting to Update the software of the Wallbox!');
@@ -205,10 +210,7 @@ class Wallbox extends utils.Adapter {
 				request(options, (err, response, body) => {
 					result = JSON.parse(body);
 					/* Catch errors */
-					if (result.error === true) {
-						this.log.warn('Error while getting Token from Wallbox-API. Error: ' + result.msg);
-					}
-					if (result.jwt === undefined) {
+					if (result.error === true || result.jwt === undefined) {
 						this.log.warn('Error while getting Token from Wallbox-API. Error: ' + result.msg);
 					} else {
 						resolve(result.jwt);
@@ -275,10 +277,10 @@ class Wallbox extends utils.Adapter {
 					charger_data_extended = result;
 					this.setNewExtendedStates(charger_data_extended);
 					if (adapterIntervals.readAllStates != null) {
-						this.log.info('Successfully polled Data with the Interval of ' + poll_time + ' seconds!');
+						this.log.info('Successfully polled extended Data with the Interval of ' + poll_time + ' seconds!');
 					}
 				} else {
-					this.log.warn('The following error occurred while fetching data: ' + result.msg);
+					this.log.warn('The following error occurred while fetching extended data: ' + result.msg);
 				}
 			});
 		} catch (error) {
@@ -1375,22 +1377,6 @@ class Wallbox extends utils.Adapter {
 		let minutes = '0' + date.getMinutes();
 		let seconds = '0' + date.getSeconds();
 		return day.substr(-2) + '.' + month.substr(-2) + '.' + year + ' ' + hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-	}
-
-	async createUserStates(id) {
-		/*
-		await this.setObjectNotExistsAsync(charger vin + '.control.charge_stop', {
-			type: 'state',
-			common: {
-				name: 'Stop charging',
-				type: 'boolean',
-				role: 'button',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-		*/
 	}
 
 	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.

@@ -23,19 +23,9 @@
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 
-			if (typeof supportsFeature !== 'function' || !supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
-
-				if (typeof systemSecret !== 'undefined') {
-					_secret = systemSecret;
-				} else {
-					_secret = (systemConfig && systemConfig.native && systemConfig.native.secret) || 'Zgfr56gFe87jJOM';
-				}
-
-				if (settings.password) {
-					settings.password = decrypt(_secret, settings.password);
-				}
-
-			}
+			socket.emit('getObject', 'system.config', function (err, obj) {
+				_secret = (obj.native ? obj.native.secret : '') || 'Zgfr56gFe87jJOM';
+			});
 
 			// example: select elements with id=key and class=value and insert value
 			if (!settings) return;
@@ -66,15 +56,11 @@
 				var $this = $(this);
 				var id = $this.attr('id');
 				if ($this.attr('type') === 'checkbox') {
-					obj[$this.attr('id')] = $this.prop('checked');
-				} else if ($this.attr('type') === 'number') {
-					obj[$this.attr('id')] = parseFloat($this.val());
+					obj[id] = $this.prop('checked');
 				} else {
 					var value = $this.val();
-					if (typeof supportsFeature !== 'function' || !supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
-						if (id === 'client_secret' || id === 'client_secret_pin') {
-							value = encrypt(_secret, value);
-						}
+					if (id === 'password') {
+						value = encrypt(_secret, value);
 					}
 					obj[id] = value;
 				}

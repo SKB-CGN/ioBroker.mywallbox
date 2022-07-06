@@ -30,6 +30,9 @@ All states under "wallbox.[instance].SerialNumber.control" are writeable and can
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- redefined password store (now password is saved securely)
+
 ### 0.0.6 (2022-07-04)
 - added new states including price-calculation
 ### 0.0.5 (2022-07-01)
