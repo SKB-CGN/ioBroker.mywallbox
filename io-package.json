@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallbox",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "news": {
+            "0.0.7": {
+                "en": "redefined password store (now password is saved securely)",
+                "de": "neu definierter passwortspeicher (jetzt passwort wird sicher gespeichert)",
+                "ru": "redefined password store (сейчас пароль сохранен надежно)",
+                "pt": "repositório de senha redefinido (agora a senha é salva de forma segura)",
+                "nl": "verlost wachtwoordenwinkel (now wachtwoord is veilig)",
+                "fr": "magasin de mots de passe redéfini (maintenant le mot de passe est sauvegardé en toute sécurité)",
+                "it": "ridefinito negozio di password (ora password viene salvata in modo sicuro)",
+                "es": "redefinido almacén de contraseñas (ahora contraseña se guarda de forma segura)",
+                "pl": "zredefiniowany sklep z hasłami (obecnie hasło jest bezpiecznie zapisywane)",
+                "zh-cn": "重新界定的密码储存(现正用密码)"
+            },
             "0.0.6": {
                 "en": "added new states including price-calculation",
                 "de": "neue staaten inklusive preisrechnung",
