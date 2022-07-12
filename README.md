@@ -30,7 +30,7 @@ All states under "wallbox.[instance].SerialNumber.control" are writeable and can
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.0.13 (2022-07-12)
 - fixed crash, if token has different format
 
 ### 0.0.8 (2022-07-06)

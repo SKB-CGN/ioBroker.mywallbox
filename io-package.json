@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallbox",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "news": {
+      "0.0.13": {
+        "en": "fixed crash, if token has different format",
+        "de": "fester absturz, wenn token unterschiedliches format hat",
+        "ru": "фиксированная авария, если токен имеет другой формат",
+        "pt": "trava fixa, se token tem formato diferente",
+        "nl": "als token een andere vorm heeft",
+        "fr": "crash fixe, si jeton a un format différent",
+        "it": "crash fisso, se token ha formato diverso",
+        "es": "accidente fijo, si token tiene diferente formato",
+        "pl": "szybkacja stała, jeśli token ma inne formaty",
+        "zh-cn": "固定事故如有不同的形式"
+      },
       "0.0.12": {
         "en": "fixed crash, if token has different format",
         "de": "fester absturz, wenn token unterschiedliches format hat",
@@ -74,18 +86,6 @@
         "es": "añadido algunos archivos",
         "pl": "dodać niektóre pliki",
         "zh-cn": "增加一些档案"
-      },
-      "0.0.1": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "zh-cn": "首次出版"
       }
     },
     "title": "Wallbox",
