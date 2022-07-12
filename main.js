@@ -46,12 +46,12 @@ class Wallbox extends utils.Adapter {
 		this.on('unload', this.onUnload.bind(this));
 	}
 
+	// Function to decrypt the provided user password
 	decrypt(key, value) {
 		let result = "";
 		for (let i = 0; i < value.length; ++i) {
 			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
 		}
-		this.log.debug("client_secret decrypt ready");
 		return result;
 	}
 
@@ -74,9 +74,6 @@ class Wallbox extends utils.Adapter {
 			this.log.error('No Email and/or password set');
 		} else {
 			// Password Handling
-			this.log.silly("config.client_secret verschlüsselt: " + this.config.password);
-
-
 			this.getForeignObject("system.config", (err, obj) => {
 				if (obj && obj.native && obj.native.secret) {
 					//noinspection JSUnresolvedVariable
@@ -194,7 +191,7 @@ class Wallbox extends utils.Adapter {
 	async getWallboxToken() {
 		return new Promise((resolve, reject) => {
 			let result;
-			this.log.debug("Email: " + email + " | Password: " + password);
+			this.log.silly("Email: " + email + " | Password: " + password);
 			try {
 				const options = {
 					url: BASEURL + URL_AUTHENTICATION,
@@ -206,13 +203,20 @@ class Wallbox extends utils.Adapter {
 					}
 				};
 				request(options, (err, response, body) => {
-					result = JSON.parse(body);
-					/* Catch errors */
-					if (result.error === true || result.jwt === undefined) {
-						this.log.warn('Error while getting Token from Wallbox-API. Error: ' + result.msg);
-					} else {
-						resolve(result.jwt);
+					if (response) {
+						try {
+							result = JSON.parse(body);
+							/* Catch errors */
+							if (result.error === true || result.jwt === undefined) {
+								this.log.warn('Error while getting Token from Wallbox-API. Error: ' + result.msg);
+							} else {
+								resolve(result.jwt);
+							}
+						} catch (error) {
+							reject(error);
+						}
 					}
+
 				});
 			} catch (error) {
 				reject(error);
@@ -452,11 +456,11 @@ class Wallbox extends utils.Adapter {
 			val: states.data.chargerData.chargerType,
 			ack: true
 		});
-		await this.setStateAsync(charger_id + '.info.lastConnection', {
+		await this.setStateAsync(charger_id + '.info.lastSync', {
 			val: states.data.chargerData.lastConnection,
 			ack: true
 		});
-		await this.setStateAsync(charger_id + '.info.lastConnectionDT', {
+		await this.setStateAsync(charger_id + '.info.lastSyncDT', {
 			val: this.getDateTime(states.data.chargerData.lastConnection * 1000),
 			ack: true
 		});
@@ -725,10 +729,10 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.info.lastConnection', {
+		await this.setObjectNotExistsAsync(charger + '.info.lastSync', {
 			type: 'state',
 			common: {
-				name: 'Last connection command to Wallbox (Unix)',
+				name: 'Last Synchronisation with Portal',
 				type: 'number',
 				role: 'indicator',
 				read: true,
@@ -737,10 +741,10 @@ class Wallbox extends utils.Adapter {
 			native: {},
 		});
 
-		await this.setObjectNotExistsAsync(charger + '.info.lastConnectionDT', {
+		await this.setObjectNotExistsAsync(charger + '.info.lastSyncDT', {
 			type: 'state',
 			common: {
-				name: 'Last connection command to Wallbox (human)',
+				name: 'Last Synchronisation with Portal (Date&Time)',
 				type: 'string',
 				role: 'text',
 				read: true,
