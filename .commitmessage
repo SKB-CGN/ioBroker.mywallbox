@@ -1,0 +1,3 @@
+chore: release v0.0.9
+
+- fixed crash, if token has different format
