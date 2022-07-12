@@ -22,7 +22,7 @@
 Connect your Wallbox (e.g. Pulsar Plus) with ioBroker
 
 ## Installation
-Installation ueber die Github Katze in ioBroker moeglich
+Installation via Github Symbol
 ## Control
 All states under "wallbox.[instance].SerialNumber.control" are writeable and can be used to control the Wallbox
 ## Changelog

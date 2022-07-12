@@ -1,167 +1,179 @@
 {
-    "common": {
-        "name": "wallbox",
-        "version": "0.0.11",
-        "news": {
-            "0.0.8": {
-                "en": "redefined password store (now password is saved securely)",
-                "de": "neu definierter passwortspeicher (jetzt passwort wird sicher gespeichert)",
-                "ru": "redefined password store (сейчас пароль сохранен надежно)",
-                "pt": "repositório de senha redefinido (agora a senha é salva de forma segura)",
-                "nl": "verlost wachtwoordenwinkel (now wachtwoord is veilig)",
-                "fr": "magasin de mots de passe redéfini (maintenant le mot de passe est sauvegardé en toute sécurité)",
-                "it": "ridefinito negozio di password (ora password viene salvata in modo sicuro)",
-                "es": "redefinido almacén de contraseñas (ahora contraseña se guarda de forma segura)",
-                "pl": "zredefiniowany sklep z hasłami (obecnie hasło jest bezpiecznie zapisywane)",
-                "zh-cn": "重新界定的密码储存(现正用密码)"
-            },
-            "0.0.6": {
-                "en": "added new states including price-calculation",
-                "de": "neue staaten inklusive preisrechnung",
-                "ru": "добавлены новые государства, включая расчет цены",
-                "pt": "novos estados adicionados, incluindo a redução de preços",
-                "nl": "vertaling:",
-                "fr": "nouveaux états ajoutés, y compris les prix",
-                "it": "aggiunto nuovi stati inclusi il calcolo dei prezzi",
-                "es": "nuevos estados incluyendo el cálculo de precios",
-                "pl": "dodano nowe stany, w tym kalkulację cen",
-                "zh-cn": "增加新国家,包括价格上涨"
-            },
-            "0.0.5": {
-                "en": "Added extended Wallbox informations (like lock-status, charging-power and charging-time)",
-                "de": "Erweiterte Wallbox-Informationen (wie Lock-Status, Ladeleistung und Ladezeit)",
-                "ru": "Добавлена расширенная информация о кошельках (например, lock-status, charging-power и charging-time)",
-                "pt": "Adicionada informação de Wallbox estendida (como lock-status, potência de carregamento e tempo de carregamento)",
-                "nl": "Verlengde Wallbox-informaties, zoals opsluiting, laadkracht en laadtijd",
-                "fr": "Ajout d'informations étendues de boîtes murales (comme lock-status, charge-power et temps de chargement)",
-                "it": "Aggiunte le informazioni estesa Wallbox (come lock-status, carica-power e tempo di ricarica)",
-                "es": "Información ampliada de Wallbox (como Lock-status, potencia de carga y tiempo de carga)",
-                "pl": "Dodłużone informacje na temat Wallboxa (jak np. śluza-status, zasilania i ładowania czasu)",
-                "zh-cn": "增加扩大的隔离墙箱资料(例如锁定、购买力和征用时间)"
-            },
-            "0.0.4": {
-                "en": "Login corrected",
-                "de": "Login korrigiert",
-                "ru": "Вход исправлен",
-                "pt": "Login corrigido",
-                "nl": "Login gecorrigeerd",
-                "fr": "Correction",
-                "it": "Login corretto",
-                "es": "Login corregido",
-                "pl": "Login poprawił",
-                "zh-cn": "更正"
-            },
-            "0.0.3": {
-                "en": "added some files",
-                "de": "einige dateien hinzugefügt",
-                "ru": "добавлены некоторые файлы",
-                "pt": "adicionou alguns arquivos",
-                "nl": "voegde wat dossiers toe",
-                "fr": "des fichiers ajoutés",
-                "it": "aggiunto alcuni file",
-                "es": "añadido algunos archivos",
-                "pl": "dodać niektóre pliki",
-                "zh-cn": "增加一些档案"
-            },
-            "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
-            }
-        },
-        "title": "Wallbox",
-        "titleLang": {
-            "en": "Wallbox",
-            "de": "Wallbox",
-            "ru": "Настенная коробка",
-            "pt": "Caixa de parede",
-            "nl": "Wallbox",
-            "fr": "Boîte murale",
-            "it": "Scatola da muro",
-            "es": "Caja de pared",
-            "pl": "Wallbox",
-            "zh-cn": "墙盒"
-        },
-        "desc": {
-            "en": "Connect your Wallbox (e.g. Pulsar Plus) with ioBroker",
-            "de": "Verbinden Sie Ihre Wallbox (z. B. Pulsar Plus) mit ioBroker",
-            "ru": "Подключите свой Wallbox (например, Pulsar Plus) к ioBroker",
-            "pt": "Conecte sua Wallbox (por exemplo, Pulsar Plus) com ioBroker",
-            "nl": "Verbind je Wallbox (bijv. Pulsar Plus) met ioBroker",
-            "fr": "Connectez votre Wallbox (par exemple Pulsar Plus) avec ioBroker",
-            "it": "Collega la tua Wallbox (ad es. Pulsar Plus) con ioBroker",
-            "es": "Conecte su Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
-            "pl": "Połącz swój Wallbox (np. Pulsar Plus) z ioBroker",
-            "zh-cn": "将您的 Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
-        },
-        "authors": [
-            "SKB-CGN <info@skb-web.de>"
-        ],
-        "keywords": [
-            "wallbox",
-            "pulsar",
-            "pulsar plus"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "wallbox.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.wallbox/main/admin/wallbox.png",
-        "readme": "https://github.com/SKB-CGN/ioBroker.wallbox/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "hardware",
-        "compact": true,
-        "connectionType": "cloud",
-        "dataSource": "poll",
-        "materialize": true,
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ]
+  "common": {
+    "name": "wallbox",
+    "version": "0.0.12",
+    "news": {
+      "0.0.12": {
+        "en": "fixed crash, if token has different format",
+        "de": "fester absturz, wenn token unterschiedliches format hat",
+        "ru": "фиксированная авария, если токен имеет другой формат",
+        "pt": "trava fixa, se token tem formato diferente",
+        "nl": "als token een andere vorm heeft",
+        "fr": "crash fixe, si jeton a un format différent",
+        "it": "crash fisso, se token ha formato diverso",
+        "es": "accidente fijo, si token tiene diferente formato",
+        "pl": "szybkacja stała, jeśli token ma inne formaty",
+        "zh-cn": "固定事故如有不同的形式"
+      },
+      "0.0.8": {
+        "en": "redefined password store (now password is saved securely)",
+        "de": "neu definierter passwortspeicher (jetzt passwort wird sicher gespeichert)",
+        "ru": "redefined password store (сейчас пароль сохранен надежно)",
+        "pt": "repositório de senha redefinido (agora a senha é salva de forma segura)",
+        "nl": "verlost wachtwoordenwinkel (now wachtwoord is veilig)",
+        "fr": "magasin de mots de passe redéfini (maintenant le mot de passe est sauvegardé en toute sécurité)",
+        "it": "ridefinito negozio di password (ora password viene salvata in modo sicuro)",
+        "es": "redefinido almacén de contraseñas (ahora contraseña se guarda de forma segura)",
+        "pl": "zredefiniowany sklep z hasłami (obecnie hasło jest bezpiecznie zapisywane)",
+        "zh-cn": "重新界定的密码储存(现正用密码)"
+      },
+      "0.0.6": {
+        "en": "added new states including price-calculation",
+        "de": "neue staaten inklusive preisrechnung",
+        "ru": "добавлены новые государства, включая расчет цены",
+        "pt": "novos estados adicionados, incluindo a redução de preços",
+        "nl": "vertaling:",
+        "fr": "nouveaux états ajoutés, y compris les prix",
+        "it": "aggiunto nuovi stati inclusi il calcolo dei prezzi",
+        "es": "nuevos estados incluyendo el cálculo de precios",
+        "pl": "dodano nowe stany, w tym kalkulację cen",
+        "zh-cn": "增加新国家,包括价格上涨"
+      },
+      "0.0.5": {
+        "en": "Added extended Wallbox informations (like lock-status, charging-power and charging-time)",
+        "de": "Erweiterte Wallbox-Informationen (wie Lock-Status, Ladeleistung und Ladezeit)",
+        "ru": "Добавлена расширенная информация о кошельках (например, lock-status, charging-power и charging-time)",
+        "pt": "Adicionada informação de Wallbox estendida (como lock-status, potência de carregamento e tempo de carregamento)",
+        "nl": "Verlengde Wallbox-informaties, zoals opsluiting, laadkracht en laadtijd",
+        "fr": "Ajout d'informations étendues de boîtes murales (comme lock-status, charge-power et temps de chargement)",
+        "it": "Aggiunte le informazioni estesa Wallbox (come lock-status, carica-power e tempo di ricarica)",
+        "es": "Información ampliada de Wallbox (como Lock-status, potencia de carga y tiempo de carga)",
+        "pl": "Dodłużone informacje na temat Wallboxa (jak np. śluza-status, zasilania i ładowania czasu)",
+        "zh-cn": "增加扩大的隔离墙箱资料(例如锁定、购买力和征用时间)"
+      },
+      "0.0.4": {
+        "en": "Login corrected",
+        "de": "Login korrigiert",
+        "ru": "Вход исправлен",
+        "pt": "Login corrigido",
+        "nl": "Login gecorrigeerd",
+        "fr": "Correction",
+        "it": "Login corretto",
+        "es": "Login corregido",
+        "pl": "Login poprawił",
+        "zh-cn": "更正"
+      },
+      "0.0.3": {
+        "en": "added some files",
+        "de": "einige dateien hinzugefügt",
+        "ru": "добавлены некоторые файлы",
+        "pt": "adicionou alguns arquivos",
+        "nl": "voegde wat dossiers toe",
+        "fr": "des fichiers ajoutés",
+        "it": "aggiunto alcuni file",
+        "es": "añadido algunos archivos",
+        "pl": "dodać niektóre pliki",
+        "zh-cn": "增加一些档案"
+      },
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版"
+      }
     },
-    "protectedNative": [
-        "password"
-    ],
-    "encryptedNative": [
-        "password"
-    ],
-    "native": {
-        "charger_id": "",
-        "email": "",
-        "poll_time": 30
+    "title": "Wallbox",
+    "titleLang": {
+      "en": "Wallbox",
+      "de": "Wallbox",
+      "ru": "Настенная коробка",
+      "pt": "Caixa de parede",
+      "nl": "Wallbox",
+      "fr": "Boîte murale",
+      "it": "Scatola da muro",
+      "es": "Caja de pared",
+      "pl": "Wallbox",
+      "zh-cn": "墙盒"
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Connect your Wallbox (e.g. Pulsar Plus) with ioBroker",
+      "de": "Verbinden Sie Ihre Wallbox (z. B. Pulsar Plus) mit ioBroker",
+      "ru": "Подключите свой Wallbox (например, Pulsar Plus) к ioBroker",
+      "pt": "Conecte sua Wallbox (por exemplo, Pulsar Plus) com ioBroker",
+      "nl": "Verbind je Wallbox (bijv. Pulsar Plus) met ioBroker",
+      "fr": "Connectez votre Wallbox (par exemple Pulsar Plus) avec ioBroker",
+      "it": "Collega la tua Wallbox (ad es. Pulsar Plus) con ioBroker",
+      "es": "Conecte su Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
+      "pl": "Połącz swój Wallbox (np. Pulsar Plus) z ioBroker",
+      "zh-cn": "将您的 Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
+    },
+    "authors": [
+      "SKB-CGN <info@skb-web.de>"
+    ],
+    "keywords": [
+      "wallbox",
+      "pulsar",
+      "pulsar plus"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "wallbox.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.wallbox/main/admin/wallbox.png",
+    "readme": "https://github.com/SKB-CGN/ioBroker.wallbox/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "hardware",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "materialize": true,
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
     ]
+  },
+  "protectedNative": [
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "native": {
+    "charger_id": "",
+    "email": "",
+    "poll_time": 30
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
