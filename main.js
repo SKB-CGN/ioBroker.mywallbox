@@ -672,10 +672,13 @@ class Wallbox extends utils.Adapter {
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.chargingData.monthly.cost', {
-			val: parseFloat(((charger_data.data.chargerData.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
-			ack: true
-		});
+		// Somtimes chargerData is not delivered - prevent crash with checking of existence
+		if (charger_data.data !== undefined) {
+			await this.setStateAsync(charger_id + '.chargingData.monthly.cost', {
+				val: parseFloat(((charger_data.data.chargerData.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
+				ack: true
+			});
+		}
 
 		await this.setStateAsync(charger_id + '.info.software.currentVersion', {
 			val: states.config_data.software.currentVersion,
