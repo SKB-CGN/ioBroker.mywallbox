@@ -245,7 +245,7 @@ class Wallbox extends utils.Adapter {
 					charger_data = result;
 					this.setNewStates(charger_data);
 					if (adapterIntervals.readAllStates != null) {
-						this.log.info('Successfully polled Data with the Interval of ' + poll_time + ' seconds!');
+						this.log.debug('Successfully polled Data!');
 					}
 				} else {
 					this.log.warn('The following error occurred while fetching data: ' + result.msg);
@@ -279,7 +279,7 @@ class Wallbox extends utils.Adapter {
 					charger_data_extended = result;
 					this.setNewExtendedStates(charger_data_extended);
 					if (adapterIntervals.readAllStates != null) {
-						this.log.info('Successfully polled extended Data with the Interval of ' + poll_time + ' seconds!');
+						this.log.debug('Successfully polled extended Data!');
 					}
 				} else {
 					this.log.warn('The following error occurred while fetching extended data: ' + result.msg);
@@ -399,6 +399,7 @@ class Wallbox extends utils.Adapter {
 		await this.setControlObjects(charger_id);
 		// Get the data
 		this.requestPolling();
+		this.log.info("Polling activated with an interval of " + poll_time + " seconds!");
 	}
 
 	async login() {
@@ -1189,12 +1190,12 @@ class Wallbox extends utils.Adapter {
 		await this.setObjectNotExistsAsync(charger + '.chargingData.last_session.added_energy', {
 			type: 'state',
 			common: {
-				name: 'Session addded Energy in Watts',
+				name: 'Session addded Energy in Watt-hours',
 				type: 'number',
 				role: 'value',
 				read: true,
 				write: false,
-				unit: 'W',
+				unit: 'Wh',
 			},
 			native: {},
 		});

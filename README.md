@@ -30,6 +30,9 @@ All states under "wallbox.[instance].SerialNumber.control" are writeable and can
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- changed state 'added_energy' to Wh instead of W
+
 ### 0.0.13 (2022-07-12)
 - fixed crash, if token has different format
 
