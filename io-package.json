@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallbox",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "news": {
+      "0.0.15": {
+        "en": "changed some error-handling to prevent crashing if JSON is empty",
+        "de": "einige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
+        "ru": "изменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
+        "pt": "alterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
+        "nl": "veranderde fouten om te voorkomen dat JSON leeg is",
+        "fr": "a changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
+        "it": "ha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
+        "es": "cambió algunos errores para evitar que se estrelle si JSON está vacío",
+        "pl": "zmieniło się to, aby zapobiec rozbiciu się JSON",
+        "zh-cn": "如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
+      },
       "0.0.14": {
         "en": "changed state 'added_energy' to Wh instead of W",
         "de": "geänderter Zustand add_energy zu Wh statt W",
@@ -74,18 +86,6 @@
         "es": "Información ampliada de Wallbox (como Lock-status, potencia de carga y tiempo de carga)",
         "pl": "Dodłużone informacje na temat Wallboxa (jak np. śluza-status, zasilania i ładowania czasu)",
         "zh-cn": "增加扩大的隔离墙箱资料(例如锁定、购买力和征用时间)"
-      },
-      "0.0.4": {
-        "en": "Login corrected",
-        "de": "Login korrigiert",
-        "ru": "Вход исправлен",
-        "pt": "Login corrigido",
-        "nl": "Login gecorrigeerd",
-        "fr": "Correction",
-        "it": "Login corretto",
-        "es": "Login corregido",
-        "pl": "Login poprawił",
-        "zh-cn": "更正"
       }
     },
     "title": "Wallbox",
