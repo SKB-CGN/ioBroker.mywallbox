@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallbox",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "news": {
+      "0.0.16": {
+        "en": "added error handling for cost-data, if server did not respond properly\nchanged some error-handling to prevent crashing if JSON is empty",
+        "de": "zusätzliche fehlerbehandlung für kostendaten, wenn server nicht richtig reagiert\neinige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
+        "ru": "добавлена обработка ошибок для cost-data, если сервер не ответил правильно\nизменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
+        "pt": "manuseio de erro adicionado para dados de custo, se o servidor não respondeu corretamente\nalterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
+        "nl": "een fout toegevoegd voor kosten-data, als server niet goed reageerde\nveranderde fouten om te voorkomen dat JSON leeg is",
+        "fr": "traitement des erreurs ajoutés pour les données de coûts, si le serveur ne répond pas correctement\na changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
+        "it": "gestione degli errori aggiunti per i dati di costo, se il server non ha risposto correttamente\nha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
+        "es": "manejo de errores añadido para datos de costes, si el servidor no respondió correctamente\ncambió algunos errores para evitar que se estrelle si JSON está vacío",
+        "pl": "dodano obsługę błędów dla danych kosztowych, jeśli serwer nie odpowiada prawidłowo\nzmieniło się to, aby zapobiec rozbiciu się JSON",
+        "zh-cn": "如果服务器没有作出适当反应,则为成本数据处理增加错误。\n如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
+      },
       "0.0.15": {
         "en": "changed some error-handling to prevent crashing if JSON is empty",
         "de": "einige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
@@ -74,18 +86,6 @@
         "es": "nuevos estados incluyendo el cálculo de precios",
         "pl": "dodano nowe stany, w tym kalkulację cen",
         "zh-cn": "增加新国家,包括价格上涨"
-      },
-      "0.0.5": {
-        "en": "Added extended Wallbox informations (like lock-status, charging-power and charging-time)",
-        "de": "Erweiterte Wallbox-Informationen (wie Lock-Status, Ladeleistung und Ladezeit)",
-        "ru": "Добавлена расширенная информация о кошельках (например, lock-status, charging-power и charging-time)",
-        "pt": "Adicionada informação de Wallbox estendida (como lock-status, potência de carregamento e tempo de carregamento)",
-        "nl": "Verlengde Wallbox-informaties, zoals opsluiting, laadkracht en laadtijd",
-        "fr": "Ajout d'informations étendues de boîtes murales (comme lock-status, charge-power et temps de chargement)",
-        "it": "Aggiunte le informazioni estesa Wallbox (come lock-status, carica-power e tempo di ricarica)",
-        "es": "Información ampliada de Wallbox (como Lock-status, potencia de carga y tiempo de carga)",
-        "pl": "Dodłużone informacje na temat Wallboxa (jak np. śluza-status, zasilania i ładowania czasu)",
-        "zh-cn": "增加扩大的隔离墙箱资料(例如锁定、购买力和征用时间)"
       }
     },
     "title": "Wallbox",
