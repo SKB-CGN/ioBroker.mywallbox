@@ -237,18 +237,24 @@ class Wallbox extends utils.Adapter {
 				}
 			}
 			request(options, (err, response, body) => {
-				result = JSON.parse(body);
-				this.log.debug("RAW Data of the charger: " + body);
-				/* Catch errors */
-				if (result.msg === undefined) {
-					// No Message Text found -> JSON received
-					charger_data = result;
-					this.setNewStates(charger_data);
-					if (adapterIntervals.readAllStates != null) {
-						this.log.debug('Successfully polled Data!');
+				if (response) {
+					try {
+						result = JSON.parse(body);
+						this.log.debug("RAW Data of the charger: " + body);
+						/* Catch errors */
+						if (result.msg === undefined) {
+							// No Message Text found -> JSON received
+							charger_data = result;
+							this.setNewStates(charger_data);
+							if (adapterIntervals.readAllStates != null) {
+								this.log.debug('Successfully polled Data!');
+							}
+						} else {
+							this.log.warn('The following error occurred while fetching data: ' + result.msg);
+						}
+					} catch (error) {
+						this.log.error("Could not read JSON Data from Server. Following error occured: " + error);
 					}
-				} else {
-					this.log.warn('The following error occurred while fetching data: ' + result.msg);
 				}
 			});
 		} catch (error) {
@@ -271,18 +277,24 @@ class Wallbox extends utils.Adapter {
 				}
 			}
 			request(options, (err, response, body) => {
-				result = JSON.parse(body);
-				this.log.debug("RAW Data extended of the charger: " + body);
-				/* Catch errors */
-				if (result.msg === undefined) {
-					// No Message Text found -> JSON received
-					charger_data_extended = result;
-					this.setNewExtendedStates(charger_data_extended);
-					if (adapterIntervals.readAllStates != null) {
-						this.log.debug('Successfully polled extended Data!');
+				if (response) {
+					try {
+						result = JSON.parse(body);
+						this.log.debug("RAW Data extended of the charger: " + body);
+						/* Catch errors */
+						if (result.msg === undefined) {
+							// No Message Text found -> JSON received
+							charger_data_extended = result;
+							this.setNewExtendedStates(charger_data_extended);
+							if (adapterIntervals.readAllStates != null) {
+								this.log.debug('Successfully polled extended Data!');
+							}
+						} else {
+							this.log.warn('The following error occurred while fetching extended data: ' + result.msg);
+						}
+					} catch (error) {
+						this.log.error("Could not read JSON Data from Server. Following error occured: " + error);
 					}
-				} else {
-					this.log.warn('The following error occurred while fetching extended data: ' + result.msg);
 				}
 			});
 		} catch (error) {
@@ -315,20 +327,32 @@ class Wallbox extends utils.Adapter {
 				}
 				request(options, (err, response, body) => {
 					this.log.debug(body);
-					result = JSON.parse(body);
-					if (result.message === undefined) {
-						// No Message Text found -> JSON received
-						charger_data = result;
-						this.setNewStates(charger_data);
+					if (response) {
+						try {
+							result = JSON.parse(body);
+							if (result.message === undefined) {
+								// No Message Text found -> JSON received
+								charger_data = result;
+								this.setNewStates(charger_data);
 
-						if (charger_data.data.chargerData[key] == value) {
-							this.log.debug('JSON Value: ' + charger_data.data.chargerData[key] + ' | Requested Value: ' + value + ' | Value changed!');
-							resolve('Success!');
-						} else {
-							resolve('Failed!');
+								if (charger_data.data.chargerData[key] == value) {
+									this.log.debug('JSON Value: ' + charger_data.data.chargerData[key] + ' | Requested Value: ' + value + ' | Value changed!');
+									resolve('Success!');
+								} else {
+									resolve('Failed!');
+								}
+							} else {
+								this.log.warn('The following error occurred while setting data: ' + result.message);
+							}
+						} catch (error) {
+							this.log.error('Error on API-Request Status');
+							if (typeof error === 'string') {
+								this.log.error(error);
+							} else if (error instanceof Error) {
+								this.log.error(error.message);
+							}
+							reject(error);
 						}
-					} else {
-						this.log.warn('The following error occurred while setting data: ' + result.message);
 					}
 				});
 			} catch (error) {

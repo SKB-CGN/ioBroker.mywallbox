@@ -30,6 +30,8 @@ All states under "wallbox.[instance].SerialNumber.control" are writeable and can
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- changed some error-handling to prevent crashing if JSON is empty
 ### 0.0.14 (2022-07-19)
 - changed state 'added_energy' to Wh instead of W
 
