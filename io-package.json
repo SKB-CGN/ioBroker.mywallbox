@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallbox",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "news": {
+      "0.0.17": {
+        "en": "crash handler extended\nAfter some time, the charge value disappears. The value is now kept as long as the wallbox is in charge mode",
+        "de": "crashgriff erweitert\nNach einiger Zeit verschwindet der Ladewert. Der Wert wird nun solange gehalten, wie die Wallbox im Lademodus ist",
+        "ru": "разбойник расширен\nЧерез некоторое время стоимость заряда исчезает. Теперь значение сохраняется до тех пор, пока настенный ящик в режиме заряда",
+        "pt": "identificador de acidente estendido\nDepois de algum tempo, o valor de carga desaparece. O valor agora é mantido enquanto a caixa de parede estiver no modo de carga",
+        "nl": "crash begeleider verlengd\nNa enige tijd verdwijnt de ladingswaarde. De waarde is nu behouden zolang de muurkast de leiding heeft",
+        "fr": "crash handler extended\nAprès un certain temps, la valeur de charge disparaît. La valeur est maintenant gardée aussi longtemps que la boîte de mur est en mode charge",
+        "it": "manico di arresto esteso\nDopo qualche tempo, il valore di carica scompare. Il valore è ora mantenuto fino a quando la scatola da parete è in modalità di carica",
+        "es": "controlador de choque extendido\nDespués de algún tiempo, el valor de carga desaparece. El valor se mantiene ahora mientras la caja de pared está en modo de carga",
+        "pl": "uchwyt\nPo pewnym czasie wartość obciążenia zanika. Wartość ta jest obecnie utrzymywana tak długo, jak ściana jest w trybie ładunku",
+        "zh-cn": "c 坠毁者\n一段时间后,收费价值消失。 目前,只要墙箱是负责任的方式,价值就一直保持。"
+      },
       "0.0.16": {
         "en": "added error handling for cost-data, if server did not respond properly\nchanged some error-handling to prevent crashing if JSON is empty",
         "de": "zusätzliche fehlerbehandlung für kostendaten, wenn server nicht richtig reagiert\neinige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
@@ -74,18 +86,6 @@
         "es": "redefinido almacén de contraseñas (ahora contraseña se guarda de forma segura)",
         "pl": "zredefiniowany sklep z hasłami (obecnie hasło jest bezpiecznie zapisywane)",
         "zh-cn": "重新界定的密码储存(现正用密码)"
-      },
-      "0.0.6": {
-        "en": "added new states including price-calculation",
-        "de": "neue staaten inklusive preisrechnung",
-        "ru": "добавлены новые государства, включая расчет цены",
-        "pt": "novos estados adicionados, incluindo a redução de preços",
-        "nl": "vertaling:",
-        "fr": "nouveaux états ajoutés, y compris les prix",
-        "it": "aggiunto nuovi stati inclusi il calcolo dei prezzi",
-        "es": "nuevos estados incluyendo el cálculo de precios",
-        "pl": "dodano nowe stany, w tym kalkulację cen",
-        "zh-cn": "增加新国家,包括价格上涨"
       }
     },
     "title": "Wallbox",
