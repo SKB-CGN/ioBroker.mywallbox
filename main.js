@@ -20,6 +20,7 @@ let token;
 let logged_in = false;
 let charger_data;
 let charger_data_extended;
+let global_charging_power = 0;
 const adapterIntervals = {};
 
 const BASEURL = 'https://api.wall-box.com/';
@@ -95,7 +96,7 @@ class Wallbox extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			this.setState('info.connection', false, true);
-			clearTimeout(adapterIntervals.readAllStates);
+			clearInterval(adapterIntervals.readAllStates);
 			this.log.info('Adapter Wallbox cleaned up everything...');
 			callback();
 		} catch (e) {
@@ -203,20 +204,23 @@ class Wallbox extends utils.Adapter {
 					}
 				};
 				request(options, (err, response, body) => {
-					if (response) {
-						try {
-							result = JSON.parse(body);
-							/* Catch errors */
-							if (result.error === true || result.jwt === undefined) {
-								this.log.warn('Error while getting Token from Wallbox-API. Error: ' + result.msg);
-							} else {
-								resolve(result.jwt);
+					if (err) {
+						this.log.warn('Error while connecting to Wallbox-Server. Error: ' + JSON.stringify(err));
+					} else {
+						if (response.statusCode >= 200 && response.statusCode <= 299) {
+							try {
+								result = JSON.parse(body);
+								/* Catch errors */
+								if (result.error === true || result.jwt === undefined) {
+									this.log.warn('Error while getting Token from Wallbox-API. Error: ' + result.msg);
+								} else {
+									resolve(result.jwt);
+								}
+							} catch (error) {
+								reject(new Error(error));
 							}
-						} catch (error) {
-							reject(error);
 						}
 					}
-
 				});
 			} catch (error) {
 				reject(error);
@@ -253,7 +257,7 @@ class Wallbox extends utils.Adapter {
 							this.log.warn('The following error occurred while fetching data: ' + result.msg);
 						}
 					} catch (error) {
-						this.log.error("Could not read JSON Data from Server. Following error occured: " + error);
+						this.log.warn("Could not read JSON Data from Server. Following error occured: " + error);
 					}
 				}
 			});
@@ -308,9 +312,9 @@ class Wallbox extends utils.Adapter {
 	}
 
 	async changeChargerData(key, value) {
+		// Login
+		await this.login();
 		return new Promise((resolve, reject) => {
-			// Login
-			this.login();
 			let result;
 			try {
 				const options = {
@@ -338,6 +342,9 @@ class Wallbox extends utils.Adapter {
 								if (charger_data.data.chargerData[key] == value) {
 									this.log.debug('JSON Value: ' + charger_data.data.chargerData[key] + ' | Requested Value: ' + value + ' | Value changed!');
 									resolve('Success!');
+									setTimeout(() => {
+										this.requestPolling();
+									}, 10000);
 								} else {
 									resolve('Failed!');
 								}
@@ -368,9 +375,9 @@ class Wallbox extends utils.Adapter {
 	}
 
 	async controlCharger(key, value) {
+		// Login
+		await this.login();
 		return new Promise((resolve, reject) => {
-			// Login
-			this.login();
 			let result;
 			try {
 				const options = {
@@ -396,6 +403,9 @@ class Wallbox extends utils.Adapter {
 						if (charger_data[key] == value) {
 							this.log.debug('JSON: ' + charger_data[key] + ' | Value: ' + value + ' Value changed!');
 							resolve('Success!');
+							setTimeout(() => {
+								this.requestPolling();
+							}, 10000);
 						} else {
 							resolve('Failed!');
 						}
@@ -421,9 +431,12 @@ class Wallbox extends utils.Adapter {
 		// Create the states
 		await this.createInfoObjects(charger_id);
 		await this.setControlObjects(charger_id);
-		// Get the data
-		this.requestPolling();
+		// Activate Polling Timer
+		adapterIntervals.readAllStates = this.setInterval(() => {
+			this.requestPolling();
+		}, poll_time * 1000);
 		this.log.info("Polling activated with an interval of " + poll_time + " seconds!");
+		await this.requestPolling();
 	}
 
 	async login() {
@@ -452,8 +465,6 @@ class Wallbox extends utils.Adapter {
 		await this.login();
 		// Get Data
 		await this.getChargerData(token);
-		// Activate Polling Timer
-		adapterIntervals.readAllStates = setTimeout(this.requestPolling.bind(this), poll_time * 1000);
 	}
 
 	async setNewStates(states) {
@@ -634,6 +645,22 @@ class Wallbox extends utils.Adapter {
 	}
 
 	async setNewExtendedStates(states) {
+		// Modify charging_power because its sometimes Null from the server
+		if (states.charging_power === 0) {
+			// Check, if we are still charging
+			if (charger_data) {
+				if (charger_data.data) {
+					if ([193, 194, 195].indexOf(charger_data.data.chargerData.status) > -1) {
+						global_charging_power = global_charging_power;
+					} else {
+						global_charging_power = 0;
+					}
+				}
+			}
+		} else {
+			global_charging_power = states.charging_power * 1000;
+		}
+
 		// RAW Data
 		await this.setStateAsync(charger_id + '._rawDataExtended', {
 			val: JSON.stringify(states),
@@ -648,7 +675,7 @@ class Wallbox extends utils.Adapter {
 		});
 
 		await this.setStateAsync(charger_id + '.charging.charging_power', {
-			val: (states.charging_power * 1000),
+			val: global_charging_power,
 			ack: true
 		});
 
@@ -673,11 +700,13 @@ class Wallbox extends utils.Adapter {
 		});
 
 		// Somtimes chargerData is not delivered - prevent crash with checking of existence
-		if (charger_data.data !== undefined) {
-			await this.setStateAsync(charger_id + '.chargingData.monthly.cost', {
-				val: parseFloat(((charger_data.data.chargerData.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
-				ack: true
-			});
+		if (charger_data !== undefined) {
+			if (charger_data.data !== undefined) {
+				await this.setStateAsync(charger_id + '.chargingData.monthly.cost', {
+					val: parseFloat(((charger_data.data.chargerData.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
+					ack: true
+				});
+			}
 		}
 
 		await this.setStateAsync(charger_id + '.info.software.currentVersion', {

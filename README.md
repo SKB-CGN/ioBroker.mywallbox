@@ -36,6 +36,10 @@ If you like the adapter and want to support me, you can do so here:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- crash handler extended
+- After some time, the charge value disappears. The value is now kept as long as the wallbox is in charge mode
+
 ### 0.0.16 (2022-07-19)
 - added error handling for cost-data, if server did not respond properly
 - changed some error-handling to prevent crashing if JSON is empty
