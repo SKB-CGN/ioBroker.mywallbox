@@ -112,7 +112,7 @@ class MyWallbox extends utils.Adapter {
 	async onStateChange(id, state) {
 		if (state) {
 			// The state was changed
-			if (!state.ack || !state.from.includes('my-wallbox')) {
+			if (!state.ack || !state.from.includes('mywallbox')) {
 				this.log.debug('New Event for state: ' + JSON.stringify(state));
 				this.log.debug('ID: ' + JSON.stringify(id));
 				const tmpControl = id.split('.')[4];
@@ -213,17 +213,21 @@ class MyWallbox extends utils.Adapter {
 								/* Catch errors */
 								if (result.error === true || result.jwt === undefined) {
 									this.log.warn('Error while getting Token from My-Wallbox-API. Error: ' + result.msg);
+									reject(new Error(err));
 								} else {
 									resolve(result.jwt);
 								}
-							} catch (error) {
-								reject(new Error(error));
+							} catch (err) {
+								this.log.warn('Error while getting Token from My-Wallbox-API.');
 							}
+						} else {
+							result = JSON.parse(body);
+							this.log.warn('Error while getting Token from My-Wallbox-API. Error: ' + result.msg);
 						}
 					}
 				});
 			} catch (error) {
-				reject(error);
+				resolve(error);
 			}
 		});
 	}
@@ -398,7 +402,6 @@ class MyWallbox extends utils.Adapter {
 					if (result.msg === undefined) {
 						// No Message Text found -> JSON received
 						charger_data = result;
-						//this.setNewStates(charger_data);
 
 						if (charger_data[key] == value) {
 							this.log.debug('JSON: ' + charger_data[key] + ' | Value: ' + value + ' Value changed!');
@@ -446,6 +449,7 @@ class MyWallbox extends utils.Adapter {
 		if (token !== undefined || token !== '') {
 			this.changeAdapterStatusOnline(true);
 		} else {
+			logged_in = false;
 			this.setState('info.connection', false, true);
 			this.changeAdapterStatusOnline(false);
 		}
@@ -464,7 +468,9 @@ class MyWallbox extends utils.Adapter {
 		// Login
 		await this.login();
 		// Get Data
-		await this.getChargerData(token);
+		if (logged_in) {
+			await this.getChargerData(token);
+		}
 	}
 
 	async setNewStates(states) {
