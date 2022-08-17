@@ -1,6 +1,6 @@
 {
   "common": {
-    "name": "wallbox",
+    "name": "My-Wallbox",
     "version": "0.0.17",
     "news": {
       "0.0.17": {
@@ -88,46 +88,47 @@
         "zh-cn": "重新界定的密码储存(现正用密码)"
       }
     },
-    "title": "Wallbox",
+    "title": "My-Wallbox",
     "titleLang": {
-      "en": "Wallbox",
-      "de": "Wallbox",
+      "en": "My-Wallbox",
+      "de": "My-Wallbox",
       "ru": "Настенная коробка",
       "pt": "Caixa de parede",
-      "nl": "Wallbox",
+      "nl": "My-Wallbox",
       "fr": "Boîte murale",
       "it": "Scatola da muro",
       "es": "Caja de pared",
-      "pl": "Wallbox",
+      "pl": "My-Wallbox",
       "zh-cn": "墙盒"
     },
     "desc": {
-      "en": "Connect your Wallbox (e.g. Pulsar Plus) with ioBroker",
-      "de": "Verbinden Sie Ihre Wallbox (z. B. Pulsar Plus) mit ioBroker",
-      "ru": "Подключите свой Wallbox (например, Pulsar Plus) к ioBroker",
-      "pt": "Conecte sua Wallbox (por exemplo, Pulsar Plus) com ioBroker",
-      "nl": "Verbind je Wallbox (bijv. Pulsar Plus) met ioBroker",
-      "fr": "Connectez votre Wallbox (par exemple Pulsar Plus) avec ioBroker",
-      "it": "Collega la tua Wallbox (ad es. Pulsar Plus) con ioBroker",
-      "es": "Conecte su Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
-      "pl": "Połącz swój Wallbox (np. Pulsar Plus) z ioBroker",
-      "zh-cn": "将您的 Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
+      "en": "Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker",
+      "de": "Verbinden Sie Ihre My-Wallbox (z. B. Pulsar Plus) mit ioBroker",
+      "ru": "Подключите свой My-Wallbox (например, Pulsar Plus) к ioBroker",
+      "pt": "Conecte sua My-Wallbox (por exemplo, Pulsar Plus) com ioBroker",
+      "nl": "Verbind je My-Wallbox (bijv. Pulsar Plus) met ioBroker",
+      "fr": "Connectez votre My-Wallbox (par exemple Pulsar Plus) avec ioBroker",
+      "it": "Collega la tua My-Wallbox (ad es. Pulsar Plus) con ioBroker",
+      "es": "Conecte su My-Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
+      "pl": "Połącz swój My-Wallbox (np. Pulsar Plus) z ioBroker",
+      "zh-cn": "将您的 My-Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
     },
     "authors": [
       "SKB-CGN <info@skb-web.de>"
     ],
     "keywords": [
-      "wallbox",
+      "my-wallbox",
       "pulsar",
-      "pulsar plus"
+      "pulsar plus",
+      "wallbox"
     ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
     "main": "main.js",
     "icon": "wallbox.png",
     "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.wallbox/main/admin/wallbox.png",
-    "readme": "https://github.com/SKB-CGN/ioBroker.wallbox/blob/main/README.md",
+    "extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.my-wallbox/main/admin/wallbox.png",
+    "readme": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.my-wallbox/blob/main/README.md",
     "loglevel": "info",
     "mode": "daemon",
     "type": "hardware",

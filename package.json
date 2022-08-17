@@ -1,12 +1,12 @@
 {
-  "name": "iobroker.wallbox",
+  "name": "iobroker.my-wallbox",
   "version": "0.0.17",
-  "description": "Connect your Wallbox (e.g. Pulsar Plus) with ioBroker",
+  "description": "Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker",
   "author": {
     "name": "SKB-CGN",
     "email": "info@skb-web.de"
   },
-  "homepage": "https://github.com/SKB-CGN/ioBroker.wallbox",
+  "homepage": "https://github.com/SKB-CGN/ioBroker.my-wallbox",
   "license": "MIT",
   "keywords": [
     "wallbox",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:SKB-CGN/ioBroker.wallbox.git"
+    "url": "git@github.com:SKB-CGN/ioBroker.my-wallbox.git"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.0"
@@ -64,7 +64,7 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/SKB-CGN/ioBroker.wallbox/issues"
+    "url": "https://github.com/SKB-CGN/ioBroker.my-wallbox/issues"
   },
   "readmeFilename": "README.md"
 }
