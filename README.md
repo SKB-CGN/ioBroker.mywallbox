@@ -1,6 +1,6 @@
 ![Logo](admin/wallbox.png)
 
-# ioBroker.wallbox
+# ioBroker.my-wallbox
 
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.my-wallbox?style=flat-square)](https://www.npmjs.com/package/iobroker.my-wallbox)
@@ -36,6 +36,9 @@ If you like the adapter and want to support me, you can do so here:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- renamed Adapter to My-Wallbox to get adapter added to iobroker repoy
+
 ### 0.0.17 (2022-08-15)
 - crash handler extended
 - After some time, the charge value disappears. The value is now kept as long as the wallbox is in charge mode
