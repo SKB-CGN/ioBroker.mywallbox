@@ -1,21 +1,21 @@
 ![Logo](admin/wallbox.png)
 
-# ioBroker.my-wallbox
+# ioBroker.mywallbox
 
 
-[![NPM version](https://img.shields.io/npm/v/iobroker.my-wallbox?style=flat-square)](https://www.npmjs.com/package/iobroker.my-wallbox)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.my-wallbox.svg)](https://www.npmjs.com/package/iobroker.my-wallbox)
-![Number of Installations](https://iobroker.live/badges/wallbox-installed.svg)
+[![NPM version](https://img.shields.io/npm/v/iobroker.mywallbox?style=flat-square)](https://www.npmjs.com/package/iobroker.my-wallbox)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.mywallbox.svg)](https://www.npmjs.com/package/iobroker.my-wallbox)
+![Number of Installations](https://iobroker.live/badges/mywallbox-installed.svg)
 
-![GitHub](https://img.shields.io/github/license/SKB-CGN/iobroker.my-wallbox?style=flat-square)
-![GitHub repo size](https://img.shields.io/github/repo-size/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
+![GitHub](https://img.shields.io/github/license/SKB-CGN/iobroker.mywallbox?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/SKB-CGN/iobroker.mywallbox?logo=github&style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/SKB-CGN/iobroker.mywallbox?logo=github&style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/SKB-CGN/iobroker.mywallbox?logo=github&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/SKB-CGN/iobroker.mywallbox?logo=github&style=flat-square)
 
-[![NPM](https://nodei.co/npm/iobroker.my-wallbox.png?downloads=true)](https://nodei.co/npm/iobroker.my-wallbox/)
+[![NPM](https://nodei.co/npm/iobroker.mywallbox.png?downloads=true)](https://nodei.co/npm/iobroker.mywallbox/)
 
-**Tests:** ![Test and Release](https://github.com/SKB-CGN/ioBroker.my-wallbox/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/SKB-CGN/ioBroker.mywallbox/workflows/Test%20and%20Release/badge.svg)
 
 ## My-Wallbox adapter for ioBroker
 
@@ -37,7 +37,7 @@ If you like the adapter and want to support me, you can do so here:
 	### **WORK IN PROGRESS**
 -->
 ### 0.0.18 (2022-08-17)
-- renamed Adapter to My-Wallbox to get adapter added to iobroker repoy
+- renamed Adapter to MyWallbox to get adapter added to iobroker repoy
 
 ### 0.0.17 (2022-08-15)
 - crash handler extended
