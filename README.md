@@ -3,26 +3,26 @@
 # ioBroker.wallbox
 
 
-[![NPM version](https://img.shields.io/npm/v/iobroker.wallbox?style=flat-square)](https://www.npmjs.com/package/iobroker.wallbox)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.wallbox.svg)](https://www.npmjs.com/package/iobroker.wallbox)
+[![NPM version](https://img.shields.io/npm/v/iobroker.my-wallbox?style=flat-square)](https://www.npmjs.com/package/iobroker.my-wallbox)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.my-wallbox.svg)](https://www.npmjs.com/package/iobroker.my-wallbox)
 ![Number of Installations](https://iobroker.live/badges/wallbox-installed.svg)
 
-![GitHub](https://img.shields.io/github/license/SKB-CGN/iobroker.wallbox?style=flat-square)
-![GitHub repo size](https://img.shields.io/github/repo-size/SKB-CGN/iobroker.wallbox?logo=github&style=flat-square)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/SKB-CGN/iobroker.wallbox?logo=github&style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/SKB-CGN/iobroker.wallbox?logo=github&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues/SKB-CGN/iobroker.wallbox?logo=github&style=flat-square)
+![GitHub](https://img.shields.io/github/license/SKB-CGN/iobroker.my-wallbox?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/SKB-CGN/iobroker.my-wallbox?logo=github&style=flat-square)
 
-[![NPM](https://nodei.co/npm/iobroker.wallbox.png?downloads=true)](https://nodei.co/npm/iobroker.wallbox/)
+[![NPM](https://nodei.co/npm/iobroker.my-wallbox.png?downloads=true)](https://nodei.co/npm/iobroker.my-wallbox/)
 
-**Tests:** ![Test and Release](https://github.com/SKB-CGN/ioBroker.wallbox/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/SKB-CGN/ioBroker.my-wallbox/workflows/Test%20and%20Release/badge.svg)
 
 ## wallbox adapter for ioBroker
 
-Connect your Wallbox (e.g. Pulsar Plus) with ioBroker
+Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker via the Cloud-Service of My Wallbox
 
 ## Installation
-Installation via Github Symbol
+Installation via Github Symbol (in Testing and Beta-Phase)
 
 ## Control
 All states under "wallbox.[instance].SerialNumber.control" are writeable and can be used to control the Wallbox
