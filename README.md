@@ -17,7 +17,7 @@
 
 **Tests:** ![Test and Release](https://github.com/SKB-CGN/ioBroker.my-wallbox/workflows/Test%20and%20Release/badge.svg)
 
-## wallbox adapter for ioBroker
+## My-Wallbox adapter for ioBroker
 
 Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker via the Cloud-Service of My Wallbox
 

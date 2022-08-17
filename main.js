@@ -38,7 +38,7 @@ class Wallbox extends utils.Adapter {
 	constructor(options) {
 		super({
 			...options,
-			name: 'wallbox',
+			name: 'my-wallbox',
 		});
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
@@ -97,7 +97,7 @@ class Wallbox extends utils.Adapter {
 		try {
 			this.setState('info.connection', false, true);
 			clearInterval(adapterIntervals.readAllStates);
-			this.log.info('Adapter Wallbox cleaned up everything...');
+			this.log.info('Adapter My-Wallbox cleaned up everything...');
 			callback();
 		} catch (e) {
 			callback();
@@ -112,7 +112,7 @@ class Wallbox extends utils.Adapter {
 	async onStateChange(id, state) {
 		if (state) {
 			// The state was changed
-			if (!state.ack || !state.from.includes('wallbox')) {
+			if (!state.ack || !state.from.includes('my-wallbox')) {
 				this.log.debug('New Event for state: ' + JSON.stringify(state));
 				this.log.debug('ID: ' + JSON.stringify(id));
 				const tmpControl = id.split('.')[4];
@@ -205,14 +205,14 @@ class Wallbox extends utils.Adapter {
 				};
 				request(options, (err, response, body) => {
 					if (err) {
-						this.log.warn('Error while connecting to Wallbox-Server. Error: ' + JSON.stringify(err));
+						this.log.warn('Error while connecting to M-Wallbox-Server. Error: ' + JSON.stringify(err));
 					} else {
 						if (response.statusCode >= 200 && response.statusCode <= 299) {
 							try {
 								result = JSON.parse(body);
 								/* Catch errors */
 								if (result.error === true || result.jwt === undefined) {
-									this.log.warn('Error while getting Token from Wallbox-API. Error: ' + result.msg);
+									this.log.warn('Error while getting Token from My-Wallbox-API. Error: ' + result.msg);
 								} else {
 									resolve(result.jwt);
 								}
@@ -427,7 +427,7 @@ class Wallbox extends utils.Adapter {
 
 	async init() {
 		// Log into Wallbox Account
-		this.log.info('Trying to login to Wallbox-API');
+		this.log.info('Trying to login to My-Wallbox-API');
 		// Create the states
 		await this.createInfoObjects(charger_id);
 		await this.setControlObjects(charger_id);
@@ -440,7 +440,7 @@ class Wallbox extends utils.Adapter {
 	}
 
 	async login() {
-		// Get API Token		
+		// Get API Token
 		token = await this.getWallboxToken();
 		// Got Token - proceed
 		if (token !== undefined || token !== '') {
