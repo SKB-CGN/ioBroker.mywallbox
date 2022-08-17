@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "my-wallbox",
-    "version": "0.0.17",
+    "version": "0.0.18",
     "news": {
+      "0.0.18": {
+        "en": "renamed Adapter to My-Wallbox to get adapter added to iobroker repoy",
+        "de": "umbenannt Adapter auf My-Wallbox zu erhalten Adapter hinzugefügt zu iobroker repoy",
+        "ru": "переименованный адаптер в My-Wallbox, чтобы получить адаптер добавлен в iobroker repoy",
+        "pt": "adaptador renomeado para My-Wallbox para obter o adaptador adicionado ao repoy iobroker",
+        "nl": "vertaling:",
+        "fr": "adaptateur renommé à My-Wallbox pour obtenir l'adaptateur ajouté à iobroker repoy",
+        "it": "rinominato adattatore a My-Wallbox per ottenere l'adattatore aggiunto al repoy dello iobroker",
+        "es": "adaptador renombrado a My-Wallbox para conseguir adaptador añadido a iobroker repoy",
+        "pl": "nazwa Adapter to My-Wallbox została zmieniona na Iobroker repoyer",
+        "zh-cn": "改装给我-Wall箱的阿帕特,使人加入奥罗布克托公司"
+      },
       "0.0.17": {
         "en": "crash handler extended\nAfter some time, the charge value disappears. The value is now kept as long as the wallbox is in charge mode",
         "de": "crashgriff erweitert\nNach einiger Zeit verschwindet der Ladewert. Der Wert wird nun solange gehalten, wie die Wallbox im Lademodus ist",
@@ -74,18 +86,6 @@
         "es": "accidente fijo, si token tiene diferente formato",
         "pl": "szybkacja stała, jeśli token ma inne formaty",
         "zh-cn": "固定事故如有不同的形式"
-      },
-      "0.0.8": {
-        "en": "redefined password store (now password is saved securely)",
-        "de": "neu definierter passwortspeicher (jetzt passwort wird sicher gespeichert)",
-        "ru": "redefined password store (сейчас пароль сохранен надежно)",
-        "pt": "repositório de senha redefinido (agora a senha é salva de forma segura)",
-        "nl": "verlost wachtwoordenwinkel (now wachtwoord is veilig)",
-        "fr": "magasin de mots de passe redéfini (maintenant le mot de passe est sauvegardé en toute sécurité)",
-        "it": "ridefinito negozio di password (ora password viene salvata in modo sicuro)",
-        "es": "redefinido almacén de contraseñas (ahora contraseña se guarda de forma segura)",
-        "pl": "zredefiniowany sklep z hasłami (obecnie hasło jest bezpiecznie zapisywane)",
-        "zh-cn": "重新界定的密码储存(现正用密码)"
       }
     },
     "title": "My-Wallbox",
