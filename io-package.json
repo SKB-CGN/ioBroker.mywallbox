@@ -1,6 +1,6 @@
 {
   "common": {
-    "name": "my-wallbox",
+    "name": "mywallbox",
     "version": "0.0.18",
     "news": {
       "0.0.18": {
@@ -88,13 +88,13 @@
         "zh-cn": "固定事故如有不同的形式"
       }
     },
-    "title": "My-Wallbox",
+    "title": "MyWallbox",
     "titleLang": {
-      "en": "My-Wallbox",
-      "de": "My-Wallbox",
+      "en": "MyWallbox",
+      "de": "MyWallbox",
       "ru": "Настенная коробка",
       "pt": "Caixa de parede",
-      "nl": "My-Wallbox",
+      "nl": "MyWallbox",
       "fr": "Boîte murale",
       "it": "Scatola da muro",
       "es": "Caja de pared",

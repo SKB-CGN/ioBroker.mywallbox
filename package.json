@@ -1,5 +1,5 @@
 {
-  "name": "iobroker.my-wallbox",
+  "name": "iobroker.mywallbox",
   "version": "0.0.18",
   "description": "Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker",
   "author": {

@@ -30,7 +30,7 @@ const URL_CHARGER_CONTROL = 'v3/chargers/';
 const URL_CHARGER_ACTION = '/remote-action';
 const URL_STATUS = 'chargers/status/';
 
-class Wallbox extends utils.Adapter {
+class MyWallbox extends utils.Adapter {
 
 	/**
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
@@ -38,7 +38,7 @@ class Wallbox extends utils.Adapter {
 	constructor(options) {
 		super({
 			...options,
-			name: 'my-wallbox',
+			name: 'mywallbox',
 		});
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
@@ -1456,8 +1456,6 @@ class Wallbox extends utils.Adapter {
 	// 	}
 	// }
 
-
-
 }
 
 if (require.main !== module) {
@@ -1465,8 +1463,8 @@ if (require.main !== module) {
 	/**
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
 	 */
-	module.exports = (options) => new Wallbox(options);
+	module.exports = (options) => new MyWallbox(options);
 } else {
 	// otherwise start the instance directly
-	new Wallbox();
+	new MyWallbox();
 }
