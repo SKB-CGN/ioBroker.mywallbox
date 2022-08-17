@@ -213,21 +213,23 @@ class MyWallbox extends utils.Adapter {
 								/* Catch errors */
 								if (result.error === true || result.jwt === undefined) {
 									this.log.warn('Error while getting Token from My-Wallbox-API. Error: ' + result.msg);
-									reject(new Error(err));
+									resolve('not set');
 								} else {
 									resolve(result.jwt);
 								}
 							} catch (err) {
 								this.log.warn('Error while getting Token from My-Wallbox-API.');
+								resolve('not set');
 							}
 						} else {
 							result = JSON.parse(body);
 							this.log.warn('Error while getting Token from My-Wallbox-API. Error: ' + result.msg);
+							resolve('not set');
 						}
 					}
 				});
 			} catch (error) {
-				resolve(error);
+				resolve('not set');
 			}
 		});
 	}
@@ -446,7 +448,7 @@ class MyWallbox extends utils.Adapter {
 		// Get API Token
 		token = await this.getWallboxToken();
 		// Got Token - proceed
-		if (token !== undefined || token !== '') {
+		if (token !== 'not set') {
 			this.changeAdapterStatusOnline(true);
 		} else {
 			logged_in = false;
@@ -468,7 +470,7 @@ class MyWallbox extends utils.Adapter {
 		// Login
 		await this.login();
 		// Get Data
-		if (logged_in) {
+		if (logged_in === true) {
 			await this.getChargerData(token);
 		}
 	}
