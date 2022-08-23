@@ -36,8 +36,11 @@ If you like the adapter and want to support me, you can do so here:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- fixed small crash bug
+
 ### 0.0.18 (2022-08-17)
-- renamed Adapter to MyWallbox to get adapter added to iobroker repoy
+- renamed Adapter to MyWallbox to get adapter added to iobroker repo
 
 ### 0.0.17 (2022-08-15)
 - crash handler extended

@@ -217,14 +217,18 @@ class MyWallbox extends utils.Adapter {
 								} else {
 									resolve(result.jwt);
 								}
-							} catch (err) {
+							} catch (error) {
 								this.log.warn('Error while getting Token from My-Wallbox-API.');
 								resolve('not set');
 							}
 						} else {
-							result = JSON.parse(body);
-							this.log.warn('Error while getting Token from My-Wallbox-API. Error: ' + result.msg);
-							resolve('not set');
+							try {
+								result = JSON.parse(body);
+								this.log.warn('Error while getting Token from My-Wallbox-API. Error: ' + result.msg);
+								resolve('not set');
+							} catch (error) {
+								resolve('not set');
+							}
 						}
 					}
 				});
