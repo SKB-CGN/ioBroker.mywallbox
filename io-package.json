@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "mywallbox",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "news": {
+      "0.0.19": {
+        "en": "fixed small crash bug",
+        "de": "kleiner crash bug",
+        "ru": "исправлена небольшая ошибка сбоя",
+        "pt": "corrigido pequeno acidente",
+        "nl": "kleine crash bug",
+        "fr": "correction d'un petit bug",
+        "it": "piccolo bug fisso",
+        "es": "pequeño fallo fijo",
+        "pl": "a type of crash bug bug",
+        "zh-cn": "固定的小型事故 bug"
+      },
       "0.0.18": {
         "en": "renamed Adapter to My-Wallbox to get adapter added to iobroker repoy",
         "de": "umbenannt Adapter auf My-Wallbox zu erhalten Adapter hinzugefügt zu iobroker repoy",
@@ -64,18 +76,6 @@
         "zh-cn": "变化的国家增加:能源给Wh而不是Wh。"
       },
       "0.0.13": {
-        "en": "fixed crash, if token has different format",
-        "de": "fester absturz, wenn token unterschiedliches format hat",
-        "ru": "фиксированная авария, если токен имеет другой формат",
-        "pt": "trava fixa, se token tem formato diferente",
-        "nl": "als token een andere vorm heeft",
-        "fr": "crash fixe, si jeton a un format différent",
-        "it": "crash fisso, se token ha formato diverso",
-        "es": "accidente fijo, si token tiene diferente formato",
-        "pl": "szybkacja stała, jeśli token ma inne formaty",
-        "zh-cn": "固定事故如有不同的形式"
-      },
-      "0.0.12": {
         "en": "fixed crash, if token has different format",
         "de": "fester absturz, wenn token unterschiedliches format hat",
         "ru": "фиксированная авария, если токен имеет другой формат",
