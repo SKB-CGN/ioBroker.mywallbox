@@ -10,4 +10,3 @@ updates:
   assignees:
   - SKB-CGN
   versioning-strategy: increase
-  password: ${{secrets.DEPENDABOT_SECRET}}
