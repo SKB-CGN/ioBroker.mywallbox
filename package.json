@@ -6,7 +6,7 @@
     "name": "SKB-CGN",
     "email": "info@skb-web.de"
   },
-  "homepage": "https://github.com/SKB-CGN/ioBroker.my-wallbox",
+  "homepage": "https://github.com/SKB-CGN/ioBroker.mywallbox",
   "license": "MIT",
   "keywords": [
     "wallbox",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:SKB-CGN/ioBroker.my-wallbox.git"
+    "url": "git@github.com:SKB-CGN/ioBroker.mywallbox.git"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.0"
@@ -64,7 +64,7 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/SKB-CGN/ioBroker.my-wallbox/issues"
+    "url": "https://github.com/SKB-CGN/ioBroker.mywallbox/issues"
   },
   "readmeFilename": "README.md"
 }
