@@ -1,181 +1,187 @@
 {
-    "common": {
-        "name": "mywallbox",
-        "version": "0.0.19",
-        "news": {
-            "0.0.19": {
-                "en": "fixed small crash bug",
-                "de": "kleiner crash bug",
-                "ru": "исправлена небольшая ошибка сбоя",
-                "pt": "corrigido pequeno acidente",
-                "nl": "kleine crash bug",
-                "fr": "correction d'un petit bug",
-                "it": "piccolo bug fisso",
-                "es": "pequeño fallo fijo",
-                "pl": "a type of crash bug bug",
-                "zh-cn": "固定的小型事故 bug"
-            },
-            "0.0.18": {
-                "en": "renamed Adapter to My-Wallbox to get adapter added to iobroker repoy",
-                "de": "umbenannt Adapter auf My-Wallbox zu erhalten Adapter hinzugefügt zu iobroker repoy",
-                "ru": "переименованный адаптер в My-Wallbox, чтобы получить адаптер добавлен в iobroker repoy",
-                "pt": "adaptador renomeado para My-Wallbox para obter o adaptador adicionado ao repoy iobroker",
-                "nl": "vertaling:",
-                "fr": "adaptateur renommé à My-Wallbox pour obtenir l'adaptateur ajouté à iobroker repoy",
-                "it": "rinominato adattatore a My-Wallbox per ottenere l'adattatore aggiunto al repoy dello iobroker",
-                "es": "adaptador renombrado a My-Wallbox para conseguir adaptador añadido a iobroker repoy",
-                "pl": "nazwa Adapter to My-Wallbox została zmieniona na Iobroker repoyer",
-                "zh-cn": "改装给我-Wall箱的阿帕特,使人加入奥罗布克托公司"
-            },
-            "0.0.17": {
-                "en": "crash handler extended\nAfter some time, the charge value disappears. The value is now kept as long as the wallbox is in charge mode",
-                "de": "crashgriff erweitert\nNach einiger Zeit verschwindet der Ladewert. Der Wert wird nun solange gehalten, wie die Wallbox im Lademodus ist",
-                "ru": "разбойник расширен\nЧерез некоторое время стоимость заряда исчезает. Теперь значение сохраняется до тех пор, пока настенный ящик в режиме заряда",
-                "pt": "identificador de acidente estendido\nDepois de algum tempo, o valor de carga desaparece. O valor agora é mantido enquanto a caixa de parede estiver no modo de carga",
-                "nl": "crash begeleider verlengd\nNa enige tijd verdwijnt de ladingswaarde. De waarde is nu behouden zolang de muurkast de leiding heeft",
-                "fr": "crash handler extended\nAprès un certain temps, la valeur de charge disparaît. La valeur est maintenant gardée aussi longtemps que la boîte de mur est en mode charge",
-                "it": "manico di arresto esteso\nDopo qualche tempo, il valore di carica scompare. Il valore è ora mantenuto fino a quando la scatola da parete è in modalità di carica",
-                "es": "controlador de choque extendido\nDespués de algún tiempo, el valor de carga desaparece. El valor se mantiene ahora mientras la caja de pared está en modo de carga",
-                "pl": "uchwyt\nPo pewnym czasie wartość obciążenia zanika. Wartość ta jest obecnie utrzymywana tak długo, jak ściana jest w trybie ładunku",
-                "zh-cn": "c 坠毁者\n一段时间后,收费价值消失。 目前,只要墙箱是负责任的方式,价值就一直保持。"
-            },
-            "0.0.16": {
-                "en": "added error handling for cost-data, if server did not respond properly\nchanged some error-handling to prevent crashing if JSON is empty",
-                "de": "zusätzliche fehlerbehandlung für kostendaten, wenn server nicht richtig reagiert\neinige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
-                "ru": "добавлена обработка ошибок для cost-data, если сервер не ответил правильно\nизменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
-                "pt": "manuseio de erro adicionado para dados de custo, se o servidor não respondeu corretamente\nalterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
-                "nl": "een fout toegevoegd voor kosten-data, als server niet goed reageerde\nveranderde fouten om te voorkomen dat JSON leeg is",
-                "fr": "traitement des erreurs ajoutés pour les données de coûts, si le serveur ne répond pas correctement\na changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
-                "it": "gestione degli errori aggiunti per i dati di costo, se il server non ha risposto correttamente\nha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
-                "es": "manejo de errores añadido para datos de costes, si el servidor no respondió correctamente\ncambió algunos errores para evitar que se estrelle si JSON está vacío",
-                "pl": "dodano obsługę błędów dla danych kosztowych, jeśli serwer nie odpowiada prawidłowo\nzmieniło się to, aby zapobiec rozbiciu się JSON",
-                "zh-cn": "如果服务器没有作出适当反应,则为成本数据处理增加错误。\n如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
-            },
-            "0.0.15": {
-                "en": "changed some error-handling to prevent crashing if JSON is empty",
-                "de": "einige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
-                "ru": "изменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
-                "pt": "alterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
-                "nl": "veranderde fouten om te voorkomen dat JSON leeg is",
-                "fr": "a changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
-                "it": "ha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
-                "es": "cambió algunos errores para evitar que se estrelle si JSON está vacío",
-                "pl": "zmieniło się to, aby zapobiec rozbiciu się JSON",
-                "zh-cn": "如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
-            },
-            "0.0.14": {
-                "en": "changed state 'added_energy' to Wh instead of W",
-                "de": "geänderter Zustand add_energy zu Wh statt W",
-                "ru": "изменил государство add_energy в Wh вместо W",
-                "pt": "mudou estado add_energy para Wh em vez de W",
-                "nl": "veranderde staat toegevoegd aan Wh in plaats van W",
-                "fr": "changement d'état ajouté_energy à Wh au lieu de W",
-                "it": "cambiato stato aggiunto_energia a Wh invece di W",
-                "es": "estado cambiado añadido_energía a Wh en lugar de W",
-                "pl": "zmieniło się to zamiast Wh",
-                "zh-cn": "变化的国家增加:能源给Wh而不是Wh。"
-            },
-            "0.0.13": {
-                "en": "fixed crash, if token has different format",
-                "de": "fester absturz, wenn token unterschiedliches format hat",
-                "ru": "фиксированная авария, если токен имеет другой формат",
-                "pt": "trava fixa, se token tem formato diferente",
-                "nl": "als token een andere vorm heeft",
-                "fr": "crash fixe, si jeton a un format différent",
-                "it": "crash fisso, se token ha formato diverso",
-                "es": "accidente fijo, si token tiene diferente formato",
-                "pl": "szybkacja stała, jeśli token ma inne formaty",
-                "zh-cn": "固定事故如有不同的形式"
-            }
-        },
-        "title": "MyWallbox",
-        "titleLang": {
-            "en": "MyWallbox",
-            "de": "MyWallbox",
-            "ru": "Настенная коробка",
-            "pt": "Caixa de parede",
-            "nl": "MyWallbox",
-            "fr": "Boîte murale",
-            "it": "Scatola da muro",
-            "es": "Caja de pared",
-            "pl": "My-Wallbox",
-            "zh-cn": "墙盒"
-        },
-        "desc": {
-            "en": "Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker",
-            "de": "Verbinden Sie Ihre My-Wallbox (z. B. Pulsar Plus) mit ioBroker",
-            "ru": "Подключите свой My-Wallbox (например, Pulsar Plus) к ioBroker",
-            "pt": "Conecte sua My-Wallbox (por exemplo, Pulsar Plus) com ioBroker",
-            "nl": "Verbind je My-Wallbox (bijv. Pulsar Plus) met ioBroker",
-            "fr": "Connectez votre My-Wallbox (par exemple Pulsar Plus) avec ioBroker",
-            "it": "Collega la tua My-Wallbox (ad es. Pulsar Plus) con ioBroker",
-            "es": "Conecte su My-Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
-            "pl": "Połącz swój My-Wallbox (np. Pulsar Plus) z ioBroker",
-            "zh-cn": "将您的 My-Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
-        },
-        "authors": [
-            "SKB-CGN <info@skb-web.de>"
-        ],
-        "keywords": [
-            "my-wallbox",
-            "pulsar",
-            "pulsar plus",
-            "wallbox"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "wallbox.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.mywallbox/main/admin/wallbox.png",
-        "readme": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.mywallbox/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "hardware",
-        "compact": true,
-        "connectionType": "cloud",
-        "dataSource": "poll",
-        "materialize": true,
-        "dependencies": [{
-            "js-controller": ">=2.0.0"
-        }],
-        "globalDependencies": [{
-            "admin": ">=4.0.9"
-        }]
+  "common": {
+    "name": "mywallbox",
+    "version": "1.0.0",
+    "news": {
+      "1.0.0": {
+        "en": "Changed some Adapter settings to be published to public repository\nAttention: Password needs to be re-entered as encryption function changed",
+        "de": "Geändert einige Adapter-Einstellungen, die zum öffentlichen Repository veröffentlicht werden\nAchtung: Passwort muss als Verschlüsselungsfunktion neu eingegeben werden",
+        "ru": "Изменены некоторые настройки адаптера, которые будут опубликованы для публичного репозитория\nВнимание: Пароль должен быть повторно введен как функция шифрования изменена",
+        "pt": "Alterado algumas configurações do Adapter a serem publicadas no repositório público\nAtenção: a senha precisa ser reinserida como função de criptografia alterada",
+        "nl": "Veranderde van een paar adapter settelen om te worden gepubliceerd aan publieke herplaatsing\nAttentie, het wachtwoord moet worden hergebruikt als encryptie-functie veranderd",
+        "fr": "Changement de certains paramètres de l'adaptateur à publier dans un dépôt public\nAttention: le mot de passe doit être réintégré comme fonction de chiffrement changé",
+        "it": "Modificate alcune impostazioni dell'adattatore da pubblicare sul repository pubblico\nAttenzione: la password deve essere riattivata come funzione di crittografia modificata",
+        "es": "Cambiar algunos ajustes de Adaptador para ser publicados al repositorio público\nAtención: La contraseña debe volver a entrar como función de cifrado cambiado",
+        "pl": "Zmienił niektóre ustawienia Adaptera\nZatrzymanie: hasło musi być przywrócone jako funkcja szyfrowania zmieniała się",
+        "uk": "Змінено деякі налаштування адаптера, які будуть опубліковані на державному репозиторію\nУвага: Пароль повинен бути повторним, оскільки функція шифрування змінилася",
+        "zh-cn": "将出版的一些阿道道环境改为公共存放处\n注意:作为加密功能改变的护照前言需要重新确定。"
+      },
+      "0.0.19": {
+        "en": "fixed small crash bug",
+        "de": "kleiner crash bug",
+        "ru": "исправлена небольшая ошибка сбоя",
+        "pt": "corrigido pequeno acidente",
+        "nl": "kleine crash bug",
+        "fr": "correction d'un petit bug",
+        "it": "piccolo bug fisso",
+        "es": "pequeño fallo fijo",
+        "pl": "a type of crash bug bug",
+        "zh-cn": "固定的小型事故 bug"
+      },
+      "0.0.18": {
+        "en": "renamed Adapter to My-Wallbox to get adapter added to iobroker repoy",
+        "de": "umbenannt Adapter auf My-Wallbox zu erhalten Adapter hinzugefügt zu iobroker repoy",
+        "ru": "переименованный адаптер в My-Wallbox, чтобы получить адаптер добавлен в iobroker repoy",
+        "pt": "adaptador renomeado para My-Wallbox para obter o adaptador adicionado ao repoy iobroker",
+        "nl": "vertaling:",
+        "fr": "adaptateur renommé à My-Wallbox pour obtenir l'adaptateur ajouté à iobroker repoy",
+        "it": "rinominato adattatore a My-Wallbox per ottenere l'adattatore aggiunto al repoy dello iobroker",
+        "es": "adaptador renombrado a My-Wallbox para conseguir adaptador añadido a iobroker repoy",
+        "pl": "nazwa Adapter to My-Wallbox została zmieniona na Iobroker repoyer",
+        "zh-cn": "改装给我-Wall箱的阿帕特,使人加入奥罗布克托公司"
+      },
+      "0.0.17": {
+        "en": "crash handler extended\nAfter some time, the charge value disappears. The value is now kept as long as the wallbox is in charge mode",
+        "de": "crashgriff erweitert\nNach einiger Zeit verschwindet der Ladewert. Der Wert wird nun solange gehalten, wie die Wallbox im Lademodus ist",
+        "ru": "разбойник расширен\nЧерез некоторое время стоимость заряда исчезает. Теперь значение сохраняется до тех пор, пока настенный ящик в режиме заряда",
+        "pt": "identificador de acidente estendido\nDepois de algum tempo, o valor de carga desaparece. O valor agora é mantido enquanto a caixa de parede estiver no modo de carga",
+        "nl": "crash begeleider verlengd\nNa enige tijd verdwijnt de ladingswaarde. De waarde is nu behouden zolang de muurkast de leiding heeft",
+        "fr": "crash handler extended\nAprès un certain temps, la valeur de charge disparaît. La valeur est maintenant gardée aussi longtemps que la boîte de mur est en mode charge",
+        "it": "manico di arresto esteso\nDopo qualche tempo, il valore di carica scompare. Il valore è ora mantenuto fino a quando la scatola da parete è in modalità di carica",
+        "es": "controlador de choque extendido\nDespués de algún tiempo, el valor de carga desaparece. El valor se mantiene ahora mientras la caja de pared está en modo de carga",
+        "pl": "uchwyt\nPo pewnym czasie wartość obciążenia zanika. Wartość ta jest obecnie utrzymywana tak długo, jak ściana jest w trybie ładunku",
+        "zh-cn": "c 坠毁者\n一段时间后,收费价值消失。 目前,只要墙箱是负责任的方式,价值就一直保持。"
+      },
+      "0.0.16": {
+        "en": "added error handling for cost-data, if server did not respond properly\nchanged some error-handling to prevent crashing if JSON is empty",
+        "de": "zusätzliche fehlerbehandlung für kostendaten, wenn server nicht richtig reagiert\neinige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
+        "ru": "добавлена обработка ошибок для cost-data, если сервер не ответил правильно\nизменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
+        "pt": "manuseio de erro adicionado para dados de custo, se o servidor não respondeu corretamente\nalterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
+        "nl": "een fout toegevoegd voor kosten-data, als server niet goed reageerde\nveranderde fouten om te voorkomen dat JSON leeg is",
+        "fr": "traitement des erreurs ajoutés pour les données de coûts, si le serveur ne répond pas correctement\na changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
+        "it": "gestione degli errori aggiunti per i dati di costo, se il server non ha risposto correttamente\nha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
+        "es": "manejo de errores añadido para datos de costes, si el servidor no respondió correctamente\ncambió algunos errores para evitar que se estrelle si JSON está vacío",
+        "pl": "dodano obsługę błędów dla danych kosztowych, jeśli serwer nie odpowiada prawidłowo\nzmieniło się to, aby zapobiec rozbiciu się JSON",
+        "zh-cn": "如果服务器没有作出适当反应,则为成本数据处理增加错误。\n如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
+      },
+      "0.0.15": {
+        "en": "changed some error-handling to prevent crashing if JSON is empty",
+        "de": "einige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
+        "ru": "изменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
+        "pt": "alterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
+        "nl": "veranderde fouten om te voorkomen dat JSON leeg is",
+        "fr": "a changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
+        "it": "ha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
+        "es": "cambió algunos errores para evitar que se estrelle si JSON está vacío",
+        "pl": "zmieniło się to, aby zapobiec rozbiciu się JSON",
+        "zh-cn": "如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
+      },
+      "0.0.14": {
+        "en": "changed state 'added_energy' to Wh instead of W",
+        "de": "geänderter Zustand add_energy zu Wh statt W",
+        "ru": "изменил государство add_energy в Wh вместо W",
+        "pt": "mudou estado add_energy para Wh em vez de W",
+        "nl": "veranderde staat toegevoegd aan Wh in plaats van W",
+        "fr": "changement d'état ajouté_energy à Wh au lieu de W",
+        "it": "cambiato stato aggiunto_energia a Wh invece di W",
+        "es": "estado cambiado añadido_energía a Wh en lugar de W",
+        "pl": "zmieniło się to zamiast Wh",
+        "zh-cn": "变化的国家增加:能源给Wh而不是Wh。"
+      }
     },
-    "protectedNative": [
-        "password"
-    ],
-    "encryptedNative": [
-        "password"
-    ],
-    "native": {
-        "passsword": "",
-        "charger_id": "",
-        "email": "",
-        "poll_time": 30
+    "title": "MyWallbox",
+    "titleLang": {
+      "en": "MyWallbox",
+      "de": "MyWallbox",
+      "ru": "Настенная коробка",
+      "pt": "Caixa de parede",
+      "nl": "MyWallbox",
+      "fr": "Boîte murale",
+      "it": "Scatola da muro",
+      "es": "Caja de pared",
+      "pl": "My-Wallbox",
+      "zh-cn": "墙盒"
     },
-    "objects": [],
-    "instanceObjects": [{
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker",
+      "de": "Verbinden Sie Ihre My-Wallbox (z. B. Pulsar Plus) mit ioBroker",
+      "ru": "Подключите свой My-Wallbox (например, Pulsar Plus) к ioBroker",
+      "pt": "Conecte sua My-Wallbox (por exemplo, Pulsar Plus) com ioBroker",
+      "nl": "Verbind je My-Wallbox (bijv. Pulsar Plus) met ioBroker",
+      "fr": "Connectez votre My-Wallbox (par exemple Pulsar Plus) avec ioBroker",
+      "it": "Collega la tua My-Wallbox (ad es. Pulsar Plus) con ioBroker",
+      "es": "Conecte su My-Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
+      "pl": "Połącz swój My-Wallbox (np. Pulsar Plus) z ioBroker",
+      "zh-cn": "将您的 My-Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
+    },
+    "authors": [
+      "SKB-CGN <info@skb-web.de>"
+    ],
+    "keywords": [
+      "my-wallbox",
+      "pulsar",
+      "pulsar plus",
+      "wallbox"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "wallbox.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.mywallbox/main/admin/wallbox.png",
+    "readme": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.mywallbox/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "hardware",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "materialize": true,
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=4.0.9"
+      }
     ]
+  },
+  "protectedNative": [
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "native": {
+    "passsword": "",
+    "charger_id": "",
+    "email": "",
+    "poll_time": 30
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

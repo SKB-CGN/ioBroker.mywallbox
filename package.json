@@ -1,6 +1,6 @@
 {
   "name": "iobroker.mywallbox",
-  "version": "0.0.19",
+  "version": "1.0.0",
   "description": "Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker",
   "author": {
     "name": "SKB-CGN",

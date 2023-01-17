@@ -36,7 +36,7 @@ If you like the adapter and want to support me, you can do so here:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.0.0 (2023-01-17)
 - Changed some Adapter settings to be published to public repository
 - Attention: Password needs to be re-entered as encryption function changed
 
