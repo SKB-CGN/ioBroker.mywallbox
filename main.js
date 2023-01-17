@@ -993,7 +993,7 @@ class MyWallbox extends utils.Adapter {
 			type: 'state',
 			common: {
 				name: 'OCPP Connection Status',
-				type: 'number',
+				type: 'boolean',
 				role: 'indicator',
 				read: true,
 				write: false,
