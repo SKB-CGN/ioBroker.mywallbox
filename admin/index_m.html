@@ -22,11 +22,6 @@
 
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
-
-			socket.emit('getObject', 'system.config', function (err, obj) {
-				_secret = (obj.native ? obj.native.secret : '') || 'Zgfr56gFe87jJOM';
-			});
-
 			// example: select elements with id=key and class=value and insert value
 			if (!settings) return;
 			$('.value').each(function () {
@@ -59,14 +54,20 @@
 					obj[id] = $this.prop('checked');
 				} else {
 					var value = $this.val();
-					if (id === 'password') {
-						value = encrypt(_secret, value);
-					}
 					obj[id] = value;
 				}
 			});
 			callback(obj);
 		}
+
+		$(function () {
+			$("#poll_time").change(function () {
+				if ($(this).val() < 30) {
+					$(this).val(30);
+				}
+			});
+		});
+
 	</script>
 
 </head>

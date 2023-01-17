@@ -21,6 +21,7 @@ let logged_in = false;
 let charger_data;
 let charger_data_extended;
 let global_charging_power = 0;
+let conn_timeout;
 const adapterIntervals = {};
 
 const BASEURL = 'https://api.wall-box.com/';
@@ -70,20 +71,12 @@ class MyWallbox extends utils.Adapter {
 		email = this.config.email;
 		poll_time = this.config.poll_time;
 		charger_id = this.config.charger_id;
+		password = this.config.password;
+		conn_timeout = (this.config.poll_time * 1000) - 5000;
 
 		if (email == '' || this.config.password == '') {
-			this.log.error('No Email and/or password set');
+			this.log.error('No Email and/or password set. Please review adapter config!');
 		} else {
-			// Password Handling
-			this.getForeignObject("system.config", (err, obj) => {
-				if (obj && obj.native && obj.native.secret) {
-					//noinspection JSUnresolvedVariable
-					password = this.decrypt(obj.native.secret, this.config.password);
-				} else {
-					//noinspection JSUnresolvedVariable
-					password = this.decrypt("Zgfr56gFe87jJOM", this.config.password);
-				}
-			});
 			//Start logic with Initialization
 			this.init();
 		}
@@ -196,6 +189,7 @@ class MyWallbox extends utils.Adapter {
 			try {
 				const options = {
 					url: BASEURL + URL_AUTHENTICATION,
+					timeout: conn_timeout,
 					method: 'POST',
 					headers: {
 						'Authorization': 'Basic ' + Buffer.from(email + ":" + password).toString('base64'),
@@ -243,6 +237,7 @@ class MyWallbox extends utils.Adapter {
 		try {
 			const options = {
 				url: BASEURL + URL_CHARGER + charger_id,
+				timeout: conn_timeout,
 				method: 'PUT',
 				headers: {
 					'Authorization': 'Bearer ' + token,
@@ -283,6 +278,7 @@ class MyWallbox extends utils.Adapter {
 		try {
 			const options = {
 				url: BASEURL + URL_STATUS + charger_id,
+				timeout: conn_timeout,
 				method: 'GET',
 				headers: {
 					'Authorization': 'Bearer ' + token,
@@ -329,6 +325,7 @@ class MyWallbox extends utils.Adapter {
 			try {
 				const options = {
 					url: BASEURL + URL_CHARGER + charger_id,
+					timeout: conn_timeout,
 					method: 'PUT',
 					headers: {
 						'Authorization': 'Bearer ' + token,
@@ -392,6 +389,7 @@ class MyWallbox extends utils.Adapter {
 			try {
 				const options = {
 					url: BASEURL + URL_CHARGER_CONTROL + charger_id + URL_CHARGER_ACTION,
+					timeout: conn_timeout,
 					method: 'POST',
 					headers: {
 						'Authorization': 'Bearer ' + token,
@@ -436,7 +434,7 @@ class MyWallbox extends utils.Adapter {
 
 	async init() {
 		// Log into Wallbox Account
-		this.log.info('Trying to login to My-Wallbox-API');
+		this.log.info('Logging into My-Wallbox-API');
 		// Create the states
 		await this.createInfoObjects(charger_id);
 		await this.setControlObjects(charger_id);
@@ -803,7 +801,7 @@ class MyWallbox extends utils.Adapter {
 			common: {
 				name: 'Last Synchronisation with Portal',
 				type: 'number',
-				role: 'indicator',
+				role: 'state',
 				read: true,
 				write: false,
 			},
