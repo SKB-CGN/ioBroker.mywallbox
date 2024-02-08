@@ -84,7 +84,7 @@ If you like the adapter and want to support me, you can do so here:
 ## License
 MIT License
 
-Copyright (c) 2023 SKB <info@skb-web.de>
+Copyright (c) 2024 SKB <info@skb-web.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
