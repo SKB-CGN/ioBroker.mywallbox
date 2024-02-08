@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mywallbox",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "news": {
+      "1.1.0": {
+        "en": "Prepared Adapter to be added to ioBroker repotories",
+        "de": "Vorbereitet Adapter zu ioBroker repotories hinzugefügt werden",
+        "ru": "Готовый адаптер будет добавлен в ioBroker repotories",
+        "pt": "Adaptador preparado para ser adicionado a repotories ioBroker",
+        "nl": "Bereide adapter die moet worden toegevoegd aan ioBroker repotories",
+        "fr": "Adaptateur préparé à ajouter aux répertoires ioBroker",
+        "it": "Adattatore preparato da aggiungere ai repotori ioBroker",
+        "es": "Adaptador preparado para ser añadido a los repotories ioBroker",
+        "pl": "Przygotowany adapter dodawany do repotories jOBroker",
+        "uk": "Приготований адаптер, який буде додано в репозиторії ioBroker",
+        "zh-cn": "编写适应器以添加到ioBroker重选"
+      },
       "1.0.0": {
         "en": "Changed some Adapter settings to be published to public repository\nAttention: Password needs to be re-entered as encryption function changed",
         "de": "Geändert einige Adapter-Einstellungen, die zum öffentlichen Repository veröffentlicht werden\nAchtung: Passwort muss als Verschlüsselungsfunktion neu eingegeben werden",
@@ -75,18 +88,6 @@
         "es": "cambió algunos errores para evitar que se estrelle si JSON está vacío",
         "pl": "zmieniło się to, aby zapobiec rozbiciu się JSON",
         "zh-cn": "如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
-      },
-      "0.0.14": {
-        "en": "changed state 'added_energy' to Wh instead of W",
-        "de": "geänderter Zustand add_energy zu Wh statt W",
-        "ru": "изменил государство add_energy в Wh вместо W",
-        "pt": "mudou estado add_energy para Wh em vez de W",
-        "nl": "veranderde staat toegevoegd aan Wh in plaats van W",
-        "fr": "changement d'état ajouté_energy à Wh au lieu de W",
-        "it": "cambiato stato aggiunto_energia a Wh invece di W",
-        "es": "estado cambiado añadido_energía a Wh en lugar de W",
-        "pl": "zmieniło się to zamiast Wh",
-        "zh-cn": "变化的国家增加:能源给Wh而不是Wh。"
       }
     },
     "title": "MyWallbox",
