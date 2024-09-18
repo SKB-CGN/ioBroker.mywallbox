@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mywallbox",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "news": {
+      "1.1.1": {
+        "en": "updated dependencies",
+        "de": "aktualisierte abhängigkeiten",
+        "ru": "обновленные зависимости",
+        "pt": "dependências atualizadas",
+        "nl": "bijgewerkte afhankelijkheden",
+        "fr": "dépendances actualisées",
+        "it": "dipendenze aggiornate",
+        "es": "dependencias actualizadas",
+        "pl": "zaktualizowane zależności",
+        "uk": "оновлені залежності",
+        "zh-cn": "更新的依赖关系"
+      },
       "1.1.0": {
         "en": "Prepared Adapter to be added to ioBroker repotories",
         "de": "Vorbereitet Adapter zu ioBroker repotories hinzugefügt werden",
@@ -80,19 +93,6 @@
         "pl": "dodano obsługę błędów dla danych kosztowych, jeśli serwer nie odpowiada prawidłowo\nzmieniło się to, aby zapobiec rozbiciu się JSON",
         "zh-cn": "如果服务器没有作出适当反应,则为成本数据处理增加错误。\n如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。",
         "uk": "додано обробку помилок для даних про вартість, якщо сервер не відповідає належним чином\nзмінено певну обробку помилок, щоб запобігти збою, якщо JSON порожній"
-      },
-      "0.0.15": {
-        "en": "changed some error-handling to prevent crashing if JSON is empty",
-        "de": "einige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
-        "ru": "изменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
-        "pt": "alterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
-        "nl": "veranderde fouten om te voorkomen dat JSON leeg is",
-        "fr": "a changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
-        "it": "ha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
-        "es": "cambió algunos errores para evitar que se estrelle si JSON está vacío",
-        "pl": "zmieniło się to, aby zapobiec rozbiciu się JSON",
-        "zh-cn": "如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。",
-        "uk": "змінено певну обробку помилок, щоб запобігти збою, якщо JSON порожній"
       }
     },
     "titleLang": {
