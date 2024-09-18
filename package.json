@@ -9,6 +9,7 @@
   "homepage": "https://github.com/SKB-CGN/ioBroker.mywallbox",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "wallbox",
     "pulsar",
     "pulsar plus"
@@ -18,7 +19,7 @@
     "url": "git@github.com:SKB-CGN/ioBroker.mywallbox.git"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.1.4"
