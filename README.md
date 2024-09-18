@@ -36,6 +36,9 @@ If you like the adapter and want to support me, you can do so here:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- updated dependencies
+
 ### 1.1.0 (2024-02-08)
 - Prepared Adapter to be added to ioBroker repotories
 
