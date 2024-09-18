@@ -130,7 +130,10 @@
       "pulsar plus",
       "wallbox"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
     "main": "main.js",
     "icon": "wallbox.png",
