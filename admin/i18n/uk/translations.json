@@ -1,0 +1,7 @@
+{
+    "charger_serial": "Серійний номер вашої Wallbox",
+    "ex_charger_serial": "Можна знайти на:",
+    "password": "Пароль",
+    "poll_time": "Час опитування в секундах (мін. 30 секунд)",
+    "wallbox adapter settings": "Налаштування адаптера для Wallbox"
+}
