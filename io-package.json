@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mywallbox",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "news": {
+      "1.1.1": {
+        "en": "updated dependencies",
+        "de": "aktualisierte abhängigkeiten",
+        "ru": "обновленные зависимости",
+        "pt": "dependências atualizadas",
+        "nl": "bijgewerkte afhankelijkheden",
+        "fr": "dépendances actualisées",
+        "it": "dipendenze aggiornate",
+        "es": "dependencias actualizadas",
+        "pl": "zaktualizowane zależności",
+        "uk": "оновлені залежності",
+        "zh-cn": "更新的依赖关系"
+      },
       "1.1.0": {
         "en": "Prepared Adapter to be added to ioBroker repotories",
         "de": "Vorbereitet Adapter zu ioBroker repotories hinzugefügt werden",
@@ -39,7 +52,8 @@
         "it": "piccolo bug fisso",
         "es": "pequeño fallo fijo",
         "pl": "a type of crash bug bug",
-        "zh-cn": "固定的小型事故 bug"
+        "zh-cn": "固定的小型事故 bug",
+        "uk": "виправлена ​​невелика помилка збою"
       },
       "0.0.18": {
         "en": "renamed Adapter to My-Wallbox to get adapter added to iobroker repoy",
@@ -51,7 +65,8 @@
         "it": "rinominato adattatore a My-Wallbox per ottenere l'adattatore aggiunto al repoy dello iobroker",
         "es": "adaptador renombrado a My-Wallbox para conseguir adaptador añadido a iobroker repoy",
         "pl": "nazwa Adapter to My-Wallbox została zmieniona na Iobroker repoyer",
-        "zh-cn": "改装给我-Wall箱的阿帕特,使人加入奥罗布克托公司"
+        "zh-cn": "改装给我-Wall箱的阿帕特,使人加入奥罗布克托公司",
+        "uk": "перейменовано Adapter у My-Wallbox, щоб адаптер було додано до iobroker repoy"
       },
       "0.0.17": {
         "en": "crash handler extended\nAfter some time, the charge value disappears. The value is now kept as long as the wallbox is in charge mode",
@@ -63,7 +78,8 @@
         "it": "manico di arresto esteso\nDopo qualche tempo, il valore di carica scompare. Il valore è ora mantenuto fino a quando la scatola da parete è in modalità di carica",
         "es": "controlador de choque extendido\nDespués de algún tiempo, el valor de carga desaparece. El valor se mantiene ahora mientras la caja de pared está en modo de carga",
         "pl": "uchwyt\nPo pewnym czasie wartość obciążenia zanika. Wartość ta jest obecnie utrzymywana tak długo, jak ściana jest w trybie ładunku",
-        "zh-cn": "c 坠毁者\n一段时间后,收费价值消失。 目前,只要墙箱是负责任的方式,价值就一直保持。"
+        "zh-cn": "c 坠毁者\n一段时间后,收费价值消失。 目前,只要墙箱是负责任的方式,价值就一直保持。",
+        "uk": "обробник збоїв розширено\nЧерез деякий час значення заряду зникає. Тепер значення зберігається, поки Wallbox перебуває в режимі заряджання"
       },
       "0.0.16": {
         "en": "added error handling for cost-data, if server did not respond properly\nchanged some error-handling to prevent crashing if JSON is empty",
@@ -75,22 +91,10 @@
         "it": "gestione degli errori aggiunti per i dati di costo, se il server non ha risposto correttamente\nha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
         "es": "manejo de errores añadido para datos de costes, si el servidor no respondió correctamente\ncambió algunos errores para evitar que se estrelle si JSON está vacío",
         "pl": "dodano obsługę błędów dla danych kosztowych, jeśli serwer nie odpowiada prawidłowo\nzmieniło się to, aby zapobiec rozbiciu się JSON",
-        "zh-cn": "如果服务器没有作出适当反应,则为成本数据处理增加错误。\n如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
-      },
-      "0.0.15": {
-        "en": "changed some error-handling to prevent crashing if JSON is empty",
-        "de": "einige Fehlerbehebungen geändert, um zu verhindern, dass stürzt, wenn JSON leer ist",
-        "ru": "изменил некоторые ошибки, чтобы предотвратить сбой, если JSON пуст",
-        "pt": "alterou algum manuseio de erro para evitar que se despense se JSON estiver vazio",
-        "nl": "veranderde fouten om te voorkomen dat JSON leeg is",
-        "fr": "a changé quelques manipulations d'erreur pour empêcher l'écrasement si JSON est vide",
-        "it": "ha cambiato qualche errore di gestione per evitare crash se JSON è vuoto",
-        "es": "cambió algunos errores para evitar que se estrelle si JSON está vacío",
-        "pl": "zmieniło się to, aby zapobiec rozbiciu się JSON",
-        "zh-cn": "如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。"
+        "zh-cn": "如果服务器没有作出适当反应,则为成本数据处理增加错误。\n如果联合协商会空洞,则为防止意外事故而改变了一些错误的处理办法。",
+        "uk": "додано обробку помилок для даних про вартість, якщо сервер не відповідає належним чином\nзмінено певну обробку помилок, щоб запобігти збою, якщо JSON порожній"
       }
     },
-    "title": "MyWallbox",
     "titleLang": {
       "en": "MyWallbox",
       "de": "MyWallbox",
@@ -101,7 +105,8 @@
       "it": "Scatola da muro",
       "es": "Caja de pared",
       "pl": "My-Wallbox",
-      "zh-cn": "墙盒"
+      "zh-cn": "墙盒",
+      "uk": "MyWallbox"
     },
     "desc": {
       "en": "Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker",
@@ -113,7 +118,8 @@
       "it": "Collega la tua My-Wallbox (ad es. Pulsar Plus) con ioBroker",
       "es": "Conecte su My-Wallbox (por ejemplo, Pulsar Plus) con ioBroker",
       "pl": "Połącz swój My-Wallbox (np. Pulsar Plus) z ioBroker",
-      "zh-cn": "将您的 My-Wallbox（例如 Pulsar Plus）与 ioBroker 连接"
+      "zh-cn": "将您的 My-Wallbox（例如 Pulsar Plus）与 ioBroker 连接",
+      "uk": "Підключіть свій My-Wallbox (наприклад, Pulsar Plus) до ioBroker"
     },
     "authors": [
       "SKB-CGN <info@skb-web.de>"
@@ -124,23 +130,29 @@
       "pulsar plus",
       "wallbox"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
-    "main": "main.js",
     "icon": "wallbox.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.mywallbox/main/admin/wallbox.png",
     "readme": "https://raw.githubusercontent.com/SKB-CGN/ioBroker.mywallbox/main/README.md",
     "loglevel": "info",
     "mode": "daemon",
+    "tier": 3,
     "type": "hardware",
     "compact": true,
     "connectionType": "cloud",
     "dataSource": "poll",
-    "materialize": true,
+    "adminUI": {
+      "config": "materialize",
+      "tab": false
+    },
     "dependencies": [
       {
-        "js-controller": ">=2.0.0"
+        "js-controller": ">=5.0.19"
       }
     ],
     "globalDependencies": [
