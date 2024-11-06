@@ -1,5 +1,6 @@
 {
     "charger_serial": "Numer seryjny Twojego Wallbox",
+    "donate": "Jeśli podoba Ci się ten adapter, rozważ przekazanie darowizny na wsparcie mojej pracy.",
     "ex_charger_serial": "Można znaleźć na:",
     "password": "Hasło",
     "poll_time": "Czas odpytywania w sekundach (min. 30 sekund)",
