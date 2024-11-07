@@ -70,6 +70,10 @@
 
 	</script>
 	<style>
+		.adapter-body {
+			overflow: hidden !important;
+		}
+
 		@media screen and (max-width: 768px) {
 			.adapter-body {
 				overflow: auto;
@@ -80,44 +84,52 @@
 
 <body>
 	<div class="m adapter-container">
-		<div class="row">
+		<div class="row" style="height: 100%;">
 			<div class="col s12">
-				<img src="wallbox.png" class="logo">
+				<ul class="tabs">
+					<li class="tab col s4"><a href="#tab-main" class="translate">Main settings</a></li>
+				</ul>
+			</div>
+			<div id="tab-main" class="col s12 page">
+				<div class="row">
+					<div class="col s12 m4 l2">
+						<img src="wallbox.png" class="logo">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p class="translate" data-lang="donate">If you like this adapter, please consider making a donation
+							to support my work.</p>
+						<p><a href="https://www.paypal.me/StephanKreyenborg" target="_blank"><img
+									src="paypal-donate-button.png" alt="Donate" title="Donate"></a></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6">
+						<input type="text" class="value" id="email" />
+						<label for="email" class="translate">E-Mail</label>
+					</div>
+					<div class="input-field col s12 m6">
+						<input type="password" class="value" id="password" />
+						<label for="password" class="translate" data-lang="password">Password</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6 ">
+						<input type="text" class="value" id="charger_id" />
+						<label for="charger_id" class="translate" data-lang="charger_serial">Serial Number of your
+							Wallbox</label>
+						<span class="translate" data-lang="ex_charger_serial">Can be found on:</span> <a
+							href="https://my.wallbox.com/chargers" target="_blank">https://my.wallbox.com/chargers</a>
+					</div>
+					<div class="input-field col s12 m6">
+						<input type="number" class="value" id="poll_time" min="30" />
+						<label for="poll_time" class="translate" data-lang="poll_time">Poll-Time in Seconds (min. 30
+							seconds)</label>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col s12">
-				<p class="translate" data-lang="donate">If you like this adapter, please consider making a donation
-					to support my work.</p>
-				<p><a href="https://www.paypal.me/StephanKreyenborg" target="_blank"><img src="paypal-donate-button.png"
-							alt="Donate" title="Donate"></a></p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12 m6">
-				<input type="text" class="value" id="email" />
-				<label for="email" class="translate">E-Mail</label>
-			</div>
-			<div class="input-field col s12 m6">
-				<input type="password" class="value" id="password" />
-				<label for="password" class="translate" data-lang="password">Password</label>
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12 m6 ">
-				<input type="text" class="value" id="charger_id" />
-				<label for="charger_id" class="translate" data-lang="charger_serial">Serial Number of your
-					Wallbox</label>
-				<span class="translate" data-lang="ex_charger_serial">Can be found on:</span> <a
-					href="https://my.wallbox.com/chargers" target="_blank">https://my.wallbox.com/chargers</a>
-			</div>
-			<div class="input-field col s12 m6">
-				<input type="number" class="value" id="poll_time" min="30" />
-				<label for="poll_time" class="translate" data-lang="poll_time">Poll-Time in Seconds (min. 30
-					seconds)</label>
-			</div>
-		</div>
-	</div>
 	</div>
 </body>
 
