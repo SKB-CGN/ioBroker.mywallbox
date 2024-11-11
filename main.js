@@ -56,6 +56,7 @@ class MyWallbox extends utils.Adapter {
  */
 	async onReady() {
 		// Initialize your adapter here
+		await this.delObjectAsync('*', { recursive: true });
 
 		// Reset the connection indicator during startup
 		this.setState('info.connection', false, true);
@@ -284,7 +285,7 @@ class MyWallbox extends utils.Adapter {
 					charger_data = response.data.data.chargerData;
 					this.log.debug(`New Data: ${JSON.stringify(response.data.data.chargerData)}`);
 					this.setNewStates(response.data.data.chargerData);
-					resolve(response.data.data.chargerData);
+					resolve('');
 				})
 				.catch((error) => {
 					this.log.warn(`Error while receiving new Data from My-Wallbox-API. Error: ${JSON.stringify(error.message)}`);
@@ -308,7 +309,7 @@ class MyWallbox extends utils.Adapter {
 				.then((response) => {
 					this.log.debug(`Extended Data: ${JSON.stringify(response.data)}`);
 					this.setNewExtendedStates(response.data);
-					resolve(response.data);
+					resolve('');
 				})
 				.catch((error) => {
 					this.log.warn(`Error while receiving new extended-Data from My-Wallbox-API. Error: ${JSON.stringify(error.message)}`);
@@ -365,9 +366,9 @@ class MyWallbox extends utils.Adapter {
 	}
 
 	async requestPolling() {
-		this.getWallboxToken().then(async (response) => {
-			await this.getChargerData(response);
-			await this.getExtendedChargerData(response);
+		this.getWallboxToken().then(async (token) => {
+			await this.getChargerData(token);
+			await this.getExtendedChargerData(token);
 		}).catch((error) => {
 			this.log.debug(`Error on Polling Interval. Error: ${JSON.stringify(error.message)}`);
 		});
@@ -378,6 +379,9 @@ class MyWallbox extends utils.Adapter {
 	}
 
 	async setNewStates(states) {
+		// Folder where to add
+		let folder = "";
+
 		// RAW Data
 		await this.setStateAsync(charger_id + '.info._rawData', {
 			val: JSON.stringify(states),
@@ -385,211 +389,157 @@ class MyWallbox extends utils.Adapter {
 		});
 
 		// Info States
-		await this.setStateAsync(charger_id + '.info.serialNumber', {
-			val: states.serialNumber,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.info.uid', {
-			val: states.uid,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.info.name', {
-			val: states.name,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.info.type', {
-			val: states.chargerType,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.info.lastSync', {
-			val: states.lastConnection,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.info.lastSyncDT', {
-			val: this.getDateTime(states.lastConnection * 1000),
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.info.powerSharingStatus', {
-			val: states.powerSharingStatus,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.info.status', {
-			val: states.status,
-			ack: true
-		});
+		for (const key of Object.keys(states)) {
+			switch (key) {
+				// Info States
+				case 'serialNumber':
+				case 'uid':
+				case 'name':
+				case 'status':
+				case 'chargerType':
+				case 'lastConnection':
+					folder = "info";
 
-		// Charging States
-		await this.setStateAsync(charger_id + '.charging.stateOfCharge', {
-			val: states.stateOfCharge,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.charging.maxChgCurrent', {
-			val: states.maxChgCurrent,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.charging.maxAvailableCurrent', {
-			val: states.maxAvailableCurrent,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.charging.maxChargingCurrent', {
-			val: states.maxChargingCurrent,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.control.maxChargingCurrent', {
-			val: states.maxChargingCurrent,
-			ack: true
-		});
+					/* Additional states */
+					// lastConnection
+					if (key == 'lastConnection') {
+						await this.setStateChangedAsync(`${charger_id}.info.lastSyncDT`, {
+							val: this.getDateTime(states.lastConnection * 1000),
+							ack: true
+						});
+					}
 
-		await this.setStateAsync(charger_id + '.charging.chargerLoadName', {
-			val: states.chargerLoadName,
-			ack: true
-		});
+					// Car Connected
+					if (key == 'status') {
+						await this.setStateChangedAsync(`${charger_id}.info.car_connected`, {
+							val: ![161, 163, 166].includes(states.status) ? true : false,
+							ack: true
+						});
+					}
+					break;
 
-		await this.setStateAsync(charger_id + '.charging.chargerLoadId', {
-			val: states.chargerLoadId,
-			ack: true
-		});
+				// Charging States
+				case 'stateOfCharge':
+				case 'maxChgCurrent':
+				case 'maxAvailableCurrent':
+				case 'maxChargingCurrent':
+				case 'chargerLoadName':
+				case 'chargerLoadId':
+				case 'chargingType':
+				case 'connectorType':
+					folder = "charging";
 
-		await this.setStateAsync(charger_id + '.charging.chargingType', {
-			val: states.chargingType,
-			ack: true
-		});
+					/* Additional states */
+					if (key == 'maxChargingCurrent') {
+						await this.setStateChangedAsync(`${charger_id}.control.maxChargingCurrent`, {
+							val: states.maxChargingCurrent,
+							ack: true
+						});
+					}
+					break;
 
-		await this.setStateAsync(charger_id + '.charging.connectorType', {
-			val: states.connectorType,
-			ack: true
-		});
+				// Connection States
+				case 'ocppConnectionStatus':
+				case 'ocppReady':
+				case 'wifiSignal':
+				case 'connectionType':
+				case 'protocolCommunication':
+					folder = "connection";
+					break;
 
-		// Connection States
+				// Mid States
+				case 'midEnabled':
+				case 'midMargin':
+				case 'midMarginUnit':
+				case 'midSerialNumber':
+				case 'midStatus':
+					folder = "connection.mid";
+					break;
 
-		await this.setStateAsync(charger_id + '.connection.ocppConnectionStatus', {
-			val: states.ocppConnectionStatus,
-			ack: true
-		});
+				// Charging Data
+				case 'resume':
+					folder = "";
+					for (const _key of Object.keys(states['resume'])) {
+						await this.setStateChangedAsync(`${charger_id}.chargingData.monthly.${_key}`, {
+							val: isNaN(states['resume'][_key]) ? states['resume'][_key] : parseInt(states['resume'][_key]),
+							ack: true
+						});
+					}
+					break;
 
-		await this.setStateAsync(charger_id + '.connection.ocppReady', {
-			val: states.ocppReady,
-			ack: true
-		});
+				// Locked Details
+				case 'locked':
+					folder = "control";
+					break;
 
-		await this.setStateAsync(charger_id + '.connection.wifiSignal', {
-			val: states.wifiSignal,
-			ack: true
-		});
+				default:
+					folder = "";
+					break;
+			}
 
-		await this.setStateAsync(charger_id + '.connection.connectionType', {
-			val: states.connectionType,
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.connection.protocolCommunication', {
-			val: states.protocolCommunication,
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.connection.mid.midEnabled', {
-			val: states.midEnabled,
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.connection.mid.midMargin', {
-			val: states.midMargin,
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.connection.mid.midMarginUnit', {
-			val: states.midMarginUnit,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.connection.mid.midSerialNumber', {
-			val: states.midSerialNumber,
-			ack: true
-		});
-		await this.setStateAsync(charger_id + '.connection.mid.midStatus', {
-			val: states.midStatus,
-			ack: true
-		});
-
-		// Sessions
-
-		await this.setStateAsync(charger_id + '.chargingData.monthly.totalUsers', {
-			val: states.resume.totalUsers,
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.chargingData.monthly.totalSessions', {
-			val: states.resume.totalSessions,
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.chargingData.monthly.chargingTime', {
-			val: parseInt(states.resume.chargingTime),
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.chargingData.monthly.totalEnergy', {
-			val: parseInt(states.resume.totalEnergy),
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.chargingData.monthly.totalMidEnergy', {
-			val: parseInt(states.resume.totalMidEnergy),
-			ack: true
-		});
-
-		await this.setStateAsync(charger_id + '.chargingData.monthly.energyUnit', {
-			val: states.resume.energyUnit,
-			ack: true
-		});
-
-		// Control
-
-		await this.setStateAsync(charger_id + '.control.locked', {
-			val: states.locked,
-			ack: true
-		});
+			// Set the proper state
+			if (folder != "") {
+				this.log.debug(`Setting: ${charger_id}.${folder}.${key} with ${states[key]}`);
+				await this.setStateAsync(`${charger_id}.${folder}.${key}`, {
+					val: states[key],
+					ack: true
+				});
+			}
+		}
 	}
 
 	async setNewExtendedStates(states) {
+		// Folder where to add
+		let folder = "";
+		let state = "";
+
 		// RAW Data
-		await this.setStateAsync(charger_id + '.info._rawDataExtended', {
+		await this.setStateChangedAsync(`${charger_id}.info._rawDataExtended`, {
 			val: JSON.stringify(states),
 			ack: true
 		});
 
-		// Charging Details
+		for (const key of Object.keys(states)) {
+			switch (key) {
+				// Charging Details
+				case 'charging_speed':
+				case 'charging_power':
+				case 'finished':
+				case 'charging_time':
+					folder = "charging";
+					state = states[key];
+					break;
 
-		await this.setStateAsync(charger_id + '.charging.charging_speed', {
-			val: states.charging_speed,
-			ack: true
-		});
+				// Session Details
+				case 'added_energy':
+				case 'added_range':
+					folder = "chargingData.last_session";
+					state = key == 'added_energy' ? states.added_energy * 1000 : states[key];
+					break;
 
-		await this.setStateAsync(charger_id + '.charging.charging_power', {
-			val: states.charging_power,
-			ack: true
-		});
+				// Info Details
+				case 'config_data':
+					folder = "";
+					state = "";
+					break;
 
-		await this.setStateAsync(charger_id + '.charging.finished', {
-			val: states.finished,
-			ack: true
-		});
+				default:
+					folder = "";
+					break;
+			}
 
-		await this.setStateAsync(charger_id + '.charging.charging_time', {
-			val: states.charging_time,
-			ack: true
-		});
+			// Set the proper state
+			if (folder != "" && state != "") {
+				this.log.debug(`Setting: ${charger_id}.${folder}.${key} with ${states[key]}`);
+				await this.setStateAsync(`${charger_id}.${folder}.${key}`, {
+					val: state,
+					ack: true
+				});
+			}
 
-		await this.setStateAsync(charger_id + '.chargingData.last_session.added_energy', {
-			val: states.added_energy * 1000,
-			ack: true
-		});
+		}
 
-		await this.setStateAsync(charger_id + '.chargingData.last_session.added_range', {
-			val: states.added_range,
-			ack: true
-		});
-
-		// Somtimes chargerData is not delivered - prevent crash with checking of existence
+		// Sometimes chargerData is not delivered - prevent crash with checking of existence
 		if (charger_data !== undefined) {
 			if (charger_data.hasOwnProperty('resume')) {
 				await this.setStateAsync(charger_id + '.chargingData.monthly.cost', {
@@ -627,8 +577,8 @@ class MyWallbox extends utils.Adapter {
 
 	async createStates(charger) {
 		// Info States
-		for (var key of Object.keys(adapterStates.states)) {
-			for (var _key of Object.keys(adapterStates.states[key])) {
+		for (const key of Object.keys(adapterStates.states)) {
+			for (const _key of Object.keys(adapterStates.states[key])) {
 				this.log.debug(`Creating Object '${_key}' and common: ${JSON.stringify(adapterStates.states[key][_key].common)}`);
 				await this.setObjectNotExistsAsync(`${charger}.${key}.${_key}`, {
 					type: 'state',
@@ -638,7 +588,6 @@ class MyWallbox extends utils.Adapter {
 			}
 		}
 	}
-
 
 	/**
 	 * Convert a timestamp to datetime.
@@ -660,25 +609,6 @@ class MyWallbox extends utils.Adapter {
 		let seconds = '0' + date.getSeconds();
 		return day.substr(-2) + '.' + month.substr(-2) + '.' + year + ' ' + hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 	}
-
-	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-	// /**
-	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
-	//  * @param {ioBroker.Message} obj
-	//  */
-	// onMessage(obj) {
-	// 	if (typeof obj === 'object' && obj.message) {
-	// 		if (obj.command === 'send') {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info('send command');
-
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-	// 		}
-	// 	}
-	// }
-
 }
 
 if (require.main !== module) {
