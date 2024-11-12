@@ -1,10 +1,11 @@
 {
-    "charger_serial": "Серійний номер вашої Wallbox",
-    "default_settings": "Стандартні налаштування",
+    "charger_id": "Серійний номер вашої Wallbox",
     "donate": "Якщо вам подобається цей адаптер, зробіть пожертву на підтримку моєї роботи.",
     "email": "Електронна пошта",
-    "ex_charger_serial": "Можна знайти на:",
+    "ex_charger_id": "Можна знайти на:",
+    "ex_unlock_before_resume": "(Інакше: перед цим Wallbox потрібно розблокувати за допомогою стану «control.locked»)",
+    "main_settings": "Основні налаштування",
     "password": "Пароль",
     "poll_time": "Час опитування в секундах (мін. 30 секунд)",
-    "wallbox adapter settings": "Налаштування адаптера для Wallbox"
+    "unlock_before_resume": "Розблокуйте Wallbox автоматично, коли активується дія «відновити»."
 }

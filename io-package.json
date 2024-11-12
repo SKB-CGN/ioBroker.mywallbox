@@ -145,7 +145,8 @@
     "passsword": "",
     "charger_id": "",
     "email": "",
-    "poll_time": 30
+    "poll_time": 30,
+    "unlock_before_resume": false
   },
   "objects": [],
   "instanceObjects": [

@@ -1,10 +1,11 @@
 {
-    "charger_serial": "Serial Number of your Wallbox",
-    "default_settings": "Standard settings",
+    "charger_id": "Serial Number of your Wallbox",
     "donate": "If you like this adapter, please consider making a donation to support my work.",
     "email": "E-Mail",
-    "ex_charger_serial": "Can be found on:",
+    "ex_charger_id": "Can be found on:",
+    "ex_unlock_before_resume": "(Else: Wallbox needs to be unlocked before via the 'control.locked' state)",
+    "main_settings": "Main Settings",
     "password": "Password",
     "poll_time": "Poll-Time in Seconds (min. 30 seconds)",
-    "wallbox adapter settings": "Adapter settings for wallbox"
+    "unlock_before_resume": "Unlock the Wallbox automatically when the 'resume' action is triggered"
 }

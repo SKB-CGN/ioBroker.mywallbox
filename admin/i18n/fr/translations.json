@@ -1,10 +1,11 @@
 {
-    "charger_serial": "Numéro de série de votre Wallbox",
-    "default_settings": "Paramètres standards",
+    "charger_id": "Numéro de série de votre Wallbox",
     "donate": "Si vous aimez cet adaptateur, pensez à faire un don pour soutenir mon travail.",
     "email": "E-mail",
-    "ex_charger_serial": "A retrouver sur :",
+    "ex_charger_id": "Peut être trouvé sur :",
+    "ex_unlock_before_resume": "(Sinon : la Wallbox doit être déverrouillée au préalable via l'état « control.locked »)",
+    "main_settings": "Paramètres principaux",
     "password": "Mot de passe",
-    "poll_time": "Temps d'interrogation en secondes (min. 30 secondes)",
-    "wallbox adapter settings": "Paramètres de l'adaptateur pour wallbox"
+    "poll_time": "Durée d'interrogation en secondes (min. 30 secondes)",
+    "unlock_before_resume": "Déverrouillez automatiquement la Wallbox lorsque l'action « reprendre » est déclenchée"
 }

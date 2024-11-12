@@ -1,10 +1,11 @@
 {
-    "charger_serial": "Número de serie de su Wallbox",
-    "default_settings": "Configuraciones estándar",
+    "charger_id": "Número de serie de tu Wallbox",
     "donate": "Si le gusta este adaptador, considere hacer una donación para apoyar mi trabajo.",
     "email": "Correo electrónico",
-    "ex_charger_serial": "Se puede encontrar en:",
-    "password": "Clave",
-    "poll_time": "Tiempo de sondeo en segundos (mín. 30 segundos)",
-    "wallbox adapter settings": "Ajustes del adaptador para Wallbox"
+    "ex_charger_id": "Se puede encontrar en:",
+    "ex_unlock_before_resume": "(De lo contrario: Wallbox debe desbloquearse antes mediante el estado 'control.locked')",
+    "main_settings": "Configuración principal",
+    "password": "Contraseña",
+    "poll_time": "Tiempo de encuesta en segundos (mínimo 30 segundos)",
+    "unlock_before_resume": "Desbloquea el Wallbox automáticamente cuando se activa la acción 'reanudar'"
 }

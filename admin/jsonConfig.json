@@ -7,7 +7,7 @@
    "items": {
       "_StandardTab": {
          "type": "panel",
-         "label": "default_settings",
+         "label": "main_settings",
          "items": {
             "email": {
                "type": "text",
@@ -31,13 +31,34 @@
             },
             "charger_id": {
                "type": "text",
-               "label": "charger_serial",
+               "label": "charger_id",
                "xs": 12,
                "sm": 12,
                "md": 12,
                "lg": 6,
                "xl": 6,
                "newLine": true
+            },
+            "ex_charger_id": {
+               "type": "staticText",
+               "text": "ex_charger_id",
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 12,
+               "xl": 12,
+               "newLine": true
+            },
+            "ex_charger_link": {
+               "type": "staticLink",
+               "label": "https://my.wallbox.com/chargers",
+               "href": "https://my.wallbox.com/chargers",
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 12,
+               "xl": 12,
+               "newLine": false
             },
             "poll_time": {
                "type": "number",
@@ -50,6 +71,20 @@
                "lg": 6,
                "xl": 6,
                "newLine": true
+            },
+            "unlock_before_resume": {
+               "type": "checkbox",
+               "label": "unlock_before_resume"
+            },
+            "ex_unlock_before_resume": {
+               "type": "staticText",
+               "text": "ex_unlock_before_resume",
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 12,
+               "xl": 12,
+               "newLine": false
             },
             "_divider0": {
                "newLine": true,

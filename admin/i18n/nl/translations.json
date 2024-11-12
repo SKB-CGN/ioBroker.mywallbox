@@ -1,10 +1,11 @@
 {
-    "charger_serial": "Serienummer van je Wallbox",
-    "default_settings": "Standaard instellingen",
+    "charger_id": "Serienummer van uw Wallbox",
     "donate": "Als je deze adapter leuk vindt, overweeg dan een donatie te doen om mijn werk te ondersteunen.",
     "email": "E-mail",
-    "ex_charger_serial": "Te vinden op:",
+    "ex_charger_id": "Te vinden op:",
+    "ex_unlock_before_resume": "(Anders: Wallbox moet eerst worden ontgrendeld via de status 'control.locked')",
+    "main_settings": "Hoofdinstellingen",
     "password": "Wachtwoord",
     "poll_time": "Poll-tijd in seconden (min. 30 seconden)",
-    "wallbox adapter settings": "Adapterinstellingen voor wallbox"
+    "unlock_before_resume": "Ontgrendel de Wallbox automatisch wanneer de 'hervatten'-actie wordt geactiveerd"
 }

@@ -1,10 +1,11 @@
 {
-    "charger_serial": "Numer seryjny Twojego Wallbox",
-    "default_settings": "Ustawienia standardowe",
+    "charger_id": "Numer seryjny Twojej stacji Wallbox",
     "donate": "Jeśli podoba Ci się ten adapter, rozważ przekazanie darowizny na wsparcie mojej pracy.",
     "email": "E-mail",
-    "ex_charger_serial": "Można znaleźć na:",
+    "ex_charger_id": "Można znaleźć na:",
+    "ex_unlock_before_resume": "(W przeciwnym razie: Wallbox musi zostać wcześniej odblokowany w stanie „control.locked”)",
+    "main_settings": "Główne ustawienia",
     "password": "Hasło",
     "poll_time": "Czas odpytywania w sekundach (min. 30 sekund)",
-    "wallbox adapter settings": "Ustawienia adaptera do Wallbox"
+    "unlock_before_resume": "Odblokuj Wallbox automatycznie po uruchomieniu akcji „wznów”."
 }
