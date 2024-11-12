@@ -36,7 +36,7 @@ If you like the adapter and want to support me, you can do so here:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.2.0 (2024-11-12)
 - Added: Migration to jsonConfig in Adapter-settings
 - Added: New state "car_connected", which indicates, that a car is connected
 - Added: Resume, Pause check - less error messages (e.g. if Wallbox is in Pause Mode and should be set to pause, don't throw any error)
