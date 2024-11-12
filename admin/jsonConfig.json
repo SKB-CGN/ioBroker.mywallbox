@@ -1,0 +1,90 @@
+{
+   "type": "tabs",
+   "tabsStyle": {
+      "width": "calc(100% - 100px)"
+   },
+   "i18n": true,
+   "items": {
+      "_StandardTab": {
+         "type": "panel",
+         "label": {
+            "en": "Standard settings"
+         },
+         "items": {
+            "email": {
+               "type": "text",
+               "label": "E-Mail",
+               "min": 1000,
+               "step": 100,
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 6,
+               "xl": 6,
+               "newLine": true
+            },
+            "password": {
+               "type": "password",
+               "label": "password",
+               "min": 1000,
+               "step": 100,
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 6,
+               "xl": 6,
+               "newLine": true
+            },
+            "charger_id": {
+               "type": "text",
+               "label": "charger_serial",
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 6,
+               "xl": 6,
+               "newLine": true
+            },
+            "poll_time": {
+               "type": "number",
+               "label": "poll_time",
+               "min": 30,
+               "step": 1,
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 6,
+               "xl": 6,
+               "newLine": true
+            },
+            "_divider0": {
+               "newLine": true,
+               "type": "divider",
+               "color": "primary"
+            },
+            "_donate": {
+               "type": "staticImage",
+               "tooltip": "PayPal.Me",
+               "noTranslation": true,
+               "href": "https://www.paypal.com/donate/?hosted_button_id=XNR6XFB9UZ8UJ",
+               "src": "paypal-donate-button.png",
+               "xs": 6,
+               "sm": 6,
+               "md": 4,
+               "lg": 2,
+               "xl": 1,
+               "newLine": true
+            },
+            "_donateTx": {
+               "type": "staticText",
+               "text": "donate",
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 12,
+               "xl": 12
+            }
+         }
+      }
+   }
+}

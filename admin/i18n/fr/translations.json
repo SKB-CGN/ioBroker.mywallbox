@@ -1,5 +1,6 @@
 {
     "charger_serial": "Numéro de série de votre Wallbox",
+    "default_settings": "Paramètres standards",
     "donate": "Si vous aimez cet adaptateur, pensez à faire un don pour soutenir mon travail.",
     "ex_charger_serial": "A retrouver sur :",
     "password": "Mot de passe",

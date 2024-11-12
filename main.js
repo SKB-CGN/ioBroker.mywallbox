@@ -14,26 +14,6 @@ const axios = require('axios');
 // States
 const adapterStates = require('./lib/states.js');
 
-// Variables
-let password;
-let email;
-let poll_time;
-let charger_id;
-let charger_data;
-let conn_timeout;
-const adapterIntervals = {
-	readAllStates: undefined,
-	controlCharger: undefined,
-	changeChargerData: undefined
-};
-
-const BASEURL = 'https://api.wall-box.com/';
-const URL_AUTHENTICATION = 'auth/token/user';
-const URL_CHARGER = 'v2/charger/';
-const URL_CHARGER_CONTROL = 'v3/chargers/';
-const URL_CHARGER_ACTION = '/remote-action';
-const URL_STATUS = 'chargers/status/';
-
 class MyWallbox extends utils.Adapter {
 
 	/**
@@ -44,6 +24,21 @@ class MyWallbox extends utils.Adapter {
 			...options,
 			name: 'mywallbox',
 		});
+		// Min Poll 30 sec. - Max. 600 sec.
+		this.poll_time = Math.max(30, Math.min(600, this.config.poll_time || 30));
+		this.charger_data = null;
+		this.extended_charger_data = null;
+		this.adapterIntervals = {
+			readAllStates: undefined
+		};
+		this.BASEURL = 'https://api.wall-box.com/';
+		this.URL_AUTHENTICATION = 'auth/token/user';
+		this.URL_CHARGER = 'v2/charger/';
+		this.URL_CHARGER_CONTROL = 'v3/chargers/';
+		this.URL_CHARGER_ACTION = '/remote-action';
+		this.URL_STATUS = 'chargers/status/';
+
+
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
 		// this.on('objectChange', this.onObjectChange.bind(this));
@@ -56,45 +51,35 @@ class MyWallbox extends utils.Adapter {
  */
 	async onReady() {
 		// Initialize your adapter here
-		await this.delObjectAsync('*', { recursive: true });
 
 		// Reset the connection indicator during startup
 		this.setState('info.connection', false, true);
+		this.conn_timeout = (this.poll_time * 1000) - 5000;
 
-		// Load Config Variables
-		email = this.config.email;
-		poll_time = this.config.poll_time || 30;
-		// Min Poll 30 Sec.
-		poll_time = poll_time < 30 ? 30 : poll_time;
-		// Max Poll 600 Sec.
-		poll_time = poll_time > 600 ? 600 : poll_time;
-		charger_id = this.config.charger_id;
-		password = this.config.password;
-		conn_timeout = (poll_time * 1000) - 5000;
-
-		if (email == '' || this.config.password == '') {
+		if (this.config.email == '' || this.config.password == '') {
 			this.log.error('No Email and/or password set. Please review adapter config!');
 		} else {
 			// Log into Wallbox Account
 			this.log.info('Logging into My-Wallbox-API');
 
 			// Login and create the states after confirm
-			this.getWallboxToken().then(async (response) => {
-				await this.createStates(charger_id);
+			this.getWallboxToken().then(async () => {
+				await this.createStates(this.config.charger_id);
 
 				// Activate Polling Timer
-				adapterIntervals.readAllStates = this.setInterval(() => {
+				this.adapterIntervals.readAllStates = this.setInterval(() => {
 					this.requestPolling();
-				}, poll_time * 1000);
-				this.log.info(`Polling activated with an interval of ${poll_time} seconds! Timeout for connection to API is set to ${conn_timeout}ms!`);
+				}, this.poll_time * 1000);
+				this.log.info(`Polling activated with an interval of ${this.poll_time} seconds! Timeout for connection to API is set to ${this.conn_timeout}ms!`);
 
 				// Request Poll
 				await this.requestPolling();
+				await this.subscribeStatesAsync('*');
 			}).catch((error) => {
 				this.log.debug(`Error on first Poll. Error: ${JSON.stringify(error)}`);
 			});
 		}
-		await this.subscribeStatesAsync('*');
+
 	}
 
 	/**
@@ -104,9 +89,7 @@ class MyWallbox extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			this.setState('info.connection', false, true);
-			clearInterval(adapterIntervals.readAllStates);
-			clearTimeout(adapterIntervals.controlCharger);
-			clearTimeout(adapterIntervals.changeChargerData)
+			clearInterval(this.adapterIntervals.readAllStates);
 			this.log.info('Adapter My-Wallbox cleaned up everything...');
 			callback();
 		} catch (e) {
@@ -142,11 +125,9 @@ class MyWallbox extends utils.Adapter {
 						case 'locked':
 							if (state.val === 1 || state.val === 0) {
 								if (state.val === 1) {
-									this.log.info('Requesting to lock the Wallbox');
+									this.log.info(`Requesting to ${state.val === 1 ? 'lock' : 'unlock'} the Wallbox`);
 								}
-								if (state.val === 0) {
-									this.log.info('Requesting to unlock the Wallbox');
-								}
+
 								this.changeChargerData(token, JSON.stringify({ locked: state.val }))
 									.then(async (response) => {
 										this.log.info(response);
@@ -178,7 +159,11 @@ class MyWallbox extends utils.Adapter {
 										this.log.info(response);
 									})
 									.catch((error) => {
-										this.log.warn(`Error on controling the Wallbox: ${JSON.stringify(error.message)}`);
+										if (error.status === 403) {
+											this.log.info('Wallbox is already in Pause-Mode!');
+										} else {
+											this.log.warn(`Error on controling the Wallbox: ${JSON.stringify(error.message)}`);
+										}
 									});
 							}
 							break;
@@ -191,7 +176,11 @@ class MyWallbox extends utils.Adapter {
 										this.log.info(response);
 									})
 									.catch((error) => {
-										this.log.warn(`Error on controling the Wallbox: ${JSON.stringify(error.message)}`);
+										if (error.status === 403) {
+											this.log.info('Wallbox is already in Resume-Mode!');
+										} else {
+											this.log.warn(`Error on controling the Wallbox: ${JSON.stringify(error.message)}`);
+										}
 									});
 							}
 							break;
@@ -235,6 +224,10 @@ class MyWallbox extends utils.Adapter {
 							}
 							break;
 					}
+
+
+					// Request new poll
+					this.requestSinglePoll(token);
 				}).catch((error) => {
 					this.log.warn(`Error on Wallbox Control. Error: ${JSON.stringify(error.message)}`);
 				});
@@ -245,13 +238,13 @@ class MyWallbox extends utils.Adapter {
 
 	async getWallboxToken() {
 		return new Promise((resolve, reject) => {
-			this.log.silly("Email: " + email + " | Password: " + password);
+			this.log.silly("Email: " + this.config.email + " | Password: " + this.config.password);
 			axios({
-				url: BASEURL + URL_AUTHENTICATION,
-				timeout: conn_timeout,
+				url: this.BASEURL + this.URL_AUTHENTICATION,
+				timeout: this.conn_timeout,
 				method: 'POST',
 				headers: {
-					'Authorization': 'Basic ' + Buffer.from(email + ":" + password).toString('base64'),
+					'Authorization': 'Basic ' + Buffer.from(this.config.email + ":" + this.config.password).toString('base64'),
 					'Accept': 'application/json, text/plain, */*',
 					'Content-Type': 'application/json;charset=utf-8',
 				}
@@ -272,8 +265,8 @@ class MyWallbox extends utils.Adapter {
 	async getChargerData(token) {
 		return new Promise((resolve, reject) => {
 			axios({
-				url: BASEURL + URL_CHARGER + charger_id,
-				timeout: conn_timeout,
+				url: this.BASEURL + this.URL_CHARGER + this.config.charger_id,
+				timeout: this.conn_timeout,
 				method: 'PUT',
 				headers: {
 					'Authorization': 'Bearer ' + token,
@@ -282,7 +275,7 @@ class MyWallbox extends utils.Adapter {
 				}
 			})
 				.then((response) => {
-					charger_data = response.data.data.chargerData;
+					this.charger_data = response.data.data.chargerData;
 					this.log.debug(`New Data: ${JSON.stringify(response.data.data.chargerData)}`);
 					this.setNewStates(response.data.data.chargerData);
 					resolve('');
@@ -297,8 +290,8 @@ class MyWallbox extends utils.Adapter {
 	async getExtendedChargerData(token) {
 		return new Promise((resolve, reject) => {
 			axios({
-				url: BASEURL + URL_STATUS + charger_id,
-				timeout: conn_timeout,
+				url: this.BASEURL + this.URL_STATUS + this.config.charger_id,
+				timeout: this.conn_timeout,
 				method: 'GET',
 				headers: {
 					'Authorization': 'Bearer ' + token,
@@ -307,12 +300,13 @@ class MyWallbox extends utils.Adapter {
 				}
 			})
 				.then((response) => {
+					this.extended_charger_data = response.data;
 					this.log.debug(`Extended Data: ${JSON.stringify(response.data)}`);
 					this.setNewExtendedStates(response.data);
 					resolve('');
 				})
 				.catch((error) => {
-					this.log.warn(`Error while receiving new extended-Data from My-Wallbox-API. Error: ${JSON.stringify(error.message)}`);
+					this.log.warn(`Error while receiving new extended-Data from My-Wallbox-API. Error: ${JSON.stringify(error)}`);
 					reject(error);
 				});
 		});
@@ -321,8 +315,8 @@ class MyWallbox extends utils.Adapter {
 	async changeChargerData(token, data) {
 		return new Promise((resolve, reject) => {
 			axios({
-				url: BASEURL + URL_CHARGER + charger_id,
-				timeout: conn_timeout,
+				url: this.BASEURL + this.URL_CHARGER + this.config.charger_id,
+				timeout: this.conn_timeout,
 				method: 'PUT',
 				headers: {
 					'Authorization': 'Bearer ' + token,
@@ -345,8 +339,8 @@ class MyWallbox extends utils.Adapter {
 	async controlCharger(token, data) {
 		return new Promise((resolve, reject) => {
 			axios({
-				url: BASEURL + URL_CHARGER_CONTROL + charger_id + URL_CHARGER_ACTION,
-				timeout: conn_timeout,
+				url: this.BASEURL + this.URL_CHARGER_CONTROL + this.config.charger_id + this.URL_CHARGER_ACTION,
+				timeout: this.conn_timeout,
 				method: 'POST',
 				headers: {
 					'Authorization': 'Bearer ' + token,
@@ -374,6 +368,11 @@ class MyWallbox extends utils.Adapter {
 		});
 	}
 
+	async requestSinglePoll(token) {
+		await this.getChargerData(token);
+		await this.getExtendedChargerData(token);
+	}
+
 	async setApiConnected(status) {
 		this.setStateAsync('info.connection', status, true);
 	}
@@ -383,7 +382,7 @@ class MyWallbox extends utils.Adapter {
 		let folder = "";
 
 		// RAW Data
-		await this.setStateAsync(charger_id + '.info._rawData', {
+		await this.setStateAsync(this.config.charger_id + '.info._rawData', {
 			val: JSON.stringify(states),
 			ack: true
 		});
@@ -403,7 +402,7 @@ class MyWallbox extends utils.Adapter {
 					/* Additional states */
 					// lastConnection
 					if (key == 'lastConnection') {
-						await this.setStateChangedAsync(`${charger_id}.info.lastSyncDT`, {
+						await this.setStateAsync(`${this.config.charger_id}.info.lastSyncDT`, {
 							val: this.getDateTime(states.lastConnection * 1000),
 							ack: true
 						});
@@ -411,7 +410,7 @@ class MyWallbox extends utils.Adapter {
 
 					// Car Connected
 					if (key == 'status') {
-						await this.setStateChangedAsync(`${charger_id}.info.car_connected`, {
+						await this.setStateAsync(`${this.config.charger_id}.info.car_connected`, {
 							val: ![161, 163, 166].includes(states.status) ? true : false,
 							ack: true
 						});
@@ -431,7 +430,7 @@ class MyWallbox extends utils.Adapter {
 
 					/* Additional states */
 					if (key == 'maxChargingCurrent') {
-						await this.setStateChangedAsync(`${charger_id}.control.maxChargingCurrent`, {
+						await this.setStateAsync(`${this.config.charger_id}.control.maxChargingCurrent`, {
 							val: states.maxChargingCurrent,
 							ack: true
 						});
@@ -460,7 +459,7 @@ class MyWallbox extends utils.Adapter {
 				case 'resume':
 					folder = "";
 					for (const _key of Object.keys(states['resume'])) {
-						await this.setStateChangedAsync(`${charger_id}.chargingData.monthly.${_key}`, {
+						await this.setStateAsync(`${this.config.charger_id}.chargingData.monthly.${_key}`, {
 							val: isNaN(states['resume'][_key]) ? states['resume'][_key] : parseInt(states['resume'][_key]),
 							ack: true
 						});
@@ -479,8 +478,8 @@ class MyWallbox extends utils.Adapter {
 
 			// Set the proper state
 			if (folder != "") {
-				this.log.debug(`Setting: ${charger_id}.${folder}.${key} with ${states[key]}`);
-				await this.setStateAsync(`${charger_id}.${folder}.${key}`, {
+				this.log.debug(`Setting: ${this.config.charger_id}.${folder}.${key} with ${states[key]}`);
+				await this.setStateAsync(`${this.config.charger_id}.${folder}.${key}`, {
 					val: states[key],
 					ack: true
 				});
@@ -494,7 +493,7 @@ class MyWallbox extends utils.Adapter {
 		let state = "";
 
 		// RAW Data
-		await this.setStateChangedAsync(`${charger_id}.info._rawDataExtended`, {
+		await this.setStateAsync(`${this.config.charger_id}.info._rawDataExtended`, {
 			val: JSON.stringify(states),
 			ack: true
 		});
@@ -530,8 +529,8 @@ class MyWallbox extends utils.Adapter {
 
 			// Set the proper state
 			if (folder != "" && state != "") {
-				this.log.debug(`Setting: ${charger_id}.${folder}.${key} with ${states[key]}`);
-				await this.setStateAsync(`${charger_id}.${folder}.${key}`, {
+				this.log.debug(`Setting: ${this.config.charger_id}.${folder}.${key} with ${states[key]}`);
+				await this.setStateAsync(`${this.config.charger_id}.${folder}.${key}`, {
 					val: state,
 					ack: true
 				});
@@ -540,36 +539,36 @@ class MyWallbox extends utils.Adapter {
 		}
 
 		// Sometimes chargerData is not delivered - prevent crash with checking of existence
-		if (charger_data !== undefined) {
-			if (charger_data.hasOwnProperty('resume')) {
-				await this.setStateAsync(charger_id + '.chargingData.monthly.cost', {
-					val: parseFloat(((charger_data.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
+		if (this.charger_data !== undefined) {
+			if (this.charger_data.hasOwnProperty('resume')) {
+				await this.setStateAsync(this.config.charger_id + '.chargingData.monthly.cost', {
+					val: parseFloat(((this.charger_data.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
 					ack: true
 				});
 			}
 		}
 
-		await this.setStateAsync(charger_id + '.info.software.currentVersion', {
+		await this.setStateAsync(this.config.charger_id + '.info.software.currentVersion', {
 			val: states.config_data.software.currentVersion,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.info.software.latestVersion', {
+		await this.setStateAsync(this.config.charger_id + '.info.software.latestVersion', {
 			val: states.config_data.software.latestVersion,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.info.software.updateAvailable', {
+		await this.setStateAsync(this.config.charger_id + '.info.software.updateAvailable', {
 			val: states.config_data.software.updateAvailable,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.info.lock.auto_lock', {
+		await this.setStateAsync(this.config.charger_id + '.info.lock.auto_lock', {
 			val: states.config_data.auto_lock,
 			ack: true
 		});
 
-		await this.setStateAsync(charger_id + '.info.lock.auto_lock_time', {
+		await this.setStateAsync(this.config.charger_id + '.info.lock.auto_lock_time', {
 			val: states.config_data.auto_lock_time,
 			ack: true
 		});
