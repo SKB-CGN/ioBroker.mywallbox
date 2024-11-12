@@ -2,6 +2,7 @@
     "charger_serial": "Número de serie de su Wallbox",
     "default_settings": "Configuraciones estándar",
     "donate": "Si le gusta este adaptador, considere hacer una donación para apoyar mi trabajo.",
+    "email": "Correo electrónico",
     "ex_charger_serial": "Se puede encontrar en:",
     "password": "Clave",
     "poll_time": "Tiempo de sondeo en segundos (mín. 30 segundos)",

@@ -7,15 +7,11 @@
    "items": {
       "_StandardTab": {
          "type": "panel",
-         "label": {
-            "en": "Standard settings"
-         },
+         "label": "default_settings",
          "items": {
             "email": {
                "type": "text",
-               "label": "E-Mail",
-               "min": 1000,
-               "step": 100,
+               "label": "email",
                "xs": 12,
                "sm": 12,
                "md": 12,
@@ -26,8 +22,6 @@
             "password": {
                "type": "password",
                "label": "password",
-               "min": 1000,
-               "step": 100,
                "xs": 12,
                "sm": 12,
                "md": 12,
