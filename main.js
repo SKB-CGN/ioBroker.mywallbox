@@ -31,8 +31,9 @@ class MyWallbox extends utils.Adapter {
 		this.conn_timeout = 25000;
 		this.charger_id = undefined;
 		this.extended_charger_data = null;
-		this.adapterIntervals = {
-			readAllStates: undefined
+		this.adapterTimer = {
+			readAllStates: undefined,
+			singlePoll: undefined
 		};
 
 		this.on('ready', this.onReady.bind(this));
@@ -73,7 +74,7 @@ class MyWallbox extends utils.Adapter {
 				await this.createStates(this.charger_id);
 
 				// Activate Polling Timer
-				this.adapterIntervals.readAllStates = this.setInterval(() => {
+				this.adapterTimer.readAllStates = this.setInterval(() => {
 					this.requestPolling();
 				}, this.poll_time * 1000);
 				this.log.info('Login successfully!');
@@ -96,7 +97,8 @@ class MyWallbox extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			this.setState('info.connection', false, true);
-			clearInterval(this.adapterIntervals.readAllStates);
+			this.clearInterval(this.adapterTimer.readAllStates);
+			this.clearTimeout(this.adapterTimer.singlePoll);
 			this.log.info('Adapter My-Wallbox cleaned up everything...');
 			callback();
 		} catch (e) {
@@ -248,9 +250,9 @@ class MyWallbox extends utils.Adapter {
 
 
 					// Request new poll
-					this.setTimeout(() => {
+					this.adapterTimer.singlePoll = this.setTimeout(() => {
 						this.requestSinglePoll(token);
-					}, 5000);
+					}, 5 * 1000);
 				}).catch((error) => {
 					this.log.warn(`Error on Wallbox Control. Error: ${JSON.stringify(error.message)}`);
 				});
