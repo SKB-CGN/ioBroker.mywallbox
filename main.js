@@ -399,7 +399,7 @@ class MyWallbox extends utils.Adapter {
 	}
 
 	async setApiConnected(status) {
-		this.setStateAsync('info.connection', status, true);
+		this.setStateChangedAsync('info.connection', status, true);
 	}
 
 	async setNewStates(states) {
@@ -407,7 +407,7 @@ class MyWallbox extends utils.Adapter {
 		let folder = "";
 
 		// RAW Data
-		await this.setStateAsync(this.charger_id + '.info._rawData', {
+		await this.setStateChangedAsync(this.charger_id + '.info._rawData', {
 			val: JSON.stringify(states),
 			ack: true
 		});
@@ -427,7 +427,7 @@ class MyWallbox extends utils.Adapter {
 					/* Additional states */
 					// lastConnection
 					if (key == 'lastConnection') {
-						await this.setStateAsync(`${this.charger_id}.info.lastSyncDT`, {
+						await this.setStateChangedAsync(`${this.charger_id}.info.lastSyncDT`, {
 							val: this.getDateTime(states.lastConnection * 1000),
 							ack: true
 						});
@@ -436,7 +436,7 @@ class MyWallbox extends utils.Adapter {
 					// Car Connected
 					if (key == 'status') {
 
-						await this.setStateAsync(`${this.charger_id}.info.car_connected`, {
+						await this.setStateChangedAsync(`${this.charger_id}.info.car_connected`, {
 							/*
 							"14": "Error",
 							"15": "Error",
@@ -465,7 +465,7 @@ class MyWallbox extends utils.Adapter {
 
 					/* Additional states */
 					if (key == 'maxChargingCurrent') {
-						await this.setStateAsync(`${this.charger_id}.control.maxChargingCurrent`, {
+						await this.setStateChangedAsync(`${this.charger_id}.control.maxChargingCurrent`, {
 							val: states.maxChargingCurrent,
 							ack: true
 						});
@@ -494,7 +494,7 @@ class MyWallbox extends utils.Adapter {
 				case 'resume':
 					folder = "";
 					for (const _key of Object.keys(states['resume'])) {
-						await this.setStateAsync(`${this.charger_id}.chargingData.monthly.${_key}`, {
+						await this.setStateChangedAsync(`${this.charger_id}.chargingData.monthly.${_key}`, {
 							val: isNaN(states['resume'][_key]) ? states['resume'][_key] : parseInt(states['resume'][_key]),
 							ack: true
 						});
@@ -514,7 +514,7 @@ class MyWallbox extends utils.Adapter {
 			// Set the proper state
 			if (folder != "") {
 				this.log.debug(`Setting: ${this.charger_id}.${folder}.${key} with ${states[key]}`);
-				await this.setStateAsync(`${this.charger_id}.${folder}.${key}`, {
+				await this.setStateChangedAsync(`${this.charger_id}.${folder}.${key}`, {
 					val: states[key],
 					ack: true
 				});
@@ -528,7 +528,7 @@ class MyWallbox extends utils.Adapter {
 		let state = "";
 
 		// RAW Data
-		await this.setStateAsync(`${this.charger_id}.info._rawDataExtended`, {
+		await this.setStateChangedAsync(`${this.charger_id}.info._rawDataExtended`, {
 			val: JSON.stringify(states),
 			ack: true
 		});
@@ -565,7 +565,7 @@ class MyWallbox extends utils.Adapter {
 			// Set the proper state
 			if (folder != "" && state != "") {
 				this.log.debug(`Setting: ${this.charger_id}.${folder}.${key} with ${states[key]}`);
-				await this.setStateAsync(`${this.charger_id}.${folder}.${key}`, {
+				await this.setStateChangedAsync(`${this.charger_id}.${folder}.${key}`, {
 					val: state,
 					ack: true
 				});
@@ -576,34 +576,34 @@ class MyWallbox extends utils.Adapter {
 		// Sometimes chargerData is not delivered - prevent crash with checking of existence
 		if (this.charger_data !== undefined) {
 			if (this.charger_data.hasOwnProperty('resume')) {
-				await this.setStateAsync(this.charger_id + '.chargingData.monthly.cost', {
+				await this.setStateChangedAsync(this.charger_id + '.chargingData.monthly.cost', {
 					val: parseFloat(((this.charger_data.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
 					ack: true
 				});
 			}
 		}
 
-		await this.setStateAsync(this.charger_id + '.info.software.currentVersion', {
+		await this.setStateChangedAsync(this.charger_id + '.info.software.currentVersion', {
 			val: states.config_data.software.currentVersion,
 			ack: true
 		});
 
-		await this.setStateAsync(this.charger_id + '.info.software.latestVersion', {
+		await this.setStateChangedAsync(this.charger_id + '.info.software.latestVersion', {
 			val: states.config_data.software.latestVersion,
 			ack: true
 		});
 
-		await this.setStateAsync(this.charger_id + '.info.software.updateAvailable', {
+		await this.setStateChangedAsync(this.charger_id + '.info.software.updateAvailable', {
 			val: states.config_data.software.updateAvailable,
 			ack: true
 		});
 
-		await this.setStateAsync(this.charger_id + '.info.lock.auto_lock', {
+		await this.setStateChangedAsync(this.charger_id + '.info.lock.auto_lock', {
 			val: states.config_data.auto_lock,
 			ack: true
 		});
 
-		await this.setStateAsync(this.charger_id + '.info.lock.auto_lock_time', {
+		await this.setStateChangedAsync(this.charger_id + '.info.lock.auto_lock_time', {
 			val: states.config_data.auto_lock_time,
 			ack: true
 		});

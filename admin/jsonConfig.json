@@ -29,16 +29,6 @@
                "xl": 6,
                "newLine": true
             },
-            "charger_id": {
-               "type": "text",
-               "label": "charger_id",
-               "xs": 12,
-               "sm": 12,
-               "md": 12,
-               "lg": 6,
-               "xl": 6,
-               "newLine": true
-            },
             "ex_charger_id": {
                "type": "staticText",
                "text": "ex_charger_id",
@@ -60,6 +50,16 @@
                "xl": 12,
                "newLine": false
             },
+            "charger_id": {
+               "type": "text",
+               "label": "charger_id",
+               "xs": 12,
+               "sm": 12,
+               "md": 12,
+               "lg": 6,
+               "xl": 6,
+               "newLine": true
+            },
             "poll_time": {
                "type": "number",
                "label": "poll_time",
@@ -75,21 +75,14 @@
             "unlock_before_resume": {
                "type": "checkbox",
                "label": "unlock_before_resume",
-               "xs": 12,
-               "sm": 12,
-               "md": 12,
-               "lg": 6,
-               "xl": 6
-            },
-            "ex_unlock_before_resume": {
-               "type": "staticText",
-               "text": "ex_unlock_before_resume",
+               "help": "ex_unlock_before_resume",
                "xs": 12,
                "sm": 12,
                "md": 12,
                "lg": 12,
                "xl": 12,
-               "newLine": false
+               "newLine": true,
+               "default": false
             },
             "_divider0": {
                "newLine": true,
