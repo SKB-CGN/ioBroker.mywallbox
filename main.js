@@ -50,10 +50,11 @@ class MyWallbox extends utils.Adapter {
 		// Initialize your adapter here
 
 		// Reset the connection indicator during startup
-		this.setState('info.connection', false, true);
+		this.setStateChangedAsync('info.connection', false, true);
 
 		if (this.config.email == '' || this.config.password == '') {
 			this.log.error('No Email and/or password set. Please review adapter config!');
+			await this.stop?.({ exitCode: 11, reason: 'invalid config' });
 		} else {
 			// Min Poll 30 sec. - Max. 600 sec.
 			this.poll_time = Math.max(30, Math.min(600, this.config.poll_time || 30));
@@ -96,7 +97,7 @@ class MyWallbox extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
-			this.setState('info.connection', false, true);
+			this.setStateChangedAsync('info.connection', false, true);
 			this.clearInterval(this.adapterTimer.readAllStates);
 			this.clearTimeout(this.adapterTimer.singlePoll);
 			this.log.info('Adapter My-Wallbox cleaned up everything...');
@@ -407,7 +408,7 @@ class MyWallbox extends utils.Adapter {
 		let folder = "";
 
 		// RAW Data
-		await this.setStateChangedAsync(this.charger_id + '.info._rawData', {
+		await this.setStateAsync(this.charger_id + '.info._rawData', {
 			val: JSON.stringify(states),
 			ack: true
 		});
@@ -427,7 +428,7 @@ class MyWallbox extends utils.Adapter {
 					/* Additional states */
 					// lastConnection
 					if (key == 'lastConnection') {
-						await this.setStateChangedAsync(`${this.charger_id}.info.lastSyncDT`, {
+						await this.setStateAsync(`${this.charger_id}.info.lastSyncDT`, {
 							val: this.getDateTime(states.lastConnection * 1000),
 							ack: true
 						});
@@ -435,7 +436,6 @@ class MyWallbox extends utils.Adapter {
 
 					// Car Connected
 					if (key == 'status') {
-
 						await this.setStateChangedAsync(`${this.charger_id}.info.car_connected`, {
 							/*
 							"14": "Error",
@@ -465,7 +465,7 @@ class MyWallbox extends utils.Adapter {
 
 					/* Additional states */
 					if (key == 'maxChargingCurrent') {
-						await this.setStateChangedAsync(`${this.charger_id}.control.maxChargingCurrent`, {
+						await this.setStateAsync(`${this.charger_id}.control.maxChargingCurrent`, {
 							val: states.maxChargingCurrent,
 							ack: true
 						});
@@ -494,7 +494,7 @@ class MyWallbox extends utils.Adapter {
 				case 'resume':
 					folder = "";
 					for (const _key of Object.keys(states['resume'])) {
-						await this.setStateChangedAsync(`${this.charger_id}.chargingData.monthly.${_key}`, {
+						await this.setStateAsync(`${this.charger_id}.chargingData.monthly.${_key}`, {
 							val: isNaN(states['resume'][_key]) ? states['resume'][_key] : parseInt(states['resume'][_key]),
 							ack: true
 						});
@@ -514,7 +514,7 @@ class MyWallbox extends utils.Adapter {
 			// Set the proper state
 			if (folder != "") {
 				this.log.debug(`Setting: ${this.charger_id}.${folder}.${key} with ${states[key]}`);
-				await this.setStateChangedAsync(`${this.charger_id}.${folder}.${key}`, {
+				await this.setStateAsync(`${this.charger_id}.${folder}.${key}`, {
 					val: states[key],
 					ack: true
 				});
@@ -523,17 +523,19 @@ class MyWallbox extends utils.Adapter {
 	}
 
 	async setNewExtendedStates(states) {
-		// Folder where to add
-		let folder = "";
-		let state = "";
+
 
 		// RAW Data
-		await this.setStateChangedAsync(`${this.charger_id}.info._rawDataExtended`, {
+		await this.setStateAsync(`${this.charger_id}.info._rawDataExtended`, {
 			val: JSON.stringify(states),
 			ack: true
 		});
 
 		for (const key of Object.keys(states)) {
+			// Folder where to add
+			let folder;
+			let state;
+
 			switch (key) {
 				// Charging Details
 				case 'charging_speed':
@@ -551,21 +553,15 @@ class MyWallbox extends utils.Adapter {
 					state = key == 'added_energy' ? states.added_energy * 1000 : states[key];
 					break;
 
-				// Info Details
-				case 'config_data':
-					folder = "";
-					state = "";
-					break;
-
 				default:
 					folder = "";
 					break;
 			}
 
 			// Set the proper state
-			if (folder != "" && state != "") {
+			if (folder) {
 				this.log.debug(`Setting: ${this.charger_id}.${folder}.${key} with ${states[key]}`);
-				await this.setStateChangedAsync(`${this.charger_id}.${folder}.${key}`, {
+				this.setStateAsync(`${this.charger_id}.${folder}.${key}`, {
 					val: state,
 					ack: true
 				});
@@ -576,34 +572,34 @@ class MyWallbox extends utils.Adapter {
 		// Sometimes chargerData is not delivered - prevent crash with checking of existence
 		if (this.charger_data !== undefined) {
 			if (this.charger_data.hasOwnProperty('resume')) {
-				await this.setStateChangedAsync(this.charger_id + '.chargingData.monthly.cost', {
+				await this.setStateAsync(this.charger_id + '.chargingData.monthly.cost', {
 					val: parseFloat(((this.charger_data.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
 					ack: true
 				});
 			}
 		}
 
-		await this.setStateChangedAsync(this.charger_id + '.info.software.currentVersion', {
+		await this.setStateAsync(this.charger_id + '.info.software.currentVersion', {
 			val: states.config_data.software.currentVersion,
 			ack: true
 		});
 
-		await this.setStateChangedAsync(this.charger_id + '.info.software.latestVersion', {
+		await this.setStateAsync(this.charger_id + '.info.software.latestVersion', {
 			val: states.config_data.software.latestVersion,
 			ack: true
 		});
 
-		await this.setStateChangedAsync(this.charger_id + '.info.software.updateAvailable', {
+		await this.setStateAsync(this.charger_id + '.info.software.updateAvailable', {
 			val: states.config_data.software.updateAvailable,
 			ack: true
 		});
 
-		await this.setStateChangedAsync(this.charger_id + '.info.lock.auto_lock', {
+		await this.setStateAsync(this.charger_id + '.info.lock.auto_lock', {
 			val: states.config_data.auto_lock,
 			ack: true
 		});
 
-		await this.setStateChangedAsync(this.charger_id + '.info.lock.auto_lock_time', {
+		await this.setStateAsync(this.charger_id + '.info.lock.auto_lock_time', {
 			val: states.config_data.auto_lock_time,
 			ack: true
 		});
