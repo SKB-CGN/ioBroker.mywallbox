@@ -54,7 +54,7 @@ class MyWallbox extends utils.Adapter {
 
 		if (this.config.email == '' || this.config.password == '') {
 			this.log.error('No Email and/or password set. Please review adapter config!');
-			await this.stop?.({ exitCode: 11, reason: 'invalid config' });
+			return
 		} else {
 			// Min Poll 30 sec. - Max. 600 sec.
 			this.poll_time = Math.max(30, Math.min(600, this.config.poll_time || 30));
