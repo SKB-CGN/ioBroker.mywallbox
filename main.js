@@ -133,12 +133,10 @@ class MyWallbox extends utils.Adapter {
 							break;
 
 						case 'locked':
-							if (state.val === 1 || state.val === 0) {
-								if (state.val === 1) {
-									this.log.info(`Requesting to ${state.val === 1 ? 'lock' : 'unlock'} the Wallbox`);
-								}
+							if (state.val === true || state.val === false) {
+								this.log.info(`Requesting to ${state.val === true ? 'lock' : 'unlock'} the Wallbox`);
 
-								this.changeChargerData(token, JSON.stringify({ locked: state.val }))
+								this.changeChargerData(token, JSON.stringify({ locked: state.val === true ? 1 : 0 }))
 									.then(async (response) => {
 										this.log.info(response);
 									})
@@ -332,7 +330,7 @@ class MyWallbox extends utils.Adapter {
 					resolve('');
 				})
 				.catch((error) => {
-					this.log.warn(`Error while receiving new extended-Data from My-Wallbox-API. Error: ${JSON.stringify(error)}`);
+					this.log.warn(`Error while receiving new extended-Data from My-Wallbox-API. Error: ${JSON.stringify(error.message)}`);
 					reject(error);
 				});
 		});
@@ -404,9 +402,6 @@ class MyWallbox extends utils.Adapter {
 	}
 
 	async setNewStates(states) {
-		// Folder where to add
-		let folder = "";
-
 		// RAW Data
 		await this.setStateAsync(this.charger_id + '.info._rawData', {
 			val: JSON.stringify(states),
@@ -415,6 +410,9 @@ class MyWallbox extends utils.Adapter {
 
 		// Info States
 		for (const key of Object.keys(states)) {
+			// Folder where to add
+			let folder;
+
 			switch (key) {
 				// Info States
 				case 'serialNumber':
@@ -503,7 +501,11 @@ class MyWallbox extends utils.Adapter {
 
 				// Locked Details
 				case 'locked':
-					folder = "control";
+					folder = "";
+					await this.setStateAsync(`${this.charger_id}.control.locked`, {
+						val: states[key] === 1 ? true : false,
+						ack: true
+					});
 					break;
 
 				default:
@@ -523,7 +525,6 @@ class MyWallbox extends utils.Adapter {
 	}
 
 	async setNewExtendedStates(states) {
-
 
 		// RAW Data
 		await this.setStateAsync(`${this.charger_id}.info._rawDataExtended`, {
@@ -606,6 +607,32 @@ class MyWallbox extends utils.Adapter {
 	}
 
 	async createStates(charger) {
+		// Wallbox itself
+		await this.setObjectNotExistsAsync(charger, {
+			type: 'device',
+			common: {
+				name: 'Wallbox',
+				read: true,
+				color: null,
+				statusStates: {
+					onlineId: `${this.namespace}.info.connection`
+				},
+				desc: `Your connected Wallbox: ${charger}`
+			},
+			native: {},
+		});
+
+		// Folder
+		for (const key of Object.keys(adapterStates.folder)) {
+			this.log.debug(`Creating Folder '${key}' and common: ${JSON.stringify(adapterStates.folder[key].common)}`);
+			await this.setObjectNotExistsAsync(`${charger}.${key}`, {
+				_id: `${charger}.${adapterStates.folder[key]._id}`,
+				type: 'folder',
+				common: adapterStates.folder[key].common,
+				native: {},
+			});
+		}
+
 		// Info States
 		for (const key of Object.keys(adapterStates.states)) {
 			for (const _key of Object.keys(adapterStates.states[key])) {
