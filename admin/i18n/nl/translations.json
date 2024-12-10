@@ -7,5 +7,5 @@
     "main_settings": "Hoofdinstellingen",
     "password": "Wachtwoord",
     "poll_time": "Poll-tijd in seconden (min. 30 seconden)",
-    "unlock_before_resume": "Ontgrendel de Wallbox automatisch wanneer de 'hervatten'-actie wordt geactiveerd"
+    "unlock_before_resume": "Ontgrendel de Wallbox automatisch wanneer de actie 'hervatten' wordt geactiveerd"
 }

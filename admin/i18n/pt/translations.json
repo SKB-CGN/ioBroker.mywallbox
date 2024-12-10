@@ -7,5 +7,5 @@
     "main_settings": "Configurações principais",
     "password": "Senha",
     "poll_time": "Tempo de pesquisa em segundos (min. 30 segundos)",
-    "unlock_before_resume": "Desbloqueie a Wallbox automaticamente quando a ação 'reiniciar' for acionada"
+    "unlock_before_resume": "Desbloqueie a Wallbox automaticamente quando a ação 'retomar' for acionada"
 }
