@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mywallbox",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "news": {
+      "1.2.1": {
+        "en": "Added: EsLint 9.x for better code optimization (#135)",
+        "de": "Hinzugefügt: EsLint 9.x zur besseren Codeoptimierung (#135)",
+        "ru": "Добавлено: EsLint 9.x для лучшей оптимизации кода (#135)",
+        "pt": "Adicionado: EsLint 9.x para melhor otimização de código (#135)",
+        "nl": "Toegevoegd: EsLint 9.x voor betere code optimalisatie (#135)",
+        "fr": "Ajouté : EsLint 9.x pour une meilleure optimisation du code (#135)",
+        "it": "Aggiunto: EsLint 9.x per una migliore ottimizzazione del codice (#135)",
+        "es": "Añadido: EsLint 9.x para una mejor optimización de código (#135)",
+        "pl": "Dodano: EsLint 9.x dla lepszej optymalizacji kodu (# 135)",
+        "uk": "Додано: EsLint 9.x для кращої оптимізації коду (#135)",
+        "zh-cn": "添加: EsLint 9.x 用于更好的代码优化(# 135)"
+      },
       "1.2.0": {
         "en": "Added: Migration to jsonConfig in Adapter-settings\nAdded: New state \"car_connected\", which indicates, that a car is connected\nAdded: Resume, Pause check - less error messages (e.g. if Wallbox is in Pause Mode and should be set to pause, don't throw any error)\nAdded: Option, to unlock the wallbox first if it should enter the resume mode (Default: wallbox will not resume, if locked)\nAdded: Some minor improvements, updates dependencies and smal cosmetics",
         "de": "Hinzugefügt: Migration auf jsonConfig in Adaptereinstellungen\nHinzugefügt: Neuer Zustand \"car_connected\", was anzeigt, dass ein Auto angeschlossen ist\nHinzugefügt: Resume, Pause Check - weniger Fehlermeldungen (z.B. wenn Wallbox im Pause Modus ist und in Pause gesetzt werden sollte, werfen Sie keinen Fehler)\nHinzugefügt: Option, um die Wallbox zuerst zu entsperren, wenn es den Lebenslaufmodus eingeben sollte (Standard: Wallbox wird nicht wieder aufgenommen, wenn gesperrt)\nHinzugefügt: Einige kleinere Verbesserungen, Updates Abhängigkeiten und smalkosmetik",
