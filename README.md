@@ -36,7 +36,7 @@ If you like the adapter and want to support me, you can do so here:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 1.2.1 (2024-12-10)
+### **WORK IN PROGRESS**
 - Added: EsLint 9.x for better code optimization (#135)
 
 ### 1.2.0 (2024-11-12)
