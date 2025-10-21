@@ -50,52 +50,53 @@ class MyWallbox extends utils.Adapter {
 
         if (this.config.email == '' || this.config.password == '') {
             this.log.error('No Email and/or password set. Please review adapter config!');
-            return;
+        } else {
+            // Min Poll 30 sec. - Max. 600 sec.
+            this.poll_time = Math.max(30, Math.min(600, this.config.poll_time || 30));
+            this.conn_timeout = this.poll_time * 1000 - 5000;
+            this.unlock_resume = this.config.unlock_before_resume || false;
+            this.charger_id = this.config.charger_id;
+            this.BASEURL = 'https://api.wall-box.com/';
+            this.URL_AUTHENTICATION = `${this.BASEURL}auth/token/user`;
+            this.URL_CHARGER = `${this.BASEURL}v2/charger/${this.charger_id}`;
+            this.URL_CHARGER_CONTROL = `${this.BASEURL}v3/chargers/${this.charger_id}/remote-action`;
+            this.URL_STATUS = `${this.BASEURL}chargers/status/${this.charger_id}`;
+
+            // Log into Wallbox Account
+            this.log.info('Logging into My-Wallbox-API!');
+
+            // Login and create the states after confirm
+            this.getWallboxToken()
+                .then(async () => {
+                    await this.createStates(this.charger_id);
+
+                    // Activate Polling Timer
+                    this.adapterTimer.readAllStates = this.setInterval(() => {
+                        this.requestPolling();
+                    }, this.poll_time * 1000);
+                    this.log.info('Login successfully!');
+                    this.log.info(
+                        `Polling activated with an interval of ${
+                            this.poll_time
+                        } seconds! Timeout for connection to API is set to ${this.conn_timeout / 1000} seconds!`,
+                    );
+
+                    // Request Poll
+                    await this.requestPolling();
+                    await this.subscribeStatesAsync('*');
+                })
+                .catch(error => {
+                    this.log.debug(`Error on first Poll. Error: ${JSON.stringify(error)}`);
+                });
         }
-        // Min Poll 30 sec. - Max. 600 sec.
-        this.poll_time = Math.max(30, Math.min(600, this.config.poll_time || 30));
-        this.conn_timeout = this.poll_time * 1000 - 5000;
-        this.unlock_resume = this.config.unlock_before_resume || false;
-        this.charger_id = this.config.charger_id;
-        this.BASEURL = 'https://api.wall-box.com/';
-        this.URL_AUTHENTICATION = `${this.BASEURL}auth/token/user`;
-        this.URL_CHARGER = `${this.BASEURL}v2/charger/${this.charger_id}`;
-        this.URL_CHARGER_CONTROL = `${this.BASEURL}v3/chargers/${this.charger_id}/remote-action`;
-        this.URL_STATUS = `${this.BASEURL}chargers/status/${this.charger_id}`;
-
-        // Log into Wallbox Account
-        this.log.info('Logging into My-Wallbox-API!');
-
-        // Login and create the states after confirm
-        this.getWallboxToken()
-            .then(async () => {
-                await this.createStates(this.charger_id);
-
-                // Activate Polling Timer
-                this.adapterTimer.readAllStates = this.setInterval(() => {
-                    this.requestPolling();
-                }, this.poll_time * 1000);
-                this.log.info('Login successfully!');
-                this.log.info(
-                    `Polling activated with an interval of ${
-                        this.poll_time
-                    } seconds! Timeout for connection to API is set to ${this.conn_timeout / 1000} seconds!`,
-                );
-
-                // Request Poll
-                await this.requestPolling();
-                await this.subscribeStatesAsync('*');
-            })
-            .catch(error => {
-                this.log.debug(`Error on first Poll. Error: ${JSON.stringify(error)}`);
-            });
     }
 
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
      *
-     * @param callback	Callback function
+     * @param {() => void} callback
      */
+
     onUnload(callback) {
         try {
             this.setStateChangedAsync('info.connection', false, true);
@@ -140,15 +141,14 @@ class MyWallbox extends utils.Adapter {
                                 break;
 
                             case 'locked':
-                                if (state.val === true || state.val === false) {
-                                    this.log.info(
-                                        `Requesting to ${state.val === true ? 'lock' : 'unlock'} the Wallbox`,
-                                    );
+                                if (state.val === 1 || state.val === 0) {
+                                    if (state.val === 1) {
+                                        this.log.info(
+                                            `Requesting to ${state.val === 1 ? 'lock' : 'unlock'} the Wallbox`,
+                                        );
+                                    }
 
-                                    this.changeChargerData(
-                                        token,
-                                        JSON.stringify({ locked: state.val === true ? 1 : 0 }),
-                                    )
+                                    this.changeChargerData(token, JSON.stringify({ locked: state.val }))
                                         .then(async response => {
                                             this.log.info(response);
                                         })
@@ -165,7 +165,7 @@ class MyWallbox extends utils.Adapter {
                                 break;
 
                             case 'maxChargingCurrent':
-                                this.log.info(`Requesting to change the Charge current for Wallbox to ${state.val} A`);
+                                this.log.info(`Requesting to change the Charge current for Wallbox to ${state.val}A`);
                                 this.changeChargerData(token, JSON.stringify({ maxChargingCurrent: state.val }))
                                     .then(async response => {
                                         this.log.info(response);
@@ -290,7 +290,7 @@ class MyWallbox extends utils.Adapter {
 
     async getWallboxToken() {
         return new Promise((resolve, reject) => {
-            this.log.silly(`Email: ${this.config.email} | Password: ${this.config.password}`);
+            this.log.silly(`Email:${this.config.email} | Password: ${this.config.password}`);
             axios({
                 url: this.URL_AUTHENTICATION,
                 timeout: this.conn_timeout,
@@ -365,9 +365,7 @@ class MyWallbox extends utils.Adapter {
                 })
                 .catch(error => {
                     this.log.warn(
-                        `Error while receiving new extended-Data from My-Wallbox-API. Error: ${JSON.stringify(
-                            error.message,
-                        )}`,
+                        `Error while receiving new extended-Data from My-Wallbox-API. Error: ${JSON.stringify(error)}`,
                     );
                     reject(error);
                 });
@@ -442,6 +440,9 @@ class MyWallbox extends utils.Adapter {
     }
 
     async setNewStates(states) {
+        // Folder where to add
+        let folder = '';
+
         // RAW Data
         await this.setStateAsync(`${this.charger_id}.info._rawData`, {
             val: JSON.stringify(states),
@@ -450,9 +451,6 @@ class MyWallbox extends utils.Adapter {
 
         // Info States
         for (const key of Object.keys(states)) {
-            // Folder where to add
-            let folder;
-
             switch (key) {
                 // Info States
                 case 'serialNumber':
@@ -545,7 +543,7 @@ class MyWallbox extends utils.Adapter {
                 case 'locked':
                     folder = '';
                     await this.setStateAsync(`${this.charger_id}.control.locked`, {
-                        val: states[key] === 1 ? true : false,
+                        val: states.locked === 1 ? true : false,
                         ack: true,
                     });
                     break;
@@ -612,7 +610,7 @@ class MyWallbox extends utils.Adapter {
 
         // Sometimes chargerData is not delivered - prevent crash with checking of existence
         if (this.charger_data !== undefined) {
-            if (Object.prototype.hasOwnProperty.call(this.charger_data.hasOwnProperty, 'resume')) {
+            if (Object.hasOwn(this.charger_data, 'resume')) {
                 await this.setStateAsync(`${this.charger_id}.chargingData.monthly.cost`, {
                     val: parseFloat(((this.charger_data.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
                     ack: true,
@@ -647,32 +645,6 @@ class MyWallbox extends utils.Adapter {
     }
 
     async createStates(charger) {
-        // Wallbox itself
-        await this.setObjectNotExistsAsync(charger, {
-            type: 'device',
-            common: {
-                name: 'Wallbox',
-                read: true,
-                color: null,
-                statusStates: {
-                    onlineId: `${this.namespace}.info.connection`,
-                },
-                desc: `Your connected Wallbox: ${charger}`,
-            },
-            native: {},
-        });
-
-        // Folder
-        for (const key of Object.keys(adapterStates.folder)) {
-            this.log.debug(`Creating Folder '${key}' and common: ${JSON.stringify(adapterStates.folder[key].common)}`);
-            await this.setObjectNotExistsAsync(`${charger}.${key}`, {
-                _id: `${charger}.${adapterStates.folder[key]._id}`,
-                type: 'folder',
-                common: adapterStates.folder[key].common,
-                native: {},
-            });
-        }
-
         // Info States
         for (const key of Object.keys(adapterStates.states)) {
             for (const _key of Object.keys(adapterStates.states[key])) {
@@ -689,33 +661,36 @@ class MyWallbox extends utils.Adapter {
     }
 
     /**
-     * Convert a timestamp to datetime.
+     * Converts a given timestamp into a formatted date and time string.
      *
-     * @param	ts			Timestamp to be converted to date-time format (in ms)
-     * @returns				Timestamp in date-time format
+     * @param ts - The timestamp in milliseconds.
+     * @returns A string representing the date and time in the format "DD.MM.YYYY HH:MM:SS",
+     *          or an empty string if the timestamp is invalid or non-positive.
      */
     getDateTime(ts) {
-        if (ts === undefined || ts <= 0 || ts == '') {
+        if (!ts || ts <= 0) {
             return '';
         }
 
-        let date = new Date(ts);
-        let day = `0${date.getDate()}`;
-        let month = `0${date.getMonth() + 1}`;
-        let year = date.getFullYear();
-        let hours = `0${date.getHours()}`;
-        let minutes = `0${date.getMinutes()}`;
-        let seconds = `0${date.getSeconds()}`;
-        return `${day.substr(-2)}.${month.substr(-2)}.${year} ${hours.substr(-2)}:${minutes.substr(
-            -2,
-        )}:${seconds.substr(-2)}`;
+        const date = new Date(ts);
+
+        const pad = n => n.toString().padStart(2, '0'); // Hilfsfunktion für führende Nullen
+
+        const day = pad(date.getDate());
+        const month = pad(date.getMonth() + 1);
+        const year = date.getFullYear();
+        const hours = pad(date.getHours());
+        const minutes = pad(date.getMinutes());
+        const seconds = pad(date.getSeconds());
+
+        return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
     }
 }
 
 if (require.main !== module) {
     // Export the constructor in compact mode
     /**
-     * @param [options]		Options for the module
+     * @param options   Options for the module
      */
     module.exports = options => new MyWallbox(options);
 } else {
