@@ -15,9 +15,6 @@ const axios = require('axios');
 const adapterStates = require('./lib/states.js');
 
 class MyWallbox extends utils.Adapter {
-    /**
-     * @param {Partial<utils.AdapterOptions>} [options={}]
-     */
     constructor(options) {
         super({
             ...options,
@@ -96,8 +93,10 @@ class MyWallbox extends utils.Adapter {
 
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
+     *
      * @param {() => void} callback
      */
+
     onUnload(callback) {
         try {
             this.setStateChangedAsync('info.connection', false, true);
@@ -105,22 +104,23 @@ class MyWallbox extends utils.Adapter {
             this.clearTimeout(this.adapterTimer.singlePoll);
             this.log.info('Adapter My-Wallbox cleaned up everything...');
             callback();
-        } catch (e) {
+        } catch {
             callback();
         }
     }
 
     /**
      * Is called if a subscribed state changes
-     * @param {string} id
-     * @param {ioBroker.State | null | undefined} state
+     *
+     * @param id	ID of the state
+     * @param state State itself
      */
     async onStateChange(id, state) {
         if (id && state) {
             // The state was changed
             if (!state.ack) {
-                this.log.debug('New Event for state: ' + JSON.stringify(state));
-                this.log.debug('ID: ' + JSON.stringify(id));
+                this.log.debug(`New Event for state: ${JSON.stringify(state)}`);
+                this.log.debug(`ID: ${JSON.stringify(id)}`);
                 const tmpControl = id.split('.')[4];
                 this.getWallboxToken()
                     .then(async token => {
@@ -165,9 +165,7 @@ class MyWallbox extends utils.Adapter {
                                 break;
 
                             case 'maxChargingCurrent':
-                                this.log.info(
-                                    'Requesting to change the Charge current for Wallbox to ' + state.val + ' A',
-                                );
+                                this.log.info(`Requesting to change the Charge current for Wallbox to ${state.val}A`);
                                 this.changeChargerData(token, JSON.stringify({ maxChargingCurrent: state.val }))
                                     .then(async response => {
                                         this.log.info(response);
@@ -292,14 +290,15 @@ class MyWallbox extends utils.Adapter {
 
     async getWallboxToken() {
         return new Promise((resolve, reject) => {
-            this.log.silly('Email: ' + this.config.email + ' | Password: ' + this.config.password);
+            this.log.silly(`Email:${this.config.email} | Password: ${this.config.password}`);
             axios({
                 url: this.URL_AUTHENTICATION,
                 timeout: this.conn_timeout,
                 method: 'POST',
                 headers: {
-                    Authorization:
-                        'Basic ' + Buffer.from(this.config.email + ':' + this.config.password).toString('base64'),
+                    Authorization: `Basic ${Buffer.from(`${this.config.email}:${this.config.password}`).toString(
+                        'base64',
+                    )}`,
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json;charset=utf-8',
                 },
@@ -326,7 +325,7 @@ class MyWallbox extends utils.Adapter {
                 timeout: this.conn_timeout,
                 method: 'PUT',
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: `Bearer ${token}`,
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json;charset=utf-8',
                 },
@@ -353,7 +352,7 @@ class MyWallbox extends utils.Adapter {
                 timeout: this.conn_timeout,
                 method: 'GET',
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: `Bearer ${token}`,
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json;charset=utf-8',
                 },
@@ -380,7 +379,7 @@ class MyWallbox extends utils.Adapter {
                 timeout: this.conn_timeout,
                 method: 'PUT',
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: `Bearer ${token}`,
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json;charset=utf-8',
                 },
@@ -404,7 +403,7 @@ class MyWallbox extends utils.Adapter {
                 timeout: this.conn_timeout,
                 method: 'POST',
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: `Bearer ${token}`,
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json;charset=utf-8',
                 },
@@ -445,7 +444,7 @@ class MyWallbox extends utils.Adapter {
         let folder = '';
 
         // RAW Data
-        await this.setStateAsync(this.charger_id + '.info._rawData', {
+        await this.setStateAsync(`${this.charger_id}.info._rawData`, {
             val: JSON.stringify(states),
             ack: true,
         });
@@ -611,35 +610,35 @@ class MyWallbox extends utils.Adapter {
 
         // Sometimes chargerData is not delivered - prevent crash with checking of existence
         if (this.charger_data !== undefined) {
-            if (this.charger_data.hasOwnProperty('resume')) {
-                await this.setStateAsync(this.charger_id + '.chargingData.monthly.cost', {
+            if (Object.hasOwn(this.charger_data, 'resume')) {
+                await this.setStateAsync(`${this.charger_id}.chargingData.monthly.cost`, {
                     val: parseFloat(((this.charger_data.resume.totalEnergy * states.depot_price) / 1000).toFixed(2)),
                     ack: true,
                 });
             }
         }
 
-        await this.setStateAsync(this.charger_id + '.info.software.currentVersion', {
+        await this.setStateAsync(`${this.charger_id}.info.software.currentVersion`, {
             val: states.config_data.software.currentVersion,
             ack: true,
         });
 
-        await this.setStateAsync(this.charger_id + '.info.software.latestVersion', {
+        await this.setStateAsync(`${this.charger_id}.info.software.latestVersion`, {
             val: states.config_data.software.latestVersion,
             ack: true,
         });
 
-        await this.setStateAsync(this.charger_id + '.info.software.updateAvailable', {
+        await this.setStateAsync(`${this.charger_id}.info.software.updateAvailable`, {
             val: states.config_data.software.updateAvailable,
             ack: true,
         });
 
-        await this.setStateAsync(this.charger_id + '.info.lock.auto_lock', {
+        await this.setStateAsync(`${this.charger_id}.info.lock.auto_lock`, {
             val: states.config_data.auto_lock,
             ack: true,
         });
 
-        await this.setStateAsync(this.charger_id + '.info.lock.auto_lock_time', {
+        await this.setStateAsync(`${this.charger_id}.info.lock.auto_lock_time`, {
             val: states.config_data.auto_lock_time,
             ack: true,
         });
@@ -662,42 +661,36 @@ class MyWallbox extends utils.Adapter {
     }
 
     /**
-     * Convert a timestamp to datetime.
+     * Converts a given timestamp into a formatted date and time string.
      *
-     * @param	{integer}	ts			Timestamp to be converted to date-time format (in ms)
-     * @return	{string}				Timestamp in date-time format
-     *
+     * @param ts - The timestamp in milliseconds.
+     * @returns A string representing the date and time in the format "DD.MM.YYYY HH:MM:SS",
+     *          or an empty string if the timestamp is invalid or non-positive.
      */
     getDateTime(ts) {
-        if (ts === undefined || ts <= 0 || ts == '') return '';
+        if (!ts || ts <= 0) {
+            return '';
+        }
 
-        let date = new Date(ts);
-        let day = '0' + date.getDate();
-        let month = '0' + (date.getMonth() + 1);
-        let year = date.getFullYear();
-        let hours = '0' + date.getHours();
-        let minutes = '0' + date.getMinutes();
-        let seconds = '0' + date.getSeconds();
-        return (
-            day.substr(-2) +
-            '.' +
-            month.substr(-2) +
-            '.' +
-            year +
-            ' ' +
-            hours.substr(-2) +
-            ':' +
-            minutes.substr(-2) +
-            ':' +
-            seconds.substr(-2)
-        );
+        const date = new Date(ts);
+
+        const pad = n => n.toString().padStart(2, '0'); // Hilfsfunktion für führende Nullen
+
+        const day = pad(date.getDate());
+        const month = pad(date.getMonth() + 1);
+        const year = date.getFullYear();
+        const hours = pad(date.getHours());
+        const minutes = pad(date.getMinutes());
+        const seconds = pad(date.getSeconds());
+
+        return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
     }
 }
 
 if (require.main !== module) {
     // Export the constructor in compact mode
     /**
-     * @param {Partial<utils.AdapterOptions>} [options={}]
+     * @param options   Options for the module
      */
     module.exports = options => new MyWallbox(options);
 } else {
