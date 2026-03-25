@@ -1,12 +1,29 @@
+# Dependabot will run on day 10 of each month at 01:50 (Europe/Berlin timezone)
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    time: "04:00"
-    timezone: Europe/Berlin
-  open-pull-requests-limit: 20
-  assignees:
-  - SKB-CGN
-  versioning-strategy: increase
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      time: '04:00'
+      timezone: 'Europe/Berlin'
+    open-pull-requests-limit: 20
+    assignees:
+      - 'SKB-CGN'
+    versioning-strategy: 'increase'
+    ignore:
+      - dependency-name: 'sharp'
+        versions:
+          - '>=0.33.0'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'cron'
+      timezone: 'Europe/Berlin'
+      cronjob: '50 1 10 * *'
+    open-pull-requests-limit: 15
+    assignees:
+      - 'SKB-CGN'
+
