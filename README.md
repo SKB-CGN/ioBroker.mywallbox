@@ -37,6 +37,7 @@ If you like the adapter and want to support me, you can do so here:
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
 - Dependencies updated
 
 ### 1.3.0 (2024-12-10)
