@@ -16,6 +16,9 @@ updates:
       - dependency-name: 'sharp'
         versions:
           - '>=0.33.0'
+      - dependency-name: '@types/node'
+        update-types:
+          - 'version-update:semver-major'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
@@ -26,4 +29,3 @@ updates:
     open-pull-requests-limit: 15
     assignees:
       - 'SKB-CGN'
-
