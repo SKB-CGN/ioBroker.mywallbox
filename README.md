@@ -21,9 +21,6 @@
 
 Connect your My-Wallbox (e.g. Pulsar Plus) with ioBroker via the Cloud-Service of My Wallbox
 
-## Installation
-Installation via Github Symbol (in Testing and Beta-Phase)
-
 ## Control
 All states under "wallbox.[instance].SerialNumber.control" are writeable and can be used to control the Wallbox
 
